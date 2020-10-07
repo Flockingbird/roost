@@ -27,7 +27,7 @@ clean:
 	docker rm $(CONTAINER_NAME)
 
 run:
-	$(CMD_PREFIX) foreman start
+	$(CMD_PREFIX) shotgun config.ru
 
 deploy:
 	$(CMD_PREFIX) cap production deploy
