@@ -26,8 +26,12 @@ module Roost
     yield config
   end
 
+  def self.production?
+    environment == 'production'
+  end
+
   def self.environment
-    ENV.fetch('RACK_ENV', 'development')
+    ENV.fetch('APP_ENV', 'development')
   end
 
   def self.event_store
@@ -56,17 +60,18 @@ module Roost
       event_sink: event_sink
     )
   end
+
+  def self.base_path
+    Pathname.new(File.join(__dir__, '..'))
+  end
+end
+
+unless Roost.production?
+  require 'dotenv'
+  Dotenv.load(Roost.base_path.join(".env.#{ENV['APP_ENV']}"),
+              Roost.base_path.join('.env'))
 end
 
 Roost.configure do |config|
-  config.database_url = ENV['DATABASE_URL'] || "postgres://127.0.0.1:5432/roost_#{Roost.environment}"
-end
-
-EventSourcery::Postgres.configure do |config|
-  database = Sequel.connect(Roost.config.database_url)
-
-  # NOTE: Often we choose to split our events and projections into separate
-  # databases. For the purposes of this example we'll use one.
-  config.event_store_database = database
-  config.projections_database = database
+  config.database_url = ENV['DATABASE_URL']
 end

@@ -14,6 +14,7 @@ gem 'pg', '0.20.0'
 group :development, :test do
   gem 'better_errors'
   gem 'database_cleaner'
+  gem 'dotenv', '~> 2.7'
   gem 'pry'
   gem 'rack-test'
   gem 'rspec'

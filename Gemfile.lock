@@ -24,6 +24,7 @@ GEM
     coderay (1.1.3)
     database_cleaner (1.8.5)
     diff-lcs (1.4.4)
+    dotenv (2.7.6)
     erubi (1.9.0)
     method_source (1.0.0)
     mustermann (1.1.1)
@@ -87,6 +88,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   database_cleaner
+  dotenv (~> 2.7)
   event_sourcery!
   event_sourcery-postgres!
   pg (= 0.20.0)

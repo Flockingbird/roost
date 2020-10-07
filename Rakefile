@@ -6,8 +6,12 @@ task :environment do
   require 'config/environment'
 end
 
+task :database do
+  require 'config/database'
+end
+
 desc 'Run Event Stream Processors'
-task run_processors: :environment do
+task run_processors: [:environment, :database] do
   puts 'Starting Event Stream processors'
 
   event_source = Roost.event_source
