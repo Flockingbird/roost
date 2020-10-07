@@ -1,0 +1,16 @@
+{
+  "name": "Roost",
+  "description": "Roost, an EventSourcery app",
+  "keywords": ["Roost", "ruby", "event_sourcery", "cqrs"],
+  "formation": {
+    "web": {
+      "quantity": 1
+    },
+    "processors": {
+      "quantity": 1
+    }
+  },
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate"
+  }
+}
