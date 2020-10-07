@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gem 'event_sourcery', git: 'https://github.com/envato/event_sourcery.git'
@@ -10,10 +12,11 @@ gem 'sinatra'
 gem 'pg', '0.20.0'
 
 group :development, :test do
-  gem 'pry'
-  gem 'rspec'
-  gem 'rack-test'
-  gem 'database_cleaner'
   gem 'better_errors'
+  gem 'database_cleaner'
+  gem 'pry'
+  gem 'rack-test'
+  gem 'rspec'
+  gem 'rubocop'
   gem 'shotgun'
 end

@@ -13,13 +13,13 @@ $LOAD_PATH << '.'
 require 'config/environment'
 require 'app/web/server'
 
-require_relative 'support/data_helpers.rb'
-require_relative 'support/event_helpers.rb'
-require_relative 'support/file_helpers.rb'
-require_relative 'support/location_helpers.rb'
-require_relative 'support/request_helpers.rb'
-require_relative 'support/time_helpers.rb'
-require_relative 'support/web_test_helpers.rb'
+require_relative 'support/data_helpers'
+require_relative 'support/event_helpers'
+require_relative 'support/file_helpers'
+require_relative 'support/location_helpers'
+require_relative 'support/request_helpers'
+require_relative 'support/time_helpers'
+require_relative 'support/web_test_helpers'
 
 Minitest::Test.make_my_diffs_pretty!
 

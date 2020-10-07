@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 $LOAD_PATH.unshift '.'
 
 task :environment do
@@ -20,26 +22,21 @@ task run_processors: :environment do
   $stdout.sync = true
 
   processors = [
-    # Add your processors here, like so:
-    #
-    # EventSourceryTodoApp::Projections::CompletedTodos::Projector.new(
-    #   tracker: tracker,
-    #   db_connection: db_connection,
-    # ),
+    Roost::Projections::Invitations::Projector.new(
+      tracker: tracker,
+      db_connection: db_connection
+    )
   ]
 
   EventSourcery::EventProcessing::ESPRunner.new(
     event_processors: processors,
-    event_source: event_source,
+    event_source: event_source
   ).start!
 end
 
 namespace :db do
   desc 'Create database'
   task create: :environment do
-    url = Roost.config.database_url
-    database_name = File.basename(url)
-    database = Sequel.connect URI.join(url, '/template1').to_s
     begin
       database.run("CREATE DATABASE #{database_name}")
     rescue StandardError => e
@@ -50,9 +47,6 @@ namespace :db do
 
   desc 'Drop database'
   task drop: :environment do
-    url = Roost.config.database_url
-    database_name = File.basename(url)
-    database = Sequel.connect URI.join(url, '/template1').to_s
     database.run("DROP DATABASE IF EXISTS #{database_name}")
     database.disconnect
   end
@@ -65,5 +59,17 @@ namespace :db do
     rescue StandardError => e
       puts "Could not create event store: #{e.class.name} #{e.message}"
     end
+  end
+
+  def database
+    Sequel.connect URI.join(url, '/template1').to_s
+  end
+
+  def database_name
+    File.basename(url)
+  end
+
+  def url
+    Roost.config.database_url
   end
 end

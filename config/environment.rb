@@ -1,11 +1,19 @@
+# frozen_string_literal: true
+
 require 'event_sourcery'
 require 'event_sourcery/postgres'
 
-Dir.glob(__dir__ + '/../app/events/*.rb').each { |f| require f }
-Dir.glob(__dir__ + '/../app/reactors/*.rb').each { |f| require f }
-Dir.glob(__dir__ + '/../app/projections/**/projector.rb').each { |f| require f }
+Dir.glob("#{__dir__}/../app/events/*.rb").sort.each { |f| require f }
+Dir.glob("#{__dir__}/../app/reactors/*.rb").sort.each { |f| require f }
+Dir.glob("#{__dir__}/../app/projections/**/projector.rb").sort.each { |f| require f }
 
+##
+# Roost is the suite namespace for flockingbird.
+# It has an API, handles commands and projects that into read projections,
+# where the data can be read from, through the API.
 module Roost
+  ##
+  # Holds the configuration for Roost. Mainly event-sourcery config.
   class Config
     attr_accessor :database_url
   end

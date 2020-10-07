@@ -1,9 +1,14 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 
-Dir.glob(__dir__ + '/../commands/**/*.rb').each { |f| require f }
-Dir.glob(__dir__ + '/../projections/**/query.rb').each { |f| require f }
+Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
+Dir.glob("#{__dir__}/../projections/**/query.rb").sort.each { |f| require f }
 
 module Roost
+  ##
+  # The webserver. Sinatra API only server. Main trigger for the commands
+  # and entrypoint for reading data.
   class Server < Sinatra::Base
     BadRequest = Class.new(StandardError)
     UnprocessableEntity = Class.new(StandardError)
@@ -36,13 +41,9 @@ module Roost
       # structures don't leak into the command layer
 
       request_body = request.body.read
-      unless request_body.empty?
-        params.merge!(JSON.parse(request_body))
-      end
+      params.merge!(JSON.parse(request_body)) unless request_body.empty?
 
-      Hash[
-        params.map{ |k, v| [k.to_sym, v] }
-      ]
+      params.transform_keys(&:to_sym)
     end
 
     # Add your API routes here!
