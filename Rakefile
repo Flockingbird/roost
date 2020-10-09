@@ -56,7 +56,7 @@ namespace :db do
   end
 
   desc 'Migrate database'
-  task migrate: :environment do
+  task migrate: [:environment, :database] do
     database = EventSourcery::Postgres.config.event_store_database
     begin
       EventSourcery::Postgres::Schema.create_event_store(db: database)

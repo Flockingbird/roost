@@ -13,20 +13,43 @@ GIT
   specs:
     event_sourcery (0.23.1)
 
+GIT
+  remote: https://github.com/envato/event_sourcery_generators.git
+  revision: 484f862f465c73f07b05ee765b687e3a4bb5b0b3
+  specs:
+    event_sourcery_generators (0.2.0)
+      activesupport (~> 5.1)
+      thor (~> 0.19)
+      verbs (~> 2.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (5.2.4.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
     ast (2.4.1)
+    awesome_print (1.8.0)
     better_errors (2.8.3)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
+    byebug (11.1.3)
     coderay (1.1.3)
+    concurrent-ruby (1.1.7)
     database_cleaner (1.8.5)
+    database_cleaner-sequel (1.8.0)
+      database_cleaner (~> 1.8.0)
+      sequel
     diff-lcs (1.4.4)
     dotenv (2.7.6)
     erubi (1.9.0)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
     method_source (1.0.0)
+    minitest (5.14.2)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     parallel (1.19.2)
@@ -79,18 +102,29 @@ GEM
       rack (~> 2.2)
       rack-protection (= 2.1.0)
       tilt (~> 2.0)
+    thor (0.20.3)
+    thread_safe (0.3.6)
     tilt (2.0.10)
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
+    verbs (2.2.1)
+      activesupport (>= 2.3.4)
+      i18n
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   better_errors
-  database_cleaner
+  byebug
+  database_cleaner-sequel
   dotenv (~> 2.7)
   event_sourcery!
   event_sourcery-postgres!
+  event_sourcery_generators!
+  minitest
   pg (= 0.20.0)
   pry
   rack-test

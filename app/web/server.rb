@@ -10,6 +10,12 @@ module Roost
   # The webserver. Sinatra API only server. Main trigger for the commands
   # and entrypoint for reading data.
   class Server < Sinatra::Base
+    post '/Members/:aggregate_id/AddMember' do
+      command = Commands::Member::AddMember::Command.new(json_params)
+      Commands::Member::AddMember::CommandHandler.new.handle(command)
+      status 201
+    end
+
     BadRequest = Class.new(StandardError)
     UnprocessableEntity = Class.new(StandardError)
 
