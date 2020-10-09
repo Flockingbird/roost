@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 EventSourcery::Postgres.configure do |config|
   database = Sequel.connect(Roost.config.database_url)
 

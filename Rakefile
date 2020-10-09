@@ -11,7 +11,7 @@ task :database do
 end
 
 desc 'Run Event Stream Processors'
-task run_processors: [:environment, :database] do
+task run_processors: %i[environment database] do
   puts 'Starting Event Stream processors'
 
   event_source = Roost.event_source
@@ -56,7 +56,7 @@ namespace :db do
   end
 
   desc 'Migrate database'
-  task migrate: [:environment, :database] do
+  task migrate: %i[environment database] do
     database = EventSourcery::Postgres.config.event_store_database
     begin
       EventSourcery::Postgres::Schema.create_event_store(db: database)
