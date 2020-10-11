@@ -22,7 +22,7 @@ module Roost
     # Ensure our error handlers are triggered in development
     set :show_exceptions, :after_handler
 
-    configure :development do
+    configure :development, :test do
       require 'better_errors'
       use BetterErrors::Middleware
       BetterErrors.application_root = __dir__

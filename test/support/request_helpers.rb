@@ -5,7 +5,6 @@ require 'json'
 require 'rack/test'
 
 module RequestHelpers
-  MAX_ERROR_BODY_LENGTH = 68
   include Rack::Test::Methods
 
   def app
@@ -24,7 +23,7 @@ module RequestHelpers
 
   def assert_status(status, message = nil)
     message ||= "Expected #{status}, got #{last_response.status}.\n"\
-                "#{last_response.body.slice(0, MAX_ERROR_BODY_LENGTH)}"
+                "#{last_response.body}"
     assert_equal(status, last_response.status, message)
   end
 end
