@@ -1,0 +1,138 @@
+GIT
+  remote: https://github.com/envato/event_sourcery-postgres.git
+  revision: 9fa5cec446e9335edb5b8d4aa2517d383c73b076
+  specs:
+    event_sourcery-postgres (0.8.1)
+      event_sourcery (>= 0.14.0)
+      pg
+      sequel (>= 4.38)
+
+GIT
+  remote: https://github.com/envato/event_sourcery.git
+  revision: 343a0e40040920be9c0fe3692dfde50d5f9407cc
+  specs:
+    event_sourcery (0.23.1)
+
+GIT
+  remote: https://github.com/envato/event_sourcery_generators.git
+  revision: 484f862f465c73f07b05ee765b687e3a4bb5b0b3
+  specs:
+    event_sourcery_generators (0.2.0)
+      activesupport (~> 5.1)
+      thor (~> 0.19)
+      verbs (~> 2.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (5.2.4.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    ast (2.4.1)
+    awesome_print (1.8.0)
+    better_errors (2.8.3)
+      coderay (>= 1.0.0)
+      erubi (>= 1.0.0)
+      rack (>= 0.9.0)
+    byebug (11.1.3)
+    coderay (1.1.3)
+    concurrent-ruby (1.1.7)
+    database_cleaner (1.8.5)
+    database_cleaner-sequel (1.8.0)
+      database_cleaner (~> 1.8.0)
+      sequel
+    diff-lcs (1.4.4)
+    dotenv (2.7.6)
+    erubi (1.9.0)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
+    method_source (1.0.0)
+    minitest (5.14.2)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    parallel (1.19.2)
+    parser (2.7.1.5)
+      ast (~> 2.4.1)
+    pg (0.20.0)
+    pry (0.13.1)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    rack (2.2.3)
+    rack-protection (2.1.0)
+      rack
+    rack-test (1.1.0)
+      rack (>= 1.0, < 3)
+    rainbow (3.0.0)
+    rake (13.0.1)
+    regexp_parser (1.8.1)
+    rexml (3.2.4)
+    rspec (3.9.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+    rspec-core (3.9.3)
+      rspec-support (~> 3.9.3)
+    rspec-expectations (3.9.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-support (3.9.3)
+    rubocop (0.92.0)
+      parallel (~> 1.10)
+      parser (>= 2.7.1.5)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.7)
+      rexml
+      rubocop-ast (>= 0.5.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 2.0)
+    rubocop-ast (0.7.1)
+      parser (>= 2.7.1.5)
+    ruby-progressbar (1.10.1)
+    ruby2_keywords (0.0.2)
+    sequel (5.37.0)
+    shotgun (0.9.2)
+      rack (>= 1.0)
+    sinatra (2.1.0)
+      mustermann (~> 1.0)
+      rack (~> 2.2)
+      rack-protection (= 2.1.0)
+      tilt (~> 2.0)
+    thor (0.20.3)
+    thread_safe (0.3.6)
+    tilt (2.0.10)
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
+    unicode-display_width (1.7.0)
+    verbs (2.2.1)
+      activesupport (>= 2.3.4)
+      i18n
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print
+  better_errors
+  byebug
+  database_cleaner-sequel
+  dotenv (~> 2.7)
+  event_sourcery!
+  event_sourcery-postgres!
+  event_sourcery_generators!
+  minitest
+  pg (= 0.20.0)
+  pry
+  rack-test
+  rake
+  rspec
+  rubocop
+  shotgun
+  sinatra
+
+BUNDLED WITH
+   2.1.4
