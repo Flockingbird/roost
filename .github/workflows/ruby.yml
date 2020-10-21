@@ -18,6 +18,29 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    ## We don't need encrypted secrets yet for booting a temp database container.
+    env:
+      PORT: 3000
+      DB_USER: postgres
+      DB_HOST: localhost
+      DB_PASSWORD: 'postgres'
+      DB_NAME: roost_test
+      DB_PORT: 5432
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/roost_test
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: 'postgres'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
@@ -27,7 +50,9 @@ jobs:
       uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
       with:
         ruby-version: 2.6
-    - name: Install dependencies
+    - name: Install Dependencies
       run: bundle install
+    - name: Setup Database
+      run: make _db-setup
     - name: Run tests
-      run: bundle exec rake
+      run: make
