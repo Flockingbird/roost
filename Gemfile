@@ -26,4 +26,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rubocop', '~> 0.82.0' # Matches superlinter version
   gem 'shotgun'
+
+  # Bug in later versions: https://github.com/codeclimate/test-reporter/issues/413
+  gem 'simplecov', '~> 0.17.0'
 end
