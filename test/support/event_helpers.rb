@@ -27,7 +27,7 @@ module EventHelpers
 
   def projectors
     @projectors = [
-      Roost::Projections::Invitations::Projector.new
+      Projections::Invitations::Projector.new
     ]
   end
 end

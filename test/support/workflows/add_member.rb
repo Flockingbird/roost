@@ -14,10 +14,10 @@ module Workflows
     end
 
     def create_events
-      command = Roost::Commands::Member::AddMember::Command.new(
+      command = Commands::Member::AddMember::Command.new(
         member_attributes
       )
-      Roost::Commands::Member::AddMember::CommandHandler.new.handle(command)
+      Commands::Member::AddMember::CommandHandler.new.handle(command)
     end
 
     def process_events
@@ -53,7 +53,7 @@ module Workflows
     end
 
     def esps
-      @esps ||= [Roost::Projections::Members::Projector.new]
+      @esps ||= [Projections::Members::Projector.new]
     end
   end
 end

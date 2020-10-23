@@ -11,10 +11,8 @@ Dir.glob("#{__dir__}/../app/projections/**/projector.rb").sort.each do |f|
 end
 
 ##
-# Roost is the suite namespace for flockingbird.
-# It has an API, handles commands and projects that into read projections,
-# where the data can be read from, through the API.
-module Roost
+# The main app, integrated under Roost
+class Roost
   ##
   # Holds the configuration for Roost. Mainly event-sourcery config.
   class Config

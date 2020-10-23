@@ -26,15 +26,15 @@ task run_processors: %i[environment database] do
   $stdout.sync = true
 
   processors = [
-    Roost::Projections::Members::Projector.new(
+    Projections::Members::Projector.new(
       tracker: tracker,
       db_connection: db_connection
     ),
-    Roost::Reactors::InvitationMailer.new(
+    Reactors::InvitationMailer.new(
       tracker: tracker,
       db_connection: db_connection
     ),
-    Roost::Projections::Invitations::Projector.new(
+    Projections::Invitations::Projector.new(
       tracker: tracker,
       db_connection: db_connection
     )
@@ -76,7 +76,7 @@ namespace :db do
 
   desc 'Setup Event Stream projections'
   task create_projections: %i[environment database] do
-    [Roost::Projections::Members::Projector].map(&:new).each(&:setup)
+    [Projections::Members::Projector].map(&:new).each(&:setup)
   end
 
   def database

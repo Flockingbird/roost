@@ -70,6 +70,6 @@ describe 'member invites member' do
   end
 
   def esps
-    @esps ||= [Roost::Reactors::InvitationMailer.new]
+    @esps ||= [Reactors::InvitationMailer.new]
   end
 end
