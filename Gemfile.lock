@@ -48,6 +48,7 @@ GEM
     erubi (1.9.0)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
+    jwt (2.2.2)
     method_source (1.0.0)
     minitest (5.14.2)
     mustermann (1.1.1)
@@ -60,6 +61,9 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     rack (2.2.3)
+    rack-jwt (0.4.0)
+      jwt (~> 2.0)
+      rack (>= 1.6.0)
     rack-protection (2.1.0)
       rack
     rack-test (1.1.0)
@@ -127,6 +131,7 @@ DEPENDENCIES
   minitest
   pg (= 0.20.0)
   pry
+  rack-jwt
   rack-test
   rake
   rspec
