@@ -5,13 +5,17 @@ require 'support/workflows/add_member'
 
 describe 'member invites member' do
   describe 'POST /invitations' do
+    let(:workflow) { Workflows::AddMember.new(self) }
     let(:invitee_email) { 'irene@example.com' }
     let(:invitee_name) { 'Irene' }
 
     before do
-      Workflows::AddMember.new(self).call
+      workflow.call
       header('Content-Type', 'application/vnd.api+json')
       header('Accept', 'application/vnd.api+json')
+
+      bearer_token = jwt.encode(authentication_payload, secret, 'HS256')
+      header('Authorization', "Bearer #{bearer_token}")
     end
 
     it 'sends an invitation email' do

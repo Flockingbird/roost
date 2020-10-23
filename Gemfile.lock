@@ -48,25 +48,29 @@ GEM
     erubi (1.9.0)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
+    jaro_winkler (1.5.4)
+    jwt (2.2.2)
     method_source (1.0.0)
     minitest (5.14.2)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     parallel (1.19.2)
-    parser (2.7.1.5)
+    parser (2.7.2.0)
       ast (~> 2.4.1)
     pg (0.20.0)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     rack (2.2.3)
+    rack-jwt (0.4.0)
+      jwt (~> 2.0)
+      rack (>= 1.6.0)
     rack-protection (2.1.0)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rainbow (3.0.0)
     rake (13.0.1)
-    regexp_parser (1.8.1)
     rexml (3.2.4)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
@@ -81,17 +85,14 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.3)
-    rubocop (0.92.0)
+    rubocop (0.82.0)
+      jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
-      parser (>= 2.7.1.5)
+      parser (>= 2.7.0.1)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.7)
       rexml
-      rubocop-ast (>= 0.5.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (0.7.1)
-      parser (>= 2.7.1.5)
     ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.2)
     sequel (5.37.0)
@@ -127,10 +128,11 @@ DEPENDENCIES
   minitest
   pg (= 0.20.0)
   pry
+  rack-jwt
   rack-test
   rake
   rspec
-  rubocop
+  rubocop (~> 0.82.0)
   shotgun
   sinatra
 

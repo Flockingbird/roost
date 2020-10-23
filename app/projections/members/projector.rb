@@ -15,6 +15,14 @@ module Roost
           column :name, :text
           column :email, :text
         end
+
+        project MemberAdded do |event|
+          table.insert(
+            member_id: event.aggregate_id,
+            name: event.body['name'],
+            email: event.body['email']
+          )
+        end
       end
     end
   end

@@ -26,6 +26,10 @@ task run_processors: %i[environment database] do
   $stdout.sync = true
 
   processors = [
+    Roost::Projections::Members::Projector.new(
+      tracker: tracker,
+      db_connection: db_connection
+    ),
     Roost::Projections::Invitations::Projector.new(
       tracker: tracker,
       db_connection: db_connection
