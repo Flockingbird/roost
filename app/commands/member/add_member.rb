@@ -31,7 +31,10 @@ module Roost
           def handle(command)
             command.validate
 
-            aggregate = repository.load(Aggregates::Member, command.aggregate_id)
+            aggregate = repository.load(
+              Aggregates::Member,
+              command.aggregate_id
+            )
             aggregate.add_member(command.payload)
             repository.save(aggregate)
           end

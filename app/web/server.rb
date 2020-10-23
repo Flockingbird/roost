@@ -55,7 +55,9 @@ module Roost
     end
 
     def current_member
-      @current_member ||= Roost::Projections::Members::Query.find(request.env['jwt.payload']['sub'])
+      @current_member ||= Roost::Projections::Members::Query.find(
+        request.env['jwt.payload']['sub']
+      )
     end
 
     def json_params

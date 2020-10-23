@@ -14,12 +14,14 @@ module Workflows
     end
 
     def create_events
-      command = Roost::Commands::Member::AddMember::Command.new(member_attributes)
+      command = Roost::Commands::Member::AddMember::Command.new(
+        member_attributes
+      )
       Roost::Commands::Member::AddMember::CommandHandler.new.handle(command)
     end
 
     def process_events
-      Roost.event_source.get_next_from(0, event_types: ['member_added']).each do |event|
+      events.each do |event|
         esps.each { |ep| ep.process(event) }
       end
     end
@@ -44,6 +46,10 @@ module Workflows
         name: member_name,
         email: member_email
       }
+    end
+
+    def events
+      Roost.event_source.get_next_from(0, event_types: ['member_added'])
     end
 
     def esps

@@ -5,7 +5,9 @@ require 'event_sourcery/postgres'
 
 Dir.glob("#{__dir__}/../app/events/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/reactors/*.rb").sort.each { |f| require f }
-Dir.glob("#{__dir__}/../app/projections/**/projector.rb").sort.each { |f| require f }
+Dir.glob("#{__dir__}/../app/projections/**/projector.rb").sort.each do |f|
+  require f
+end
 
 ##
 # Roost is the suite namespace for flockingbird.

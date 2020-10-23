@@ -42,8 +42,8 @@ module RequestHelpers
       iat: now,
       aud: 'audience',
       jti: jti_digest,
-      # TODO: we'll need to add more than just a claim 'I am this person'; a token
-      # or other authentication header
+      # TODO: we'll need to add more than just a claim 'I am this person'; a
+      # token or other authentication header
       sub: workflow.aggregate_id
     }
   end

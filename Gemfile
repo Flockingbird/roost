@@ -23,6 +23,6 @@ group :development, :test do
   gem 'pry'
   gem 'rack-test'
   gem 'rspec'
-  gem 'rubocop'
+  gem 'rubocop', '~> 0.82.0' # Matches superlinter version
   gem 'shotgun'
 end

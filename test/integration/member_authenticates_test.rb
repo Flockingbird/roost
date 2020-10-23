@@ -20,7 +20,8 @@ describe 'member_authenticates' do
     # but, for the PoC, the naive token implementation works. THIS IS INSECURE.
     describe 'with valid token' do
       it 'shows my current session details' do
-        header 'Authorization', "Bearer #{jwt.encode(authentication_payload, secret, 'HS256')}"
+        token = jwt.encode(authentication_payload, secret, 'HS256')
+        header 'Authorization', "Bearer #{token}"
         get '/session'
         assert_status(200)
         assert_equal(
@@ -37,7 +38,8 @@ describe 'member_authenticates' do
     describe 'with invalid aggregate_id in token' do
       it 'returns an empty member body' do
         authentication_payload[:sub] = SecureRandom.uuid
-        header 'Authorization', "Bearer #{jwt.encode(authentication_payload, secret, 'HS256')}"
+        token = jwt.encode(authentication_payload, secret, 'HS256')
+        header 'Authorization', "Bearer #{token}"
         get '/session'
         assert_status(200)
         assert_equal(parsed_response, {})
@@ -46,7 +48,8 @@ describe 'member_authenticates' do
 
     describe 'with invalid token' do
       it 'gives access denied' do
-        header 'Authorization', "Bearer #{jwt.encode(authentication_payload, 'WRONG', 'HS256')}"
+        token = jwt.encode(authentication_payload, 'WRONG', 'HS256')
+        header 'Authorization', "Bearer #{token}"
         get '/session'
         assert_status(401)
       end
@@ -54,6 +57,7 @@ describe 'member_authenticates' do
 
     describe 'without token' do
       it 'gives access denied' do
+        header 'Authorization', nil
         get '/session'
         assert_status(401)
       end
