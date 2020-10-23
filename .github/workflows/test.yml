@@ -55,5 +55,9 @@ jobs:
       run: bundle install
     - name: Setup Database
       run: make _db-setup
-    - name: Run tests
-      run: make
+    - name: Run tests and upload coverage results
+      uses: paambaati/codeclimate-action@v2.7.4
+      with:
+        coverageCommand: make
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}

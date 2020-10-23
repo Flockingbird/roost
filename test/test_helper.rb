@@ -7,6 +7,9 @@ require 'awesome_print'
 require 'byebug'
 require 'ostruct'
 
+require 'simplecov'
+SimpleCov.start
+
 ENV['APP_ENV'] = ENV['RACK_ENV'] = 'test'
 $LOAD_PATH << '.'
 
