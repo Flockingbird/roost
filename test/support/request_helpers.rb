@@ -8,7 +8,7 @@ module RequestHelpers
   include Rack::Test::Methods
 
   def app
-    Roost::Server.new
+    Server.new
   end
 
   def id_from_header
