@@ -17,6 +17,17 @@ module Roost
       status(200)
     end
 
+    # Create a new invitation
+    post '/invitations/:aggregate_id' do
+      invitation_params = json_params.merge(inviter: current_member)
+
+      command = Commands::Member::InviteMember::Command.new(invitation_params)
+      Commands::Member::InviteMember::CommandHandler.new.handle(command)
+      status(201)
+      headers('Location' => invitation_url(command.aggregate_id))
+      body '{}'
+    end
+
     BadRequest = Class.new(StandardError)
     UnprocessableEntity = Class.new(StandardError)
 
@@ -69,15 +80,8 @@ module Roost
       params.transform_keys(&:to_sym)
     end
 
-    # Add your API routes here!
-    #
-    # eg.
-    # get '/todos' do
-    #   ...
-    # end
-    #
-    # post '/todo/:id' do
-    #   ...
-    # end
+    def invitation_url(id)
+      URI.join(request.base_url, "/invitations/#{id}").to_s
+    end
   end
 end

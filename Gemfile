@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'event_sourcery', git: 'https://github.com/envato/event_sourcery.git'
 gem 'event_sourcery-postgres', git: 'https://github.com/envato/event_sourcery-postgres.git'
 
+gem 'mail'
 gem 'rack-jwt'
 gem 'rake'
 gem 'sinatra'

@@ -14,12 +14,28 @@ module Roost
         # @member_addmemberred_occurred = true
       end
 
+      apply MemberInvited do |event|
+        # Mutate state of aggregate based on event, e.g.
+        # @member_addmemberred_occurred = true
+      end
+
       def add_member(payload)
         # Perform any relevant contextual validations on aggregate
 
         # Apply the event without persistence
         apply_event(
           MemberAdded,
+          aggregate_id: id,
+          body: payload
+        )
+      end
+
+      def invite_member(payload)
+        # Perform any relevant contextual validations on aggregate
+
+        # Apply the event without persistence
+        apply_event(
+          MemberInvited,
           aggregate_id: id,
           body: payload
         )

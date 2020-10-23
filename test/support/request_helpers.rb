@@ -16,9 +16,12 @@ module RequestHelpers
     matches[1] if matches
   end
 
-  def put_json(url, body, headers = {})
-    defaults = { 'Content-Type' => 'application/vnd.api+json' }
-    put url, body.to_json, headers.merge(defaults)
+  def put_json(url, body, env = {})
+    put(url, body.to_json, env)
+  end
+
+  def post_json(url, body = {}, env = {})
+    post(url, body.to_json, env)
   end
 
   def assert_status(status, message = nil)
