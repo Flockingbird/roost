@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'mail'
 require 'event_sourcery'
 require 'event_sourcery/postgres'
 
@@ -34,6 +35,15 @@ module Roost
 
   def self.environment
     ENV.fetch('APP_ENV', 'development')
+  end
+
+  def self.mailer
+    return @mailer if @mailer
+
+    Mail.defaults do
+      delivery_method(:test)
+    end
+    @mailer = Mail::TestMailer
   end
 
   def self.event_store

@@ -5,9 +5,10 @@ require 'support/workflows/add_member'
 
 describe 'member invites member' do
   describe 'POST /invitations' do
-    let(:workflow) { Workflows::AddMember.new(self) }
+    let(:aggregate_id) { SecureRandom.uuid }
     let(:invitee_email) { 'irene@example.com' }
     let(:invitee_name) { 'Irene' }
+    let(:workflow) { Workflows::AddMember.new(self) }
 
     before do
       workflow.call
@@ -16,14 +17,13 @@ describe 'member invites member' do
 
       bearer_token = jwt.encode(authentication_payload, secret, 'HS256')
       header('Authorization', "Bearer #{bearer_token}")
+
+      assert_equal Roost.mailer.deliveries.length, 0
     end
 
     it 'sends an invitation email' do
-      skip 'Implement mailer'
-      mailer = Roost.config.mailer
-      assert_equal mailer.sent.length, 0
       post_json(
-        '/invitations',
+        "/invitations/#{aggregate_id}",
         {
           data: {
             type: 'invitation',
@@ -32,17 +32,44 @@ describe 'member invites member' do
               to_name: invitee_name
             }
           }
-        }.to_json
+        }
       )
-      assert_status(200)
-      assert_match(%r{http://example\.org/invitations/(.*)},
-                   last_response.headers['Location'])
+      assert_status(201)
 
-      invitation_email = mailer.sent.last
-      assert_equal?(invitation_email.to,
-                    "\"#{invitee_name}\" <#{invitee_email}>")
-      assert_equal(invitee_email.from,
-                   "\"#{invitee_name}\" <#{invitee_email}>")
+      process_events
+
+      assert_equal Roost.mailer.deliveries.length, 1
+      assert_includes(invitation_email.to, invitee_email)
+      # Test against the raw header, because .from has the normalised version
+      # and we want to check the full name
+      assert_includes(
+        invitation_email.header[:from].value,
+        "#{workflow.member_name} <#{workflow.member_email}>"
+      )
+      assert_match(
+        /Harry Potter invited you to join Roost/,
+        invitation_email.subject
+      )
     end
+  end
+
+  private
+
+  def invitation_email
+    Roost.mailer.deliveries.last
+  end
+
+  def process_events
+    events.each do |event|
+      esps.each { |ep| ep.process(event) }
+    end
+  end
+
+  def events
+    Roost.event_store.get_next_from(0, event_types: ['member_invited'])
+  end
+
+  def esps
+    @esps ||= [Roost::Reactors::InvitationMailer.new]
   end
 end

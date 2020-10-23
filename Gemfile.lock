@@ -50,7 +50,10 @@ GEM
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.4)
     jwt (2.2.2)
+    mail (2.7.1)
+      mini_mime (>= 0.1.1)
     method_source (1.0.0)
+    mini_mime (1.0.2)
     minitest (5.14.2)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
@@ -125,6 +128,7 @@ DEPENDENCIES
   event_sourcery!
   event_sourcery-postgres!
   event_sourcery_generators!
+  mail
   minitest
   pg (= 0.20.0)
   pry

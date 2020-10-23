@@ -30,6 +30,10 @@ task run_processors: %i[environment database] do
       tracker: tracker,
       db_connection: db_connection
     ),
+    Roost::Reactors::InvitationMailer.new(
+      tracker: tracker,
+      db_connection: db_connection
+    ),
     Roost::Projections::Invitations::Projector.new(
       tracker: tracker,
       db_connection: db_connection
