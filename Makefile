@@ -38,6 +38,7 @@ _docker-start:
 _db-setup:
 	$(CMD_PREFIX) rake db:create
 	$(CMD_PREFIX) rake db:migrate
+	$(CMD_PREFIX) rake db:create_projections
 
 _wait:
 	sleep 5

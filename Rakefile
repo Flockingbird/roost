@@ -44,7 +44,8 @@ namespace :db do
     begin
       database.run("CREATE DATABASE #{database_name}")
     rescue StandardError => e
-      puts "Could not create database '#{database_name}': #{e.class.name} #{e.message}"
+      puts "Could not create database '#{database_name}': #{e.class.name}"\
+           "#{e.message}"
     end
     database.disconnect
   end
@@ -63,6 +64,11 @@ namespace :db do
     rescue StandardError => e
       puts "Could not create event store: #{e.class.name} #{e.message}"
     end
+  end
+
+  desc 'Setup Event Stream projections'
+  task create_projections: %i[environment database] do
+    [Roost::Projections::Members::Projector].map(&:new).each(&:setup)
   end
 
   def database
