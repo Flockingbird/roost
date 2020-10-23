@@ -7,40 +7,21 @@ module Commands
     module AddMember
       ##
       # Command to add a new +Member+
-      class Command
-        attr_reader :aggregate_id, :payload
-
-        def initialize(params)
-          @aggregate_id = params.delete(:aggregate_id)
-          @payload = params # Select the parameters you want to allow
-        end
-
+      class Command < ApplicationCommand
         def validate
-          # Add validation here
+          # noop
         end
       end
 
       ##
       # CommandHandler for +AddMember+ Commands
-      class CommandHandler
-        def initialize(repository: Roost.repository)
-          @repository = repository
-        end
-
-        def handle(command)
-          command.validate
-
-          aggregate = repository.load(
-            Aggregates::Member,
-            command.aggregate_id
-          )
-          aggregate.add_member(command.payload)
-          repository.save(aggregate)
-        end
-
+      class CommandHandler < MemberCommandHandler
         private
 
-        attr_reader :repository
+        def apply(aggregate, payload)
+          aggregate.add_member(payload)
+          aggregate
+        end
       end
     end
   end
