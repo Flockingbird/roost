@@ -6,7 +6,8 @@ gem 'event_sourcery', git: 'https://github.com/envato/event_sourcery.git'
 gem 'event_sourcery-postgres', git: 'https://github.com/envato/event_sourcery-postgres.git'
 
 gem 'mail'
-gem 'rack-jwt'
+gem 'rack-jwt', git: 'https://github.com/uplisting/rack-jwt.git',
+                branch: 'allow-excluding-root-path'
 gem 'rake'
 gem 'sinatra'
 # NOTE: pg is an implicit dependency of event_sourcery-postgres but we need to

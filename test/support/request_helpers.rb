@@ -8,7 +8,7 @@ module RequestHelpers
   include Rack::Test::Methods
 
   def app
-    Server.new
+    ApiServer.new
   end
 
   def id_from_header

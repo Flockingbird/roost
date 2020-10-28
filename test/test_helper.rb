@@ -15,7 +15,8 @@ $LOAD_PATH << '.'
 
 require 'config/environment'
 require 'config/database'
-require 'app/web/server'
+require 'app/web/api_server'
+require 'app/web/web_server'
 
 require_relative 'support/data_helpers'
 require_relative 'support/event_helpers'
