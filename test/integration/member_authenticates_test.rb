@@ -3,19 +3,19 @@
 require 'test_helper'
 require 'support/workflows/add_member'
 
-describe 'member_authenticates' do
-  let(:workflow) { Workflows::AddMember.new(self) }
-  # Override the secret so we can check that it is integrated properly. e.g.
-  # avoid testing nil=nil as secret.
-  def secret
-    's3cr37'
-  end
-
-  before do
-    workflow.call
-  end
-
+class MemberAuthenticatesTest < Minitest::ApiSpec
   describe 'GET /session' do
+    let(:workflow) { Workflows::AddMember.new(self) }
+    # Override the secret so we can check that it is integrated properly. e.g.
+    # avoid testing nil=nil as secret.
+    def secret
+      's3cr37'
+    end
+
+    before do
+      workflow.call
+    end
+
     # TODO: we will need to move to OAUTH2 to make this work safely in practice.
     # but, for the PoC, the naive token implementation works. THIS IS INSECURE.
     describe 'with valid token' do
