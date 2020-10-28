@@ -9,15 +9,22 @@ Dir.glob("#{__dir__}/../projections/**/query.rb").sort.each { |f| require f }
 ##
 # The webserver. Sinatra API only server. Main trigger for the commands
 # and entrypoint for reading data.
+# TODO: probably split into API-web and HTML-web.
 class Server < Sinatra::Base
+  get '/' do
+    erb :home, format: :html
+  end
+
   # Find authentication details
   get '/session' do
+    content_type :json
     body current_member.to_h.to_json
     status(200)
   end
 
   # Create a new invitation
   post '/invitations/:aggregate_id' do
+    content_type :json
     invitation_params = json_params.merge(inviter: current_member)
 
     command = Commands::Member::InviteMember::Command.new(invitation_params)
@@ -39,7 +46,8 @@ class Server < Sinatra::Base
       secret: ENV['JWT_SECRET'],
       verify: true,
       options: {
-      }
+      },
+      exclude: ['/']
     }
     use Rack::JWT::Auth, jwt_args
   end
@@ -58,10 +66,6 @@ class Server < Sinatra::Base
   error BadRequest do |error|
     body "Bad Request: #{error.message}"
     status 400
-  end
-
-  before do
-    content_type :json
   end
 
   def current_member
