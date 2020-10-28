@@ -10,9 +10,9 @@ class Server < Sinatra::Base
   UnprocessableEntity = Class.new(StandardError)
 
   # Ensure our error handlers are triggered in development
-  set :show_exceptions, :after_handler
+  set :show_exceptions, :after_handler if Roost.development?
 
-  configure :development, :test do
+  configure :development do
     require 'better_errors'
     use BetterErrors::Middleware
     BetterErrors.application_root = __dir__

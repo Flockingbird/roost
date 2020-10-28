@@ -31,6 +31,10 @@ class Roost
     environment == 'production'
   end
 
+  def self.development?
+    environment == 'development'
+  end
+
   def self.environment
     ENV.fetch('APP_ENV', 'development')
   end
