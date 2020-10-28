@@ -46,6 +46,7 @@ module Minitest
 
     before :each do
       DatabaseCleaner[:sequel].start
+      Roost.mailer.deliveries.clear
     end
     after :each do
       DatabaseCleaner[:sequel].clean
