@@ -3,7 +3,7 @@
 require 'test_helper'
 require 'support/workflows/add_member'
 
-describe 'member invites member' do
+class MemberInvitesMemberTest < Minitest::ApiSpec
   describe 'POST /invitations' do
     let(:aggregate_id) { SecureRandom.uuid }
     let(:invitee_email) { 'irene@example.com' }

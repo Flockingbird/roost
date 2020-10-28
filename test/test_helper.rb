@@ -5,6 +5,7 @@ require 'database_cleaner'
 
 require 'awesome_print'
 require 'byebug'
+require 'capybara/minitest'
 require 'ostruct'
 
 require 'simplecov'
@@ -47,6 +48,31 @@ module Minitest
     end
     after :each do
       DatabaseCleaner[:sequel].clean
+    end
+  end
+
+  class WebSpec < Spec
+    include Capybara::DSL
+    include Capybara::Minitest::Assertions
+
+    def app
+      WebServer.new
+    end
+
+    def setup
+      Capybara.app = app
+      Capybara.default_driver = :rack_test
+    end
+
+    def teardown
+      Capybara.reset_sessions!
+      Capybara.use_default_driver
+    end
+  end
+
+  class ApiSpec < Spec
+    def app
+      ApiServer.new
     end
   end
 end

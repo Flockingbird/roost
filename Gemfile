@@ -18,6 +18,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'better_errors'
   gem 'byebug'
+  gem 'capybara'
   gem 'database_cleaner-sequel'
   gem 'dotenv', '~> 2.7'
   gem 'event_sourcery_generators', git: 'https://github.com/envato/event_sourcery_generators.git'

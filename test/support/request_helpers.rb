@@ -8,7 +8,7 @@ module RequestHelpers
   include Rack::Test::Methods
 
   def app
-    ApiServer.new
+    raise NotImplementedError
   end
 
   def id_from_header
