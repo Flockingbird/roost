@@ -5,14 +5,16 @@ module Projections
     # Query the Members projection with helpers that return
     # Sequel collection objects.
     class Query
-      COLLECTION = Roost.projections_database[:members]
-
       def self.handle
-        COLLECTION.all
+        collection.all
       end
 
       def self.find(id)
-        COLLECTION[member_id: id]
+        collection[member_id: id]
+      end
+
+      def self.collection
+        @collection ||= Roost.projections_database[:members]
       end
     end
   end
