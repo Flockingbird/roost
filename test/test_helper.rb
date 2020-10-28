@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
 require 'database_cleaner'
 
 require 'awesome_print'
@@ -8,8 +7,16 @@ require 'byebug'
 require 'capybara/minitest'
 require 'ostruct'
 
+require_relative 'support/data_helpers'
+require_relative 'support/event_helpers'
+require_relative 'support/file_helpers'
+require_relative 'support/request_helpers'
+require_relative 'support/time_helpers'
+
 require 'simplecov'
 SimpleCov.start
+
+require 'minitest/autorun'
 
 ENV['APP_ENV'] = ENV['RACK_ENV'] = 'test'
 $LOAD_PATH << '.'
@@ -18,12 +25,6 @@ require 'config/environment'
 require 'config/database'
 require 'app/web/api_server'
 require 'app/web/web_server'
-
-require_relative 'support/data_helpers'
-require_relative 'support/event_helpers'
-require_relative 'support/file_helpers'
-require_relative 'support/request_helpers'
-require_relative 'support/time_helpers'
 
 Minitest::Test.make_my_diffs_pretty!
 
