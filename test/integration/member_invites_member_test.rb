@@ -36,7 +36,7 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
       )
       assert_status(201)
 
-      process_events
+      process_events(['member_invited'])
 
       assert_equal Roost.mailer.deliveries.length, 1
       assert_includes(invitation_email.to, invitee_email)
@@ -57,19 +57,5 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
 
   def invitation_email
     Roost.mailer.deliveries.last
-  end
-
-  def process_events
-    events.each do |event|
-      esps.each { |ep| ep.process(event) }
-    end
-  end
-
-  def events
-    Roost.event_store.get_next_from(0, event_types: ['member_invited'])
-  end
-
-  def esps
-    @esps ||= [Reactors::InvitationMailer.new]
   end
 end

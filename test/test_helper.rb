@@ -46,8 +46,10 @@ module Minitest
 
     before :each do
       DatabaseCleaner[:sequel].start
+      setup_processors
       Roost.mailer.deliveries.clear
     end
+
     after :each do
       DatabaseCleaner[:sequel].clean
     end
@@ -64,11 +66,13 @@ module Minitest
     def setup
       Capybara.app = app
       Capybara.default_driver = :rack_test
+      super
     end
 
     def teardown
       Capybara.reset_sessions!
       Capybara.use_default_driver
+      super
     end
   end
 

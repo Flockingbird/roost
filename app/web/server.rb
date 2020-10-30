@@ -23,4 +23,8 @@ class Server < Sinatra::Base
       request.env['jwt.payload']['sub']
     )
   end
+
+  def aggregate_id
+    @aggregate_id ||= SecureRandom.uuid
+  end
 end
