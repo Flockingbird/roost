@@ -38,7 +38,7 @@ module Reactors
     end
 
     def subject(inviter)
-      "#{inviter['name']} invited you to join Roost"
+      "#{inviter['name']} invited you to join Flockingbird"
     end
   end
 end

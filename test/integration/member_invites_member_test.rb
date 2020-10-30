@@ -47,7 +47,7 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
         "#{workflow.member_name} <#{workflow.member_email}>"
       )
       assert_match(
-        /Harry Potter invited you to join Roost/,
+        /Harry Potter invited you to join Flockingbird/,
         invitation_email.subject
       )
     end
