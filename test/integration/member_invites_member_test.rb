@@ -5,7 +5,6 @@ require 'support/workflows/add_member'
 
 class MemberInvitesMemberTest < Minitest::ApiSpec
   describe 'POST /invitations' do
-    let(:aggregate_id) { SecureRandom.uuid }
     let(:invitee_email) { 'irene@example.com' }
     let(:invitee_name) { 'Irene' }
     let(:workflow) { Workflows::AddMember.new(self) }
@@ -23,7 +22,7 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
 
     it 'sends an invitation email' do
       post_json(
-        "/invitations/#{aggregate_id}",
+        "/invitations/#{fake_uuid(Aggregates::Member, 1)}",
         {
           data: {
             type: 'invitation',

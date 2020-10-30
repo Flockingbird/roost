@@ -12,12 +12,10 @@ module Aggregates
 
     private
 
-    def aggregate_id
-      @aggregate_id ||= fake_uuid
-    end
-
     def subject
-      @subject ||= Aggregates::Registration.new(aggregate_id, [])
+      @subject ||= Aggregates::Registration.new(
+        fake_uuid(Aggregates::Registration, 1), []
+      )
     end
   end
 end
