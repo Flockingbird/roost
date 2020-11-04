@@ -10,8 +10,10 @@ require 'ostruct'
 require_relative 'support/data_helpers'
 require_relative 'support/event_helpers'
 require_relative 'support/file_helpers'
+require_relative 'support/mail_helpers'
 require_relative 'support/request_helpers'
 require_relative 'support/time_helpers'
+require_relative 'support/workflows/base'
 
 require 'simplecov'
 SimpleCov.start
@@ -33,6 +35,7 @@ module Minitest
     include DataHelpers
     include EventHelpers
     include FileHelpers
+    include MailHelpers
     include RequestHelpers
     include TimeHelpers
 
