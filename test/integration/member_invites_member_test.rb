@@ -17,7 +17,7 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
       bearer_token = jwt.encode(authentication_payload, secret, 'HS256')
       header('Authorization', "Bearer #{bearer_token}")
 
-      assert_equal Roost.mailer.deliveries.length, 0
+      assert_mail_deliveries(0)
     end
 
     it 'sends an invitation email' do
@@ -37,7 +37,7 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
 
       process_events(['member_invited'])
 
-      assert_equal Roost.mailer.deliveries.length, 1
+      assert_mail_deliveries(1)
       assert_includes(invitation_email.to, invitee_email)
       # Test against the raw header, because .from has the normalised version
       # and we want to check the full name

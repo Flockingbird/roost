@@ -8,5 +8,9 @@ module Commands
     def initialize(repository: Roost.repository)
       @repository = repository
     end
+
+    protected
+
+    attr_reader :repository
   end
 end

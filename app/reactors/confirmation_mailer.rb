@@ -21,23 +21,20 @@ module Reactors
         to: event.body['email'],
         from: 'Bèr at Flockingbird <ber@flockinbird.social>',
         subject: 'Welcome to Flockingbird. Please confirm your email address',
-        body: render(:registration_mail, event.body)
+        body: render(:registration_mail, confirmation_url(event.aggregate_id))
       )
       email.deliver
     end
 
     private
 
-    def render(template, event_body)
+    def render(template, confirmation_url)
       file = File.read(File.join("app/mail/#{template}.erb"))
-      ERB.new(file).result_with_hash(
-        confirmation_url: confirmation_url(event_body['email'])
-      )
+      ERB.new(file).result_with_hash(confirmation_url: confirmation_url)
     end
 
-    def confirmation_url(email)
-      token = Digest::SHA1.hexdigest("#{email},#{Roost.config.secret_base}")
-      "#{Roost.config.web_url}/confirmation/#{token}"
+    def confirmation_url(aggregate_id)
+      "#{Roost.config.web_url}/confirmation/#{aggregate_id}"
     end
   end
 end

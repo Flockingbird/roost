@@ -41,7 +41,7 @@ module EventHelpers
       Projections::Invitations::Projector.new,
       Projections::Members::Projector.new,
       Reactors::ConfirmationMailer.new,
-      Reactors::InvitationMailer.new,
+      Reactors::InvitationMailer.new
     ]
   end
 end

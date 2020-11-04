@@ -28,6 +28,18 @@ class WebServer < Server
     erb :register_success
   end
 
+  get '/confirmation/:aggregate_id' do
+    command = Commands::Registration::Confirm::Command.new(
+      aggregate_id: params[:aggregate_id]
+    )
+    Commands::Registration::Confirm::CommandHandler.new.handle(command)
+    erb :confirmation_success
+  rescue Aggregates::Registration::AlreadyConfirmedError
+    message = 'Could not confirm. Maybe the link in the email expired, or was'\
+              ' already used?'
+    erb(:confirmation_error, locals: { message: message })
+  end
+
   private
 
   def registration_params

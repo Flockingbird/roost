@@ -8,7 +8,16 @@ module Aggregates
   class Registration
     include EventSourcery::AggregateRoot
 
+    AlreadyConfirmedError = Class.new(StandardError)
+
     apply RegistrationRequested do
+    end
+
+    apply RegistrationConfirmed do
+      # TODO: build a generic lock mechanism with protection into an
+      # ApplicationAggregate that protects against mutation
+      @locked = true
+      @confirmed = true
     end
 
     # Request a new registration. Depending on settings and current
@@ -17,6 +26,17 @@ module Aggregates
     def request(payload)
       apply_event(
         RegistrationRequested,
+        aggregate_id: id,
+        body: payload
+      )
+    end
+
+    # Confirm a new registration. This causes the registration to be finalized.
+    def confirm(payload)
+      raise AlreadyConfirmedError if @confirmed
+
+      apply_event(
+        RegistrationConfirmed,
         aggregate_id: id,
         body: payload
       )

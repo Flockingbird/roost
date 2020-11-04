@@ -4,23 +4,23 @@ require 'app/aggregates/registration'
 
 module Commands
   module Registration
-    module NewRegistration
+    module Confirm
       ##
       # Command to invite a new +Member+.
       class Command < ApplicationCommand
         def validate
           super
-          # TODO: validate email, name, password
+          # TODO: validate token
         end
       end
 
       ##
-      # CommandHandler for +InviteMember+ Commands
+      # CommandHandler for +Registrat+ Commands
       class CommandHandler < RegistrationCommandHandler
         private
 
         def apply(aggregate, payload)
-          aggregate.request(payload)
+          aggregate.confirm(payload)
           aggregate
         end
       end
