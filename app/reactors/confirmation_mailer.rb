@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
+require 'app/web/url_helpers'
+
 module Reactors
   ##
   # Sends the confirmation mail to a new registrant
   class ConfirmationMailer
     include EventSourcery::Postgres::Reactor
+    include UrlHelpers
 
     processor_name :confirmation_mailer
 
@@ -32,12 +35,6 @@ module Reactors
           body: { email_attrs: email_attrs }
         )
       )
-    end
-
-    private
-
-    def confirmation_url(aggregate_id)
-      "#{Roost.config.web_url}/confirmation/#{aggregate_id}"
     end
   end
 end
