@@ -6,9 +6,9 @@ module Workflows
       visit '/'
       click_link 'Register'
 
-      fill_in('Username', with: 'hpotter')
-      fill_in('Password', with: 'caput draconis')
-      fill_in('Email', with: 'harry@hogwards.edu.wiz')
+      fill_in('Username', with: registration_params[:username])
+      fill_in('Password', with: registration_params[:password])
+      fill_in('Email', with: registration_params[:email])
       click_button('Register')
       process_events(%w[registration_requested])
       page
@@ -18,6 +18,14 @@ module Workflows
       visit confirmation_path_from_mail
       process_events(%w[registration_confirmed])
       page
+    end
+
+    def registration_params
+      @registration_params ||= {
+        username: 'hpotter',
+        password: 'caput draconis',
+        email: 'harry@hogwards.edu.wiz'
+      }
     end
 
     private
