@@ -26,9 +26,9 @@ class WebServer < Server
 
     redirect '/register/success'
   rescue Aggregates::Registration::EmailAlreadySentError
-    message = 'Emailaddress is already registered.'\
-              ' Do you want to login instead?'
-    erb(:registration_error, locals: { message: message })
+    render_error(
+      'Emailaddress is already registered. Do you want to login instead?'
+    )
   end
 
   get '/register/success' do
@@ -45,9 +45,10 @@ class WebServer < Server
 
     erb :confirmation_success
   rescue Aggregates::Registration::AlreadyConfirmedError
-    message = 'Could not confirm. Maybe the link in the email expired, or was'\
-              ' already used?'
-    erb(:registration_error, locals: { message: message })
+    render_error(
+      'Could not confirm. Maybe the link in the email expired, or was'\
+      ' already used?'
+    )
   end
 
   private
@@ -55,5 +56,9 @@ class WebServer < Server
   def registration_params
     params.slice('username', 'password', 'email')
           .merge(aggregate_id: aggregate_id)
+  end
+
+  def render_error(message)
+    erb(:error, locals: { message: message })
   end
 end
