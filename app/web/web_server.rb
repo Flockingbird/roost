@@ -8,6 +8,17 @@ Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
 # The webserver. Sinatra HTML only server. Serves HTML and digests FORM-encoded
 # requests
 class WebServer < Server
+  error UnprocessableEntity do |error|
+    body render_error(error.message)
+    status 422
+  end
+
+  error BadRequest do |error|
+    ## TODO: find out how to re-render a form with errors instead
+    body render_error(error.message)
+    status 400
+  end
+
   get '/' do
     erb :home
   end

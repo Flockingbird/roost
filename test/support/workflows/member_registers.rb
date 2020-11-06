@@ -6,9 +6,9 @@ module Workflows
       visit '/'
       click_link 'Register'
 
-      fill_in('Username', with: registration_params[:username])
-      fill_in('Password', with: registration_params[:password])
-      fill_in('Email', with: registration_params[:email])
+      fill_in('Username', with: form_attributes[:username])
+      fill_in('Password', with: form_attributes[:password])
+      fill_in('Email', with: form_attributes[:email])
       click_button('Register')
       process_events(%w[registration_requested])
       page
@@ -20,12 +20,12 @@ module Workflows
       page
     end
 
-    def registration_params
-      @registration_params ||= {
+    def form_attributes
+      {
         username: 'hpotter',
         password: 'caput draconis',
         email: 'harry@hogwards.edu.wiz'
-      }
+      }.merge(@form_attributes)
     end
 
     private

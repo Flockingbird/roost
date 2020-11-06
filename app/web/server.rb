@@ -6,9 +6,6 @@ Dir.glob("#{__dir__}/../projections/**/query.rb").sort.each { |f| require f }
 ##
 # The Common Server. Shared configuration and setup between API, Web etc.
 class Server < Sinatra::Base
-  BadRequest = Class.new(StandardError)
-  UnprocessableEntity = Class.new(StandardError)
-
   # Ensure our error handlers are triggered in development
   set :show_exceptions, :after_handler if Roost.development?
 
