@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'bcrypt'
 
 class NewRegistrationCommandTest < Minitest::Spec
   let(:subject_class) { Commands::Registration::NewRegistration::Command }
@@ -20,6 +21,18 @@ class NewRegistrationCommandTest < Minitest::Spec
 
     it 'has no aggregate_id' do
       assert_equal(subject.aggregate_id, '')
+    end
+  end
+
+  describe 'password' do
+    let(:password) { 'caput draconis' }
+    subject { subject_class.new('password' => password) }
+
+    it 'generates a secure hash of the password' do
+      assert_equal(
+        BCrypt::Password.new(subject.payload['password']),
+        password
+      )
     end
   end
 

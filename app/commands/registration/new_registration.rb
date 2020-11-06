@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'app/aggregates/registration'
+require 'bcrypt'
 
 module Commands
   module Registration
@@ -8,6 +9,8 @@ module Commands
       ##
       # Command to invite a new +Member+.
       class Command < ApplicationCommand
+        include BCrypt
+
         UUID_EMAIL_NAMESPACE = UUIDTools::UUID.parse(
           '2282b78c-85d6-419f-b240-0263d67ee6e6'
         )
@@ -18,6 +21,10 @@ module Commands
         # NewRegistration builds a UUIDv5 based on the mailaddress.
         def initialize(params)
           @payload = params.slice(*ALLOWED_PARAMS)
+
+          # overwrite the password
+          @payload['password'] = Password.create(@payload.delete('password'))
+
           @aggregate_id = aggregate_id
         end
 
