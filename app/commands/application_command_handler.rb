@@ -9,6 +9,16 @@ module Commands
       @repository = repository
     end
 
+    def handle(command)
+      command.validate
+
+      applied_aggregate = apply(
+        aggregate(command.aggregate_id),
+        command.payload
+      )
+      repository.save(applied_aggregate)
+    end
+
     protected
 
     attr_reader :repository

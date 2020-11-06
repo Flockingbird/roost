@@ -7,22 +7,16 @@ module Commands
     # action to it and saves it again. Specific commands can define what
     # action to take against the aggregate
     class RegistrationCommandHandler < ApplicationCommandHandler
-      def handle(command)
-        command.validate
-
-        aggregate = repository.load(
-          Aggregates::Registration, command.aggregate_id
-        )
-        aggregate = apply(aggregate, command.payload)
-        repository.save(aggregate)
-      end
-
       private
 
       attr_reader :repository
 
       def apply(aggregate, payload)
         raise NotImplementedError
+      end
+
+      def aggregate(aggregate_id)
+        repository.load(Aggregates::Registration, aggregate_id)
       end
     end
   end
