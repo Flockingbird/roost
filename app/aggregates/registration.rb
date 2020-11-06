@@ -21,6 +21,15 @@ module Aggregates
     # Only one email is allowed to be sent per Registration Aggregate
     EmailAlreadySentError = Class.new(StandardError)
 
+    def initialize(*arguments)
+      super(*arguments)
+
+      # set defaults
+      @confirmation_email_sent ||= false
+      @locked ||= false
+      @confirmed ||= false
+    end
+
     apply ConfirmationEmailSent do
       @confirmation_email_sent = true
     end
