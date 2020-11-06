@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH << '.'
+
+require 'bundler/setup'
+require_relative '../config/environment.rb'
+require_relative '../config/database.rb'
+
+require 'awesome_print'
+require 'pry'
+
+Pry.start
