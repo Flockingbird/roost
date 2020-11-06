@@ -8,21 +8,16 @@ module Commands
       ##
       # Command to invite a new +Member+.
       class Command < ApplicationCommand
-        def validate
-          # noop
-        end
       end
 
-      ##
-      # CommandHandler for +InviteMember+ Commands
-      class CommandHandler < MemberCommandHandler
-        private
+      # Handler for InviteMember::Command
+      class CommandHandler < ApplicationCommandHandler
+        def aggregate_class
+          Aggregates::Member
+        end
 
-        attr_reader :repository
-
-        def apply(aggregate, payload)
-          aggregate.invite_member(payload)
-          aggregate
+        def aggregate_method
+          :invite_member
         end
       end
     end

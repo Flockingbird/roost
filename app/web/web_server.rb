@@ -20,7 +20,10 @@ class WebServer < Server
     command = Commands::Registration::NewRegistration::Command.new(
       registration_params
     )
-    Commands::Registration::NewRegistration::CommandHandler.new.handle(command)
+    Commands::Registration::NewRegistration::CommandHandler.new(
+      command: command
+    ).handle
+
     redirect '/register/success'
   rescue Aggregates::Registration::EmailAlreadySentError
     message = 'Emailaddress is already registered.'\
@@ -36,7 +39,10 @@ class WebServer < Server
     command = Commands::Registration::Confirm::Command.new(
       aggregate_id: params[:aggregate_id]
     )
-    Commands::Registration::Confirm::CommandHandler.new.handle(command)
+    Commands::Registration::Confirm::CommandHandler.new(
+      command: command
+    ).handle
+
     erb :confirmation_success
   rescue Aggregates::Registration::AlreadyConfirmedError
     message = 'Could not confirm. Maybe the link in the email expired, or was'\

@@ -8,15 +8,16 @@ module Commands
       ##
       # Command to invite a new +Member+.
       class Command < ApplicationCommand
+        DEFAULT_PARAMS = {
+          'email' => '',
+          'name' => '',
+          'password' => ''
+        }.freeze
+
         # NewRegistration builds a UUIDv5 based on the mailaddress.
         def initialize(params)
-          @payload = defaults.merge(params).slice(*defaults.keys)
+          @payload = DEFAULT_PARAMS.merge(params).slice(*DEFAULT_PARAMS.keys)
           @aggregate_id = aggregate_id
-        end
-
-        def validate
-          super
-          # TODO: validate email, name, password
         end
 
         def aggregate_id
@@ -24,26 +25,16 @@ module Commands
             payload['email']
           )
         end
-
-        private
-
-        def defaults
-          {
-            'email' => '',
-            'name' => '',
-            'password' => ''
-          }.freeze
-        end
       end
 
-      ##
-      # CommandHandler for +InviteMember+ Commands
-      class CommandHandler < RegistrationCommandHandler
-        private
+      # Handler for NewRegistration::Command
+      class CommandHandler < ApplicationCommandHandler
+        def aggregate_class
+          Aggregates::Registration
+        end
 
-        def apply(aggregate, payload)
-          aggregate.request(payload)
-          aggregate
+        def aggregate_method
+          :request
         end
       end
     end

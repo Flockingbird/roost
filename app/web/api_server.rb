@@ -20,7 +20,7 @@ class ApiServer < Server
     invitation_params = json_params.merge(inviter: current_member)
 
     command = Commands::Member::InviteMember::Command.new(invitation_params)
-    Commands::Member::InviteMember::CommandHandler.new.handle(command)
+    Commands::Member::InviteMember::CommandHandler.new(command: command).handle
     status(201)
     headers('Location' => invitation_url(command.aggregate_id))
     body '{}'

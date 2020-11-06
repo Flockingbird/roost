@@ -55,6 +55,7 @@ module Aggregates
         aggregate_id: id,
         body: payload
       )
+      self
     end
 
     # Confirm a new registration. This causes the registration to be finalized.
@@ -66,6 +67,7 @@ module Aggregates
         aggregate_id: id,
         body: payload
       )
+      self
     end
   end
 end

@@ -11,7 +11,7 @@ module Workflows
 
     def create_events
       command = Commands::Member::AddMember::Command.new(member_attributes)
-      Commands::Member::AddMember::CommandHandler.new.handle(command)
+      Commands::Member::AddMember::CommandHandler.new(command: command).handle
     end
 
     def member_name

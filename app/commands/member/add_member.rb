@@ -8,19 +8,16 @@ module Commands
       ##
       # Command to add a new +Member+
       class Command < ApplicationCommand
-        def validate
-          # noop
-        end
       end
 
-      ##
-      # CommandHandler for +AddMember+ Commands
-      class CommandHandler < MemberCommandHandler
-        private
+      # Handler for AddMember::Command
+      class CommandHandler < ApplicationCommandHandler
+        def aggregate_class
+          Aggregates::Member
+        end
 
-        def apply(aggregate, payload)
-          aggregate.add_member(payload)
-          aggregate
+        def aggregate_method
+          :add_member
         end
       end
     end

@@ -8,20 +8,16 @@ module Commands
       ##
       # Command to invite a new +Member+.
       class Command < ApplicationCommand
-        def validate
-          super
-          # TODO: validate token
-        end
       end
 
-      ##
-      # CommandHandler for +Registrat+ Commands
-      class CommandHandler < RegistrationCommandHandler
-        private
+      # Handler for Confirm::Command
+      class CommandHandler < ApplicationCommandHandler
+        def aggregate_class
+          Aggregates::Registration
+        end
 
-        def apply(aggregate, payload)
-          aggregate.confirm(payload)
-          aggregate
+        def aggregate_method
+          :confirm
         end
       end
     end
