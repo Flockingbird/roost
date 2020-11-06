@@ -12,7 +12,11 @@ module Commands
     end
 
     def validate
-      raise NotImplementedError
+      unless @aggregate_id
+        raise ArgumentError, 'expected aggregate_id to be set'
+      end
+
+      true
     end
   end
 end

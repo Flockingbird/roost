@@ -10,8 +10,10 @@ require 'ostruct'
 require_relative 'support/data_helpers'
 require_relative 'support/event_helpers'
 require_relative 'support/file_helpers'
+require_relative 'support/mail_helpers'
 require_relative 'support/request_helpers'
 require_relative 'support/time_helpers'
+require_relative 'support/workflows/base'
 
 require 'simplecov'
 SimpleCov.start
@@ -33,6 +35,7 @@ module Minitest
     include DataHelpers
     include EventHelpers
     include FileHelpers
+    include MailHelpers
     include RequestHelpers
     include TimeHelpers
 
@@ -46,7 +49,10 @@ module Minitest
 
     before :each do
       DatabaseCleaner[:sequel].start
+      setup_processors
+      Roost.mailer.deliveries.clear
     end
+
     after :each do
       DatabaseCleaner[:sequel].clean
     end
@@ -63,11 +69,13 @@ module Minitest
     def setup
       Capybara.app = app
       Capybara.default_driver = :rack_test
+      super
     end
 
     def teardown
       Capybara.reset_sessions!
       Capybara.use_default_driver
+      super
     end
   end
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flockingbird - Confirm</title>
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <style type="text/css" media="all">
+      .is-vertical-center {
+        display: flex;
+        align-items: center;
+      }
+    </style>
+    <script charset="utf-8">
+      document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+          var $notification = $delete.parentNode;
+
+          $delete.addEventListener('click', () => {
+            $notification.parentNode.removeChild($notification);
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+  <div class="notification is-success">
+    <button class="delete"></button>
+      Email address confirmed.
+      <strong>Welcome!</strong>
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 require 'mail'
+require 'uuidtools'
 require 'event_sourcery'
 require 'event_sourcery/postgres'
 
+Dir.glob("#{__dir__}/../lib/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/events/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/reactors/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/projections/**/projector.rb").sort.each do |f|
@@ -16,7 +18,7 @@ class Roost
   ##
   # Holds the configuration for Roost. Mainly event-sourcery config.
   class Config
-    attr_accessor :database_url
+    attr_accessor :database_url, :secret_base, :web_url
   end
 
   def self.config
@@ -31,6 +33,14 @@ class Roost
     environment == 'production'
   end
 
+  def self.development?
+    environment == 'development'
+  end
+
+  def self.test?
+    environment == 'test'
+  end
+
   def self.environment
     ENV.fetch('APP_ENV', 'development')
   end
@@ -42,6 +52,10 @@ class Roost
       delivery_method(:test)
     end
     @mailer = Mail::TestMailer
+  end
+
+  def self.root
+    Pathname.new(File.expand_path("#{__dir__}/../"))
   end
 
   def self.event_store
@@ -83,5 +97,7 @@ unless Roost.production?
 end
 
 Roost.configure do |config|
+  config.web_url = 'https://www.example.com'
+  config.secret_base = ENV['SECRET_BASE']
   config.database_url = ENV['DATABASE_URL']
 end

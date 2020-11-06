@@ -27,6 +27,7 @@ module Aggregates
         aggregate_id: id,
         body: payload
       )
+      self
     end
 
     def invite_member(payload)
@@ -38,6 +39,7 @@ module Aggregates
         aggregate_id: id,
         body: payload
       )
+      self
     end
   end
 end

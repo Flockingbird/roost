@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require 'app/aggregates/member'
+require 'app/aggregates/registration'
 
 module Commands
-  module Member
-    module InviteMember
+  module Registration
+    module Confirm
       ##
       # Command to invite a new +Member+.
       class Command < ApplicationCommand
       end
 
-      # Handler for InviteMember::Command
+      # Handler for Confirm::Command
       class CommandHandler < ApplicationCommandHandler
         def aggregate_class
-          Aggregates::Member
+          Aggregates::Registration
         end
 
         def aggregate_method
-          :invite_member
+          :confirm
         end
       end
     end

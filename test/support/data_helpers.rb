@@ -5,6 +5,23 @@
 module DataHelpers
   protected
 
+  ##
+  # Generate a deterministic fake UUID for an aggregate.
+  # +klass+ the Aggregate to generate the UUID for. Makes it easy to recognise
+  # +sequence+ sequence number to guarantee uniqueness.
+  def fake_uuid(klass, sequence)
+    klass_n = {
+      Aggregates::Member => 1,
+      Aggregates::Registration => 2
+    }.fetch(klass, 0)
+
+    format(
+      '%08<klass_n>x-0000-4000-8000-%012<sequence>x',
+      klass_n: klass_n,
+      sequence: sequence
+    )
+  end
+
   def fixtures(file)
     Hours.base_path.join('test', 'fixtures', file).to_s
   end

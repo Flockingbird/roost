@@ -3,6 +3,6 @@
 $LOAD_PATH << '.'
 
 require 'config/environment'
-require 'app/web/server'
+require 'app/web/web_server'
 
-run Server.new
+run WebServer.new

@@ -5,7 +5,6 @@ require 'support/workflows/add_member'
 
 class MemberInvitesMemberTest < Minitest::ApiSpec
   describe 'POST /invitations' do
-    let(:aggregate_id) { SecureRandom.uuid }
     let(:invitee_email) { 'irene@example.com' }
     let(:invitee_name) { 'Irene' }
     let(:workflow) { Workflows::AddMember.new(self) }
@@ -18,12 +17,12 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
       bearer_token = jwt.encode(authentication_payload, secret, 'HS256')
       header('Authorization', "Bearer #{bearer_token}")
 
-      assert_equal Roost.mailer.deliveries.length, 0
+      assert_mail_deliveries(0)
     end
 
     it 'sends an invitation email' do
       post_json(
-        "/invitations/#{aggregate_id}",
+        "/invitations/#{fake_uuid(Aggregates::Member, 1)}",
         {
           data: {
             type: 'invitation',
@@ -36,9 +35,9 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
       )
       assert_status(201)
 
-      process_events
+      process_events(['member_invited'])
 
-      assert_equal Roost.mailer.deliveries.length, 1
+      assert_mail_deliveries(1)
       assert_includes(invitation_email.to, invitee_email)
       # Test against the raw header, because .from has the normalised version
       # and we want to check the full name
@@ -47,7 +46,7 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
         "#{workflow.member_name} <#{workflow.member_email}>"
       )
       assert_match(
-        /Harry Potter invited you to join Roost/,
+        /Harry Potter invited you to join Flockingbird/,
         invitation_email.subject
       )
     end
@@ -57,19 +56,5 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
 
   def invitation_email
     Roost.mailer.deliveries.last
-  end
-
-  def process_events
-    events.each do |event|
-      esps.each { |ep| ep.process(event) }
-    end
-  end
-
-  def events
-    Roost.event_store.get_next_from(0, event_types: ['member_invited'])
-  end
-
-  def esps
-    @esps ||= [Reactors::InvitationMailer.new]
   end
 end
