@@ -18,5 +18,18 @@ module Commands
 
       true
     end
+
+    protected
+
+    def uuid_v5
+      if aggregate_id_name.empty?
+        ''
+      else
+        UUIDTools::UUID.sha1_create(
+          aggregate_id_namespace,
+          aggregate_id_name
+        ).to_s
+      end
+    end
   end
 end

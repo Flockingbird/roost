@@ -8,14 +8,6 @@ module Aggregates
   class Registration
     include EventSourcery::AggregateRoot
 
-    UUID_REGISTRATION_NAMESPACE = UUIDTools::UUID.parse(
-      '2282b78c-85d6-419f-b240-0263d67ee6e6'
-    )
-
-    def self.aggregate_id_for_email(email)
-      UUIDTools::UUID.sha1_create(UUID_REGISTRATION_NAMESPACE, email).to_s
-    end
-
     # A Registration can only be confirmed once.
     AlreadyConfirmedError = Class.new(StandardError)
     # Only one email is allowed to be sent per Registration Aggregate

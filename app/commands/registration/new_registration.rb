@@ -8,6 +8,10 @@ module Commands
       ##
       # Command to invite a new +Member+.
       class Command < ApplicationCommand
+        UUID_EMAIL_NAMESPACE = UUIDTools::UUID.parse(
+          '2282b78c-85d6-419f-b240-0263d67ee6e6'
+        )
+
         DEFAULT_PARAMS = {
           'email' => '',
           'name' => '',
@@ -21,9 +25,17 @@ module Commands
         end
 
         def aggregate_id
-          @aggregate_id ||= Aggregates::Registration.aggregate_id_for_email(
-            payload['email']
-          )
+          @aggregate_id ||= uuid_v5
+        end
+
+        private
+
+        def aggregate_id_name
+          payload['email']
+        end
+
+        def aggregate_id_namespace
+          UUID_EMAIL_NAMESPACE
         end
       end
 
