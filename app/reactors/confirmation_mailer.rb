@@ -19,7 +19,10 @@ module Reactors
         to: address,
         from: 'Bèr at Flockingbird <ber@flockinbird.social>',
         subject: 'Welcome to Flockingbird. Please confirm your email address',
-        body: render(:registration_mail, confirmation_url(aggregate_id))
+        body: MailRenderer.new.render(
+          :registration_mail,
+          confirmation_url: confirmation_url(aggregate_id)
+        )
       }
       Mail.new(email_attrs).deliver
 
@@ -32,11 +35,6 @@ module Reactors
     end
 
     private
-
-    def render(template, confirmation_url)
-      file = File.read(File.join("app/mail/#{template}.erb"))
-      ERB.new(file).result_with_hash(confirmation_url: confirmation_url)
-    end
 
     def confirmation_url(aggregate_id)
       "#{Roost.config.web_url}/confirmation/#{aggregate_id}"

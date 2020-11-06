@@ -5,6 +5,7 @@ require 'uuidtools'
 require 'event_sourcery'
 require 'event_sourcery/postgres'
 
+Dir.glob("#{__dir__}/../lib/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/events/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/reactors/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/projections/**/projector.rb").sort.each do |f|
@@ -51,6 +52,10 @@ class Roost
       delivery_method(:test)
     end
     @mailer = Mail::TestMailer
+  end
+
+  def self.root
+    Pathname.new(File.expand_path("#{__dir__}/../"))
   end
 
   def self.event_store
