@@ -22,6 +22,10 @@ class WebServer < Server
     )
     Commands::Registration::NewRegistration::CommandHandler.new.handle(command)
     redirect '/register/success'
+  rescue Aggregates::Registration::EmailAlreadySentError
+    message = 'Emailaddress is already registered.'\
+              ' Do you want to login instead?'
+    erb(:registration_error, locals: { message: message })
   end
 
   get '/register/success' do
@@ -37,7 +41,7 @@ class WebServer < Server
   rescue Aggregates::Registration::AlreadyConfirmedError
     message = 'Could not confirm. Maybe the link in the email expired, or was'\
               ' already used?'
-    erb(:confirmation_error, locals: { message: message })
+    erb(:registration_error, locals: { message: message })
   end
 
   private

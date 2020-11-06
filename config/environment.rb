@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'mail'
+require 'uuidtools'
 require 'event_sourcery'
 require 'event_sourcery/postgres'
 

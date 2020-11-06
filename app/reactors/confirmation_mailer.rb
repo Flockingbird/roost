@@ -8,22 +8,27 @@ module Reactors
 
     processor_name :confirmation_mailer
 
-    # emits_events ConfirmationEmailSent
-
-    # table :reactor_registration_mailer do
-    # column :todo_id, :uuid, primary_key: true
-    # column :title,   :text
-    # end
+    emits_events ConfirmationEmailSent
 
     process RegistrationRequested do |event|
+      address = event.body['email']
+      aggregate_id = event.aggregate_id
+
       # TODO: implement a failure handling catching errors from Pony.
-      email = Mail.new(
-        to: event.body['email'],
+      email_attrs = {
+        to: address,
         from: 'Bèr at Flockingbird <ber@flockinbird.social>',
         subject: 'Welcome to Flockingbird. Please confirm your email address',
-        body: render(:registration_mail, confirmation_url(event.aggregate_id))
+        body: render(:registration_mail, confirmation_url(aggregate_id))
+      }
+      Mail.new(email_attrs).deliver
+
+      emit_event(
+        ConfirmationEmailSent.new(
+          aggregate_id: aggregate_id,
+          body: { email_attrs: email_attrs }
+        )
       )
-      email.deliver
     end
 
     private

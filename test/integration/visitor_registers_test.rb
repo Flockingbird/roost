@@ -31,6 +31,20 @@ class VisitorRegistersTest < Minitest::WebSpec
       )
     end
 
+    it 'can register only once per email address' do
+      workflow = Workflows::MemberRegisters.new(self)
+      workflow.upto(:registered)
+      assert_mail_deliveries(1)
+
+      workflow.upto(:registered)
+      assert_mail_deliveries(1) # Still one, no new mails
+
+      assert_content(
+        find('.notification.is-error'),
+        'Emailaddress is already registered. Do you want to login instead?'\
+      )
+    end
+
     it 'can confirm only once' do
       workflow = Workflows::MemberRegisters.new(self)
       workflow.upto(:confirmed)

@@ -8,7 +8,22 @@ module Aggregates
   class Registration
     include EventSourcery::AggregateRoot
 
+    UUID_REGISTRATION_NAMESPACE = UUIDTools::UUID.parse(
+      '2282b78c-85d6-419f-b240-0263d67ee6e6'
+    )
+
+    def self.aggregate_id_for_email(email)
+      UUIDTools::UUID.sha1_create(UUID_REGISTRATION_NAMESPACE, email).to_s
+    end
+
+    # A Registration can only be confirmed once.
     AlreadyConfirmedError = Class.new(StandardError)
+    # Only one email is allowed to be sent per Registration Aggregate
+    EmailAlreadySentError = Class.new(StandardError)
+
+    apply ConfirmationEmailSent do
+      @confirmation_email_sent = true
+    end
 
     apply RegistrationRequested do
     end
@@ -24,6 +39,8 @@ module Aggregates
     # state, this might lead to a new member eventually; if the request
     # is acknowledged.
     def request(payload)
+      raise EmailAlreadySentError if @confirmation_email_sent
+
       apply_event(
         RegistrationRequested,
         aggregate_id: id,

@@ -140,6 +140,7 @@ GEM
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
+    uuidtools (2.2.0)
     verbs (2.2.1)
       activesupport (>= 2.3.4)
       i18n
@@ -171,6 +172,7 @@ DEPENDENCIES
   shotgun
   simplecov (~> 0.17.0)
   sinatra
+  uuidtools
 
 BUNDLED WITH
    2.1.4

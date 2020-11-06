@@ -13,9 +13,12 @@ class Server < Sinatra::Base
   set :show_exceptions, :after_handler if Roost.development?
 
   configure :development do
+    # :nocov:
+    # This is only enabled in development env, and not test.
     require 'better_errors'
     use BetterErrors::Middleware
     BetterErrors.application_root = __dir__
+    # :nocov:
   end
 
   def current_member
