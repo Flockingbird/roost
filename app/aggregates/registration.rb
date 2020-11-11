@@ -13,19 +13,28 @@ module Aggregates
     # Only one email is allowed to be sent per Registration Aggregate
     EmailAlreadySentError = Class.new(StandardError)
 
+    attr_reader :username, :password, :email
+
     def initialize(*arguments)
       super(*arguments)
 
       # set defaults
       @confirmation_email_sent ||= false
       @confirmed ||= false
+
+      @username ||= ''
+      @password ||= ''
+      @email ||= ''
     end
 
     apply ConfirmationEmailSent do
       @confirmation_email_sent = true
     end
 
-    apply RegistrationRequested do
+    apply RegistrationRequested do |event|
+      @username,
+      @password,
+      @email = event.body.slice('username', 'password', 'email').values
     end
 
     apply RegistrationConfirmed do

@@ -11,7 +11,7 @@ Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
 class ApiServer < Server
   # Find authentication details
   get '/session' do
-    body current_member.to_h.to_json
+    body current_member.to_h.slice(:member_id, :username, :name, :email).to_json
     status(200)
   end
 

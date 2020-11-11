@@ -11,6 +11,8 @@ module Projections
 
       table :members do
         column :member_id, 'UUID NOT NULL'
+        column :username, :text
+        column :password, :text
         column :name, :text
         column :email, :text
       end
@@ -20,6 +22,20 @@ module Projections
           member_id: event.aggregate_id,
           name: event.body['name'],
           email: event.body['email']
+        )
+      end
+
+      project RegistrationConfirmed do |event|
+        registration = Roost.repository.load(
+          Aggregates::Registration,
+          event.aggregate_id
+        )
+        table.insert(
+          member_id: event.aggregate_id,
+          username: registration.username,
+          password: registration.password,
+          email: registration.email,
+          name: nil
         )
       end
     end
