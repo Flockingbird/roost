@@ -8,10 +8,6 @@ module Commands
     # Starting a session, AKA "logging in"
     module Start
       ##
-      # Cannot build an aggregate based on these credentials
-      class InvalidCredentialsError < StandardError; end
-
-      ##
       # Command to start a session.
       # TODO: a command is overkill, unless we want to handle logins
       # with e.g. a rate limiter, or notification mail or so.
@@ -22,7 +18,7 @@ module Commands
         )
         DEFAULT_PARAMS = { 'username' => '', 'password' => '' }.freeze
 
-        def initialize(params)
+        def initialize(params, projection: Projections::Members::Query)
           @payload = DEFAULT_PARAMS.merge(params).slice(*DEFAULT_PARAMS.keys)
           @aggregate_id = aggregate_id
 
@@ -44,6 +40,8 @@ module Commands
 
         private
 
+        attr_reader :projection
+
         def aggregate_id_name
           payload['username']
         end
@@ -53,9 +51,7 @@ module Commands
         end
 
         def member
-          @member ||= Projections::Members::Query.find_by(
-            username: payload['username']
-          )
+          @member ||= projection.find_by(username: payload['username'])
         end
       end
 

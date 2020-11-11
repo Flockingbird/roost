@@ -31,5 +31,9 @@ module Commands
         ).to_s
       end
     end
+
+    def raise_bad_request(message)
+      raise BadRequest, message
+    end
   end
 end

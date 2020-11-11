@@ -71,8 +71,6 @@ class WebServer < Server
     Commands::Session::Start::CommandHandler.new(command: command).handle
     erb :confirmation_success
     redirect '/contacts'
-  rescue Commands::Session::Start::InvalidCredentialsError
-    render_error('Could not log in. Is the username and password correct?')
   end
 
   get '/contacts' do
