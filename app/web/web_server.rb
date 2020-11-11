@@ -8,6 +8,17 @@ Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
 # The webserver. Sinatra HTML only server. Serves HTML and digests FORM-encoded
 # requests
 class WebServer < Server
+  error UnprocessableEntity do |error|
+    body render_error(error.message)
+    status 422
+  end
+
+  error BadRequest do |error|
+    ## TODO: find out how to re-render a form with errors instead
+    body render_error(error.message)
+    status 400
+  end
+
   get '/' do
     erb :home
   end
@@ -26,9 +37,9 @@ class WebServer < Server
 
     redirect '/register/success'
   rescue Aggregates::Registration::EmailAlreadySentError
-    message = 'Emailaddress is already registered.'\
-              ' Do you want to login instead?'
-    erb(:registration_error, locals: { message: message })
+    render_error(
+      'Emailaddress is already registered. Do you want to login instead?'
+    )
   end
 
   get '/register/success' do
@@ -45,15 +56,38 @@ class WebServer < Server
 
     erb :confirmation_success
   rescue Aggregates::Registration::AlreadyConfirmedError
-    message = 'Could not confirm. Maybe the link in the email expired, or was'\
-              ' already used?'
-    erb(:registration_error, locals: { message: message })
+    render_error(
+      'Could not confirm. Maybe the link in the email expired, or was'\
+      ' already used?'
+    )
+  end
+
+  get '/login' do
+    erb :login
+  end
+
+  post '/login' do
+    command = Commands::Session::Start::Command.new(login_params)
+    Commands::Session::Start::CommandHandler.new(command: command).handle
+    erb :confirmation_success
+    redirect '/contacts'
+  end
+
+  get '/contacts' do
+    erb :contacts
   end
 
   private
 
   def registration_params
     params.slice('username', 'password', 'email')
-          .merge(aggregate_id: aggregate_id)
+  end
+
+  def login_params
+    params.slice('username', 'password')
+  end
+
+  def render_error(message)
+    erb(:error, locals: { message: message })
   end
 end

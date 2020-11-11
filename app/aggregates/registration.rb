@@ -8,39 +8,30 @@ module Aggregates
   class Registration
     include EventSourcery::AggregateRoot
 
-    UUID_REGISTRATION_NAMESPACE = UUIDTools::UUID.parse(
-      '2282b78c-85d6-419f-b240-0263d67ee6e6'
-    )
-
-    def self.aggregate_id_for_email(email)
-      UUIDTools::UUID.sha1_create(UUID_REGISTRATION_NAMESPACE, email).to_s
-    end
-
     # A Registration can only be confirmed once.
     AlreadyConfirmedError = Class.new(StandardError)
     # Only one email is allowed to be sent per Registration Aggregate
     EmailAlreadySentError = Class.new(StandardError)
 
-    def initialize(*arguments)
-      super(*arguments)
+    attr_reader :attributes
 
-      # set defaults
-      @confirmation_email_sent ||= false
-      @locked ||= false
-      @confirmed ||= false
+    def initialize(*arguments)
+      @attributes = Hash.new('')
+      @confirmation_email_sent = false
+      @confirmed = false
+
+      super(*arguments)
     end
 
     apply ConfirmationEmailSent do
       @confirmation_email_sent = true
     end
 
-    apply RegistrationRequested do
+    apply RegistrationRequested do |event|
+      write_attributes(event.body.slice('username', 'password', 'email'))
     end
 
     apply RegistrationConfirmed do
-      # TODO: build a generic lock mechanism with protection into an
-      # ApplicationAggregate that protects against mutation
-      @locked = true
       @confirmed = true
     end
 
@@ -68,6 +59,24 @@ module Aggregates
         body: payload
       )
       self
+    end
+
+    def email
+      @attributes[:email]
+    end
+
+    def password
+      @attributes[:password]
+    end
+
+    def username
+      @attributes[:username]
+    end
+
+    private
+
+    def write_attributes(attributes)
+      @attributes.merge!(attributes.transform_keys(&:to_sym))
     end
   end
 end

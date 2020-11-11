@@ -29,7 +29,8 @@ class MemberAuthenticatesTest < Minitest::ApiSpec
           {
             member_id: workflow.aggregate_id,
             name: workflow.member_name,
-            email: workflow.member_email
+            email: workflow.member_email,
+            username: nil
           }
         )
       end

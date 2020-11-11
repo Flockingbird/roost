@@ -43,6 +43,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.1)
     awesome_print (1.8.0)
+    bcrypt (3.1.16)
     better_errors (2.8.3)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -152,6 +153,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  bcrypt
   better_errors
   byebug
   capybara

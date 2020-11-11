@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flockingbird - Login</title>
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <style type="text/css" media="all">
+      .is-vertical-center {
+        display: flex;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+  <section class="section">
+    <form action="/login" method="post" class="container">
+      <div class="field">
+        <label class="label" for="username">Username</label>
+        <div class="control">
+          <input name="username" id="username" class="input" type="text">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="control">
+          <input name="password" id="password" class="input" type="password">
+        </div>
+      </div>
+      <div class="control">
+        <button class="button is-primary">Login</button>
+      </div>
+    </form>
+  </section>
+  </body>
+</html>

@@ -6,9 +6,9 @@ module Workflows
       visit '/'
       click_link 'Register'
 
-      fill_in('Username', with: 'hpotter')
-      fill_in('Password', with: 'caput draconis')
-      fill_in('Email', with: 'harry@hogwards.edu.wiz')
+      fill_in('Username', with: form_attributes[:username])
+      fill_in('Password', with: form_attributes[:password])
+      fill_in('Email', with: form_attributes[:email])
       click_button('Register')
       process_events(%w[registration_requested])
       page
@@ -20,12 +20,22 @@ module Workflows
       page
     end
 
+    def form_attributes
+      {
+        username: 'hpotter',
+        password: 'caput draconis',
+        email: 'harry@hogwards.edu.wiz'
+      }.merge(@form_attributes)
+    end
+
     private
 
     def confirmation_path_from_mail
       mail = Roost.mailer.deliveries.find do |email|
         email.subject.match?(/Please confirm your email address/)
       end
+
+      refute_nil(mail)
 
       base_url = Roost.config.web_url
       path = mail.body.match(%r{#{base_url}(/confirmation/.*)})

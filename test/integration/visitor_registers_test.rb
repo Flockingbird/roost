@@ -58,6 +58,16 @@ class VisitorRegistersTest < Minitest::WebSpec
         ' already used?'
       )
     end
+
+    it 'must provide all attributes' do
+      # We only test with a missing username
+      Workflows::MemberRegisters.new(self, { username: '' }).upto(:registered)
+
+      assert_content(
+        find('.notification.is-error'),
+        'username is blank'\
+      )
+    end
   end
 
   describe 'with invite-only' do
