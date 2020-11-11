@@ -62,11 +62,31 @@ class WebServer < Server
     )
   end
 
+  get '/login' do
+    erb :login
+  end
+
+  post '/login' do
+    command = Commands::Session::Start::Command.new(login_params)
+    Commands::Session::Start::CommandHandler.new(command: command).handle
+    erb :confirmation_success
+    redirect '/contacts'
+  rescue Commands::Session::Start::InvalidCredentialsError
+    render_error('Could not log in. Is the username and password correct?')
+  end
+
+  get '/contacts' do
+    erb :contacts
+  end
+
   private
 
   def registration_params
     params.slice('username', 'password', 'email')
-          .merge(aggregate_id: aggregate_id)
+  end
+
+  def login_params
+    params.slice('username', 'password')
   end
 
   def render_error(message)
