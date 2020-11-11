@@ -18,7 +18,6 @@ module Aggregates
 
       # set defaults
       @confirmation_email_sent ||= false
-      @locked ||= false
       @confirmed ||= false
     end
 
@@ -30,9 +29,6 @@ module Aggregates
     end
 
     apply RegistrationConfirmed do
-      # TODO: build a generic lock mechanism with protection into an
-      # ApplicationAggregate that protects against mutation
-      @locked = true
       @confirmed = true
     end
 
