@@ -13,18 +13,14 @@ module Aggregates
     # Only one email is allowed to be sent per Registration Aggregate
     EmailAlreadySentError = Class.new(StandardError)
 
-    attr_reader :username, :password, :email
+    attr_reader :attributes
 
     def initialize(*arguments)
+      @attributes = Hash.new('')
+      @confirmation_email_sent = false
+      @confirmed = false
+
       super(*arguments)
-
-      # set defaults
-      @confirmation_email_sent ||= false
-      @confirmed ||= false
-
-      @username ||= ''
-      @password ||= ''
-      @email ||= ''
     end
 
     apply ConfirmationEmailSent do
@@ -32,9 +28,7 @@ module Aggregates
     end
 
     apply RegistrationRequested do |event|
-      @username,
-      @password,
-      @email = event.body.slice('username', 'password', 'email').values
+      write_attributes(event.body.slice('username', 'password', 'email'))
     end
 
     apply RegistrationConfirmed do
@@ -65,6 +59,24 @@ module Aggregates
         body: payload
       )
       self
+    end
+
+    def email
+      @attributes[:email]
+    end
+
+    def password
+      @attributes[:password]
+    end
+
+    def username
+      @attributes[:username]
+    end
+
+    private
+
+    def write_attributes(attributes)
+      @attributes.merge!(attributes.transform_keys(&:to_sym))
     end
   end
 end
