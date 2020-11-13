@@ -5,9 +5,13 @@
 module MailHelpers
   protected
 
+  def deliveries
+    Mail::TestMailer.deliveries
+  end
+
   def assert_mail_deliveries(amount)
-    actual = Roost.mailer.deliveries.length
-    subjects = Roost.mailer.deliveries.map(&:subject).join(', ')
+    actual = deliveries.length
+    subjects = deliveries.map(&:subject).join(', ')
 
     assert_equal(
       amount,

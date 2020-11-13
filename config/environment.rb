@@ -46,15 +46,6 @@ class Roost
     ENV.fetch('APP_ENV', 'development')
   end
 
-  def self.mailer
-    return @mailer if @mailer
-
-    Mail.defaults do
-      delivery_method(:test)
-    end
-    @mailer = Mail::TestMailer
-  end
-
   def self.root
     Pathname.new(File.expand_path("#{__dir__}/../"))
   end
@@ -84,7 +75,7 @@ class Roost
       Projections::Members::Projector,
       Reactors::InvitationMailer,
       Reactors::ConfirmationMailer,
-      Projections::Invitations::Projector,
+      Projections::Invitations::Projector
     ]
   end
 
@@ -110,4 +101,16 @@ Roost.configure do |config|
   config.web_url = 'https://www.example.com'
   config.secret_base = ENV['SECRET_BASE']
   config.database_url = ENV['DATABASE_URL']
+
+  Mail.defaults do
+    delivery_method(
+      ENV['MAIL_METHOD'].to_sym,
+      address: ENV['SMTP_ADDRESS'],
+      port: ENV['SMTP_PORT'],
+      user_name: ENV['SMTP_USER_NAME'],
+      password: ENV['SMTP_PASSWORD'],
+      enable_starttls: ENV['SMTP_STARTTLS'],
+      domain: ENV['SMTP_DOMAIN']
+    )
+  end
 end

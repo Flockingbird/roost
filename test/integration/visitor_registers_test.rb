@@ -75,6 +75,6 @@ class VisitorRegistersTest < Minitest::WebSpec
   end
 
   def email
-    Roost.mailer.deliveries.last
+    deliveries.last
   end
 end

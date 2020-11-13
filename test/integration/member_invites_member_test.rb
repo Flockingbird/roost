@@ -55,6 +55,6 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
   private
 
   def invitation_email
-    Roost.mailer.deliveries.last
+    deliveries.last
   end
 end

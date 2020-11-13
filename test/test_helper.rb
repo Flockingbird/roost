@@ -50,7 +50,7 @@ module Minitest
     before :each do
       DatabaseCleaner[:sequel].start
       setup_processors
-      Roost.mailer.deliveries.clear
+      deliveries.clear
     end
 
     after :each do
