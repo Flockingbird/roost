@@ -20,7 +20,7 @@ module Reactors
       # TODO: implement a failure handling catching errors from Pony.
       email_attrs = {
         to: address,
-        from: 'Bèr at Flockingbird <ber@flockinbird.social>',
+        from: 'Bèr at Flockingbird <hi@flockingbird.social>',
         subject: 'Welcome to Flockingbird. Please confirm your email address',
         body: MailRenderer.new.render(
           :registration_mail,

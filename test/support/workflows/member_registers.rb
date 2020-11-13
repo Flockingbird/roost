@@ -31,7 +31,7 @@ module Workflows
     private
 
     def confirmation_path_from_mail
-      mail = Roost.mailer.deliveries.find do |email|
+      mail = Mail::TestMailer.deliveries.find do |email|
         email.subject.match?(/Please confirm your email address/)
       end
 
