@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'erb'
+
 ##
 # Mail Renderer: renders ERB templates from app/mail into mail
 # body
