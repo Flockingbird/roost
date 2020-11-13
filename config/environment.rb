@@ -79,6 +79,15 @@ class Roost
     EventSourcery::Postgres.config.projections_database
   end
 
+  def self.all_processors
+    [
+      Projections::Members::Projector,
+      Reactors::InvitationMailer,
+      Reactors::ConfirmationMailer,
+      Projections::Invitations::Projector,
+    ]
+  end
+
   def self.repository
     @repository ||= EventSourcery::Repository.new(
       event_source: event_source,

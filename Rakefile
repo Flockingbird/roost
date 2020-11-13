@@ -25,20 +25,9 @@ task run_processors: %i[environment database] do
   # Show our ESP logs in foreman immediately
   $stdout.sync = true
 
-  processors = [
-    Projections::Members::Projector.new(
-      tracker: tracker,
-      db_connection: db_connection
-    ),
-    Reactors::InvitationMailer.new(
-      tracker: tracker,
-      db_connection: db_connection
-    ),
-    Projections::Invitations::Projector.new(
-      tracker: tracker,
-      db_connection: db_connection
-    )
-  ]
+  processors = Roost.all_processors.map do |processor_class|
+    processor_class.new(tracker: tracker, db_connection: db_connection)
+  end
 
   EventSourcery::EventProcessing::ESPRunner.new(
     event_processors: processors,
