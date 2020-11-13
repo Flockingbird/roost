@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require_relative '../support/workflows/member_registers'
 
 class VisitorRegistersTest < Minitest::WebSpec
   describe 'with open registrations' do

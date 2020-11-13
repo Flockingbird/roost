@@ -15,6 +15,8 @@ require_relative 'support/request_helpers'
 require_relative 'support/time_helpers'
 require_relative 'support/workflows/base'
 
+Dir["#{__dir__}/support/workflows/*.rb"].sort.each { |file| require file }
+
 require 'simplecov'
 SimpleCov.start
 

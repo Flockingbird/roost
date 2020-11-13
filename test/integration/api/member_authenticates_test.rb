@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'support/workflows/add_member'
 
 class MemberAuthenticatesTest < Minitest::ApiSpec
   describe 'GET /session' do
