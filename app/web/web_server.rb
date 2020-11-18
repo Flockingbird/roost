@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require 'sinatra/contrib'
 require_relative 'server'
+
+require 'ap'
 
 Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
 
@@ -8,6 +11,12 @@ Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
 # The webserver. Sinatra HTML only server. Serves HTML and digests FORM-encoded
 # requests
 class WebServer < Server
+  use Rack::MethodOverride
+
+  helpers Sinatra::ContentFor
+
+  enable :sessions
+
   error UnprocessableEntity do |error|
     body render_error(error.message)
     status 422
@@ -89,5 +98,13 @@ class WebServer < Server
 
   def render_error(message)
     erb(:error, locals: { message: message })
+  end
+
+  def current_member
+    OpenStruct.new(super)
+  end
+
+  def member_id
+    session[:member_id]
   end
 end
