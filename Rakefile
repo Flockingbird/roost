@@ -65,7 +65,12 @@ namespace :db do
 
   desc 'Setup Event Stream projections'
   task create_projections: %i[environment database] do
-    [Projections::Members::Projector].map(&:new).each(&:setup)
+    Roost.all_processors.map(&:new).each(&:setup)
+  end
+
+  desc 'Reset Event Stream projections'
+  task reset_projections: %i[environment database] do
+    Roost.all_processors.map(&:new).each(&:reset)
   end
 
   def database
