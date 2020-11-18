@@ -72,6 +72,8 @@ GEM
     jaro_winkler (1.5.4)
     json (2.3.1)
     jwt (2.2.2)
+    launchy (2.5.0)
+      addressable (~> 2.7)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     method_source (1.0.0)
@@ -162,6 +164,7 @@ DEPENDENCIES
   event_sourcery!
   event_sourcery-postgres!
   event_sourcery_generators!
+  launchy
   mail
   minitest
   pg (= 0.20.0)

@@ -24,6 +24,7 @@ group :development, :test do
   gem 'database_cleaner-sequel'
   gem 'dotenv', '~> 2.7'
   gem 'event_sourcery_generators', git: 'https://github.com/envato/event_sourcery_generators.git'
+  gem 'launchy'
   gem 'minitest'
   gem 'pry'
   gem 'rack-test'
