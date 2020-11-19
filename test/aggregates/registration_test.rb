@@ -31,9 +31,17 @@ module Aggregates
     end
 
     describe 'confirm' do
+      before do
+        subject.request(payload)
+        subject.confirm({})
+      end
+
       it 'emits RegistrationConfirmed event' do
-        subject.confirm(payload)
         assert_includes(subject.changes.map(&:class), RegistrationConfirmed)
+      end
+
+      it 'adds username email and password to event' do
+        assert_equal(subject.changes.last.body, payload.transform_keys(&:to_s))
       end
     end
 

@@ -56,7 +56,7 @@ module Aggregates
       apply_event(
         RegistrationConfirmed,
         aggregate_id: id,
-        body: payload
+        body: payload.merge(attributes)
       )
       self
     end
