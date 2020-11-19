@@ -37,11 +37,6 @@ module EventHelpers
   end
 
   def processors
-    @processors ||= [
-      Projections::Invitations::Projector.new,
-      Projections::Members::Projector.new,
-      Reactors::ConfirmationMailer.new,
-      Reactors::InvitationMailer.new
-    ]
+    @processors ||= Roost.all_processors.map(&:new)
   end
 end
