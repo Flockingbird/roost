@@ -3,8 +3,6 @@
 require 'sinatra/contrib'
 require_relative 'server'
 
-require 'ap'
-
 Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
 
 ##
@@ -33,7 +31,7 @@ class WebServer < Server
   end
 
   get '/register' do
-    erb :register
+    erb :register, layout: :layout_anonymous
   end
 
   post '/register' do
@@ -52,7 +50,7 @@ class WebServer < Server
   end
 
   get '/register/success' do
-    erb :register_success
+    erb :register_success, layout: :layout_anonymous
   end
 
   get '/confirmation/:aggregate_id' do
@@ -72,18 +70,41 @@ class WebServer < Server
   end
 
   get '/login' do
-    erb :login
+    erb :login, layout: :layout_anonymous
   end
 
   post '/login' do
     command = Commands::Session::Start::Command.new(login_params)
-    Commands::Session::Start::CommandHandler.new(command: command).handle
-    erb :confirmation_success
+    session_aggregate = Commands::Session::Start::CommandHandler.new(
+      command: command
+    ).handle
+
+    session[:member_id] = session_aggregate.member_id
     redirect '/contacts'
   end
 
   get '/contacts' do
-    erb :contacts
+    erb :contacts, layout: :layout_member
+  end
+
+  get '/profile' do
+    erb :profile, layout: :layout_member, locals: { profile: current_member }
+  end
+
+  put '/profile' do
+    command = Commands::Profile::Update::Command.new(
+      profile_params.merge(aggregate_id: member_id)
+    )
+    Commands::Profile::Update::CommandHandler.new(command: command).handle
+    redirect '/profile'
+  end
+
+  get '/profile/edit' do
+    erb(
+      :profile_edit,
+      layout: :layout_member,
+      locals: { profile: current_member }
+    )
   end
 
   private
@@ -96,8 +117,13 @@ class WebServer < Server
     params.slice('username', 'password')
   end
 
+  def profile_params
+    params.slice('bio', 'name')
+  end
+
   def render_error(message)
-    erb(:error, locals: { message: message })
+    content_for(:title, 'Error')
+    erb(:error, locals: { message: message }, layout: :layout_anonymous)
   end
 
   def current_member
