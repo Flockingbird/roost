@@ -6,7 +6,18 @@ module Aggregates
   class Session
     include EventSourcery::AggregateRoot
 
-    def start(_payload)
+    attr_reader :member_id
+
+    apply SessionStarted do |event|
+      @member_id = event.body['member_id']
+    end
+
+    def start(payload)
+      apply_event(
+        SessionStarted,
+        aggregate_id: id,
+        body: payload
+      )
       self
     end
   end

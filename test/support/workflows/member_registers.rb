@@ -16,7 +16,7 @@ module Workflows
 
     def confirmed
       visit confirmation_path_from_mail
-      process_events(%w[registration_confirmed])
+      process_events(%w[registration_confirmed member_added])
       page
     end
 

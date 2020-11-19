@@ -5,10 +5,13 @@ require 'test_helper'
 class SessionStartCommandTest < Minitest::Spec
   let(:projection) { Minitest::Mock.new }
   let(:params) { { 'username' => 'hpotter', 'password' => 'caput draconis' } }
+  let(:member) { nil }
 
   subject do
     Commands::Session::Start::Command.new(params, projection: projection)
   end
+
+  before { projection.expect(:find_by, member, [{ username: 'hpotter' }]) }
 
   describe 'with username' do
     let(:uuid_v5_for_username) { '404fd9f9-c5fc-5b21-b2a9-9ad650520aff' }
@@ -27,11 +30,7 @@ class SessionStartCommandTest < Minitest::Spec
   end
 
   describe '#validate' do
-    before { projection.expect(:find_by, member, [{ username: 'hpotter' }]) }
-
     describe 'without member with username' do
-      let(:member) { nil }
-
       it 'fails if no member with this username is found' do
         assert_raises(BadRequest) { subject.validate }
       end
@@ -52,6 +51,13 @@ class SessionStartCommandTest < Minitest::Spec
         )
         assert_raises(BadRequest) { subject.validate }
       end
+    end
+  end
+
+  describe 'payload' do
+    let(:member) { { member_id: fake_uuid(Aggregates::Member, 1) } }
+    it 'includes member_id' do
+      assert_equal(subject.payload['member_id'], member[:member_id])
     end
   end
 end

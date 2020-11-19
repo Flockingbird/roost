@@ -72,10 +72,11 @@ class Roost
 
   def self.all_processors
     [
-      Projections::Members::Projector,
       Reactors::InvitationMailer,
       Reactors::ConfirmationMailer,
-      Projections::Invitations::Projector
+      Reactors::MemberGenerator,
+      Projections::Invitations::Projector,
+      Projections::Members::Projector
     ]
   end
 

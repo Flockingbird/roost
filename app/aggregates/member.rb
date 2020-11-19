@@ -9,13 +9,13 @@ module Aggregates
     include EventSourcery::AggregateRoot
 
     apply MemberAdded do |event|
-      # Mutate state of aggregate based on event, e.g.
-      # @member_addmemberred_occurred = true
     end
 
     apply MemberInvited do |event|
-      # Mutate state of aggregate based on event, e.g.
-      # @member_addmemberred_occurred = true
+    end
+
+    apply MemberBioUpdated do |event|
+      @bio = event.body['bio']
     end
 
     def add_member(payload)
@@ -38,6 +38,15 @@ module Aggregates
         MemberInvited,
         aggregate_id: id,
         body: payload
+      )
+      self
+    end
+
+    def update_bio(payload)
+      apply_event(
+        MemberBioUpdated,
+        aggregate_id: id,
+        body: payload.slice('bio')
       )
       self
     end

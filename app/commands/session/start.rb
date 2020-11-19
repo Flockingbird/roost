@@ -26,7 +26,7 @@ module Commands
         end
 
         def validate
-          return if member && (pw = member[:password]) &&
+          return if (pw = member[:password]) &&
                     (Password.new(pw) == payload['password'])
 
           raise_bad_request(
@@ -38,12 +38,16 @@ module Commands
           @aggregate_id ||= uuid_v5
         end
 
+        def payload
+          super.merge('member_id' => member[:member_id])
+        end
+
         private
 
         attr_reader :projection
 
         def aggregate_id_name
-          payload['username']
+          @payload['username']
         end
 
         def aggregate_id_namespace
@@ -51,7 +55,7 @@ module Commands
         end
 
         def member
-          @member ||= projection.find_by(username: payload['username'])
+          @member ||= projection.find_by(username: @payload['username']) || {}
         end
       end
 

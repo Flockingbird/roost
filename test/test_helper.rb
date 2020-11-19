@@ -13,6 +13,7 @@ require_relative 'support/file_helpers'
 require_relative 'support/mail_helpers'
 require_relative 'support/request_helpers'
 require_relative 'support/time_helpers'
+require_relative 'support/web_test_helpers'
 require_relative 'support/workflows/base'
 
 Dir["#{__dir__}/support/workflows/*.rb"].sort.each { |file| require file }
@@ -63,6 +64,7 @@ module Minitest
   class WebSpec < Spec
     include Capybara::DSL
     include Capybara::Minitest::Assertions
+    include WebTestHelpers
 
     def app
       WebServer.new
