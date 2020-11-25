@@ -2,6 +2,12 @@
 
 require 'test_helper'
 
+##
+# As a visitor
+# When I decide to join the community
+# Then I need to register and confirm my emailaddress
+# So that I have login credentials
+# And so that no-one can use my email as if they are me.
 class VisitorRegistersTest < Minitest::WebSpec
   describe 'with open registrations' do
     it 'sends an email' do

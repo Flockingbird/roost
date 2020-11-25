@@ -2,6 +2,11 @@
 
 require 'test_helper'
 
+##
+# As a client using the API
+# When my session was ended
+# Then I want to log in on behalf of a member
+# So that I can authenticate and act as a member
 class MemberAuthenticatesTest < Minitest::ApiSpec
   describe 'GET /session' do
     let(:workflow) { Workflows::AddMember.new(self) }

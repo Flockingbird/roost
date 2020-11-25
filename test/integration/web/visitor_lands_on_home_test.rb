@@ -2,6 +2,11 @@
 
 require 'test_helper'
 
+##
+# As a visitor
+# When I visit the homepage
+# Then I see that I can register or login
+# So that it is clear what I can do with the app.
 class VisitorLandsOnHomeTest < Minitest::WebSpec
   describe 'visitor_lands_on_home' do
     before do

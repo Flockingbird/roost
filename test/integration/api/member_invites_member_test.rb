@@ -2,6 +2,11 @@
 
 require 'test_helper'
 
+##
+# A a client using the API on behalf of a member
+# When I have the rights to do so,
+# Then I can invite people by email,
+# So that I can help my network grow.
 class MemberInvitesMemberTest < Minitest::ApiSpec
   describe 'POST /invitations' do
     let(:invitee_email) { 'irene@example.com' }

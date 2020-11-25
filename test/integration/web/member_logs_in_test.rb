@@ -2,6 +2,11 @@
 
 require 'test_helper'
 
+##
+# As a member of flockingbird
+# When my session was ended
+# Then I want to log in with my credentials
+# So that I can use the app as a member
 class MemberLogsInTest < Minitest::WebSpec
   describe 'registered user' do
     before do
