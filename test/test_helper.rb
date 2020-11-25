@@ -72,6 +72,7 @@ module Minitest
     def setup
       Capybara.app = app
       Capybara.default_driver = :rack_test
+      Capybara.save_path = Roost.root.join('tmp')
       super
     end
 

@@ -1,0 +1,5 @@
+<%- updates.each do |update| %>
+  <h2><%= update.author %></h2>
+  <span title="<%= update.posted_at %>"><%= update.posted_on %></span>
+  <p><%= update.text %></p>
+<% end %>

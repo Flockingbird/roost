@@ -28,7 +28,22 @@ class MemberManagesProfileTest < Minitest::WebSpec
       assert_content bio
     end
 
-    it 'notifies all members on the instance'
+    it 'notifies all other members on the instance' do
+      ron = { username: 'ron', email: 'ron@example.org', password: 'secret' }
+      member_registers(ron).upto(:confirmed)
+      member_logs_in(ron).upto(:logged_in)
+
+      member_logs_in(@harry).upto(:logged_in)
+      manage_profile.upto(:bio_updated)
+
+      member_logs_in(ron).upto(:logged_in)
+      main_menu('Updates').click
+      assert_content 'hpotter@example.com'
+      assert_content Date.today
+      # Until harry has changed their name, we render their handle
+      assert_content "hpotter@example.com updated their bio to #{bio}"
+    end
+
     it 'notifies all remote contacts'
   end
 end

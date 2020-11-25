@@ -4,13 +4,13 @@ require 'sinatra/contrib'
 require_relative 'server'
 
 Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
+Dir.glob("#{__dir__}/view_models/*.rb").sort.each { |f| require f }
 
 ##
 # The webserver. Sinatra HTML only server. Serves HTML and digests FORM-encoded
 # requests
 class WebServer < Server
   use Rack::MethodOverride
-
   helpers Sinatra::ContentFor
 
   enable :sessions
@@ -26,13 +26,11 @@ class WebServer < Server
     status 400
   end
 
-  get '/' do
-    erb :home
-  end
-
-  get '/register' do
-    erb :register, layout: :layout_anonymous
-  end
+  get('/') { erb :home }
+  get('/login') { erb :login, layout: :layout_anonymous }
+  get('/register') { erb :register, layout: :layout_anonymous }
+  get('/contacts') { erb :contacts, layout: :layout_member }
+  get('/register/success') { erb :register_success, layout: :layout_anonymous }
 
   post '/register' do
     command = Commands::Registration::NewRegistration::Command.new(
@@ -47,10 +45,6 @@ class WebServer < Server
     render_error(
       'Emailaddress is already registered. Do you want to login instead?'
     )
-  end
-
-  get '/register/success' do
-    erb :register_success, layout: :layout_anonymous
   end
 
   get '/confirmation/:aggregate_id' do
@@ -69,10 +63,6 @@ class WebServer < Server
     )
   end
 
-  get '/login' do
-    erb :login, layout: :layout_anonymous
-  end
-
   post '/login' do
     command = Commands::Session::Start::Command.new(login_params)
     session_aggregate = Commands::Session::Start::CommandHandler.new(
@@ -81,10 +71,6 @@ class WebServer < Server
 
     session[:member_id] = session_aggregate.member_id
     redirect '/contacts'
-  end
-
-  get '/contacts' do
-    erb :contacts, layout: :layout_member
   end
 
   get '/profile' do
@@ -105,6 +91,13 @@ class WebServer < Server
       layout: :layout_member,
       locals: { profile: current_member }
     )
+  end
+
+  get '/updates' do
+    updates = ViewModels::Update.from_collection(
+      Projections::Updates::Query.for_member(member_id)
+    )
+    erb :updates, layout: :layout_member, locals: { updates: updates }
   end
 
   private
