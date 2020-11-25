@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Workflows
+  ##
+  # Workflow to log in
   class MemberLogsIn < Base
     def logged_in
       visit_login
@@ -9,8 +11,6 @@ module Workflows
       fill_in('Password', with: form_attributes[:password])
       click_button('Login')
 
-      raise 'Could not log in' if page.has_content?('Could not log in')
-
       page
     end
 
@@ -18,7 +18,7 @@ module Workflows
       {
         username: 'hpotter',
         password: 'caput draconis'
-      }.merge(@form_attributes)
+      }.merge(super)
     end
 
     private

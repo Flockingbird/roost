@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Workflows
+  ##
+  # Workflow to register as a new member
   class MemberRegisters < Base
     def registered
       visit '/'

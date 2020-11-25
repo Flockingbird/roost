@@ -3,6 +3,8 @@
 require 'test_helper'
 
 module Aggregates
+  ##
+  # Unit test for session aggregate root
   class SessionTest < Minitest::Spec
     let(:member_id) { fake_uuid(Aggregates::Member, 1) }
     let(:payload) do

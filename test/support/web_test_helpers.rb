@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+##
+# Helpers to interact with web-pages
 module WebTestHelpers
   ##
   # Click on an icon by its description
