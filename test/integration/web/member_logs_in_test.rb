@@ -5,7 +5,7 @@ require 'test_helper'
 class MemberLogsInTest < Minitest::WebSpec
   describe 'registered user' do
     before do
-      @workflow = Workflows::MemberRegisters.new(self)
+      @workflow = member_registers
       @workflow.upto(:confirmed)
       # TODO: once confirmed, aren't we logged in already?
 

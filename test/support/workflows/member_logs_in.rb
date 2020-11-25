@@ -9,6 +9,7 @@ module Workflows
       fill_in('Username', with: form_attributes[:username])
       fill_in('Password', with: form_attributes[:password])
       click_button('Login')
+      raise 'Could not log in' if page.has_content?('Could not log in')
       page
     end
 

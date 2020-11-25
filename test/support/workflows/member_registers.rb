@@ -31,12 +31,11 @@ module Workflows
     private
 
     def confirmation_path_from_mail
-      mail = Mail::TestMailer.deliveries.find do |email|
+      mail = Mail::TestMailer.deliveries.reverse.find do |email|
         email.subject.match?(/Please confirm your email address/)
       end
 
       refute_nil(mail)
-
       base_url = Roost.config.web_url
       path = mail.body.match(%r{#{base_url}(/confirmation/.*)})
       path[1]

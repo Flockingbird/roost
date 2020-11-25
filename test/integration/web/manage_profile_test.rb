@@ -4,15 +4,16 @@ require 'test_helper'
 
 class MemberManagesProfileTest < Minitest::WebSpec
   before do
-    register = Workflows::MemberRegisters.new(self)
-    register.upto(:confirmed)
-    Workflows::MemberLogsIn.new(self, register.form_attributes).upto(:logged_in)
+    registers = member_registers
+    registers.upto(:confirmed)
+    @harry = member_registers.form_attributes
   end
 
   let(:bio) { 'Fought a snakey guy, now proud father and civil servant' }
 
   describe 'updates biography' do
     it 'changes the public biography' do
+      member_logs_in(@harry).upto(:logged_in)
       main_menu('My profile').click
       refute_content bio
       click_icon('pencil')
