@@ -3,12 +3,12 @@
 module Workflows
   class MemberLogsIn < Base
     def logged_in
-      visit '/'
-      click_link 'Login'
+      visit_login
 
       fill_in('Username', with: form_attributes[:username])
       fill_in('Password', with: form_attributes[:password])
       click_button('Login')
+
       raise 'Could not log in' if page.has_content?('Could not log in')
 
       page
@@ -22,6 +22,11 @@ module Workflows
     end
 
     private
+
+    def visit_login
+      visit '/'
+      click_link 'Login'
+    end
 
     def steps
       %i[logged_in].freeze

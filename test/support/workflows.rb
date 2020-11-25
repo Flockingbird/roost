@@ -17,6 +17,12 @@ module Workflows
     factory(MemberRegisters, form_attributes)
   end
 
+  # login helper
+  def as(login_attributes)
+    member_logs_in(login_attributes).upto(:logged_in)
+    yield if block_given?
+  end
+
   private
 
   def factory(klass, form_attributes)

@@ -10,6 +10,7 @@ module Workflows
       fill_in('Password', with: form_attributes[:password])
       fill_in('Email', with: form_attributes[:email])
       click_button('Register')
+
       process_events(%w[registration_requested])
       page
     end

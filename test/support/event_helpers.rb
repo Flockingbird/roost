@@ -17,7 +17,7 @@ module EventHelpers
   end
 
   def process_events(event_types)
-    processors.each do |processor|
+    processors.map do |processor|
       events = event_store.get_next_from(
         (processor.last_processed_event_id + 1),
         event_types: event_types

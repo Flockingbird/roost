@@ -4,11 +4,14 @@ module Workflows
   ##
   # Workflow to manage the profile of currently logged in member.
   class ManageProfile < Base
-    def bio_updated
+    def profile_visited
       main_menu('My profile').click
-      click_icon('pencil')
+      page
+    end
 
-      fill_in('bio', with: bio)
+    def bio_updated
+      click_icon('pencil')
+      fill_in('bio', with: form_attributes[:bio])
       click_button('Update')
 
       process_events(%w[member_bio_updated])
@@ -18,7 +21,7 @@ module Workflows
     private
 
     def steps
-      %i[bio_updated].freeze
+      %i[profile_visited bio_updated].freeze
     end
   end
 end
