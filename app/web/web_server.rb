@@ -26,6 +26,17 @@ class WebServer < Server
     status 400
   end
 
+  error Unauthorized do |_error|
+    # TODO: render the login form below
+    body render_error(
+      'You are not logged in. Please <a href="/login">log in</a> or
+       <a href="/register">register</a> to proceed'
+    )
+    # NOTE: we don't send the 401, as that requires a WWW-Authenticate header,
+    # that we cannot send in session/cookie based auth.
+    status 403
+  end
+
   get('/') { erb :home }
   get('/login') { erb :login, layout: :layout_anonymous }
   get('/register') { erb :register, layout: :layout_anonymous }
@@ -59,16 +70,19 @@ class WebServer < Server
   end
 
   get '/profile' do
+    requires_authorization
     erb :profile, layout: :layout_member, locals: { profile: current_member }
   end
 
   put '/profile' do
+    requires_authorization
     handle_command('Profile', 'Update',
                    profile_params.merge(aggregate_id: member_id))
     redirect '/profile'
   end
 
   get '/profile/edit' do
+    requires_authorization
     erb(
       :profile_edit,
       layout: :layout_member,
@@ -77,6 +91,7 @@ class WebServer < Server
   end
 
   get '/updates' do
+    requires_authorization
     updates = ViewModels::Update.from_collection(
       Projections::Updates::Query.for_member(member_id)
     )
@@ -84,6 +99,10 @@ class WebServer < Server
   end
 
   private
+
+  def requires_authorization
+    raise Unauthorized unless current_member[:member_id]
+  end
 
   def registration_params
     params.slice('username', 'password', 'email')

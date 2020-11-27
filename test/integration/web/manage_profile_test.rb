@@ -15,7 +15,6 @@ class MemberManagesProfileTest < Minitest::WebSpec
 
     member_registers.form_attributes
   end
-
   let(:ron) do
     ron = { username: 'ron', email: 'ron@example.org', password: 'secret' }
     member_registers(ron).upto(:confirmed).html
@@ -40,6 +39,18 @@ class MemberManagesProfileTest < Minitest::WebSpec
       manages.upto(:profile_visited)
       assert_content bio
     end
+  end
+
+  it 'cannot update when not logged in' do
+    visit '/profile'
+    assert_equal(page.status_code, 403)
+    assert_content(page, 'You are not logged in')
+    visit '/profile/edit'
+    assert_equal(page.status_code, 403)
+    assert_content(page, 'You are not logged in')
+    # We might want to test that PUT profile does requires authentication,
+    # but that is hard to test from the interface, since you cannot get
+    # to the form making the PUT without being logged in.
   end
 
   it 'notifies you and all other members on the instance' do
