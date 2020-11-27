@@ -24,12 +24,12 @@ group :development, :test do
   gem 'database_cleaner-sequel'
   gem 'dotenv', '~> 2.7'
   gem 'event_sourcery_generators', git: 'https://github.com/envato/event_sourcery_generators.git'
+  gem 'launchy'
   gem 'minitest'
   gem 'pry'
   gem 'rack-test'
   gem 'rspec'
   gem 'rubocop', '~> 0.82.0' # Matches superlinter version
-  gem 'shotgun'
 
   # Bug in later versions: https://github.com/codeclimate/test-reporter/issues/413
   gem 'simplecov', '~> 0.17.0'

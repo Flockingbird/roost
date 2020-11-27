@@ -27,7 +27,7 @@ clean:
 	docker rm $(CONTAINER_NAME)
 
 run:
-	$(CMD_PREFIX) shotgun config.ru
+	parallel --line-buffer ::: "$(CMD_PREFIX) rackup --port=9292 web.ru" "$(CMD_PREFIX) rackup shotgun --port=9393 api.ru" "$(CMD_PREFIX) rake run_processors"
 
 deploy:
 	$(CMD_PREFIX) cap production deploy
@@ -54,4 +54,4 @@ _ruby:
 	bundle install
 
 _packages:
-	sudo apt install ruby
+	sudo apt install ruby parallel

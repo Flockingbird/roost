@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'sinatra'
+require 'sinatra/reloader' if Roost.development?
 Dir.glob("#{__dir__}/../projections/**/query.rb").sort.each { |f| require f }
 
 ##
@@ -12,9 +13,7 @@ class Server < Sinatra::Base
   configure :development do
     # :nocov:
     # This is only enabled in development env, and not test.
-    require 'better_errors'
-    use BetterErrors::Middleware
-    BetterErrors.application_root = __dir__
+    register Sinatra::Reloader
     # :nocov:
   end
 
