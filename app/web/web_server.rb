@@ -33,13 +33,7 @@ class WebServer < Server
   get('/register/success') { erb :register_success, layout: :layout_anonymous }
 
   post '/register' do
-    command = Commands::Registration::NewRegistration::Command.new(
-      registration_params
-    )
-    Commands::Registration::NewRegistration::CommandHandler.new(
-      command: command
-    ).handle
-
+    handle_command('Registration', 'NewRegistration', registration_params)
     redirect '/register/success'
   rescue Aggregates::Registration::EmailAlreadySentError
     render_error(
@@ -48,13 +42,8 @@ class WebServer < Server
   end
 
   get '/confirmation/:aggregate_id' do
-    command = Commands::Registration::Confirm::Command.new(
-      aggregate_id: params[:aggregate_id]
-    )
-    Commands::Registration::Confirm::CommandHandler.new(
-      command: command
-    ).handle
-
+    handle_command('Registration', 'Confirm',
+                   aggregate_id: params[:aggregate_id])
     erb :confirmation_success
   rescue Aggregates::Registration::AlreadyConfirmedError
     render_error(
@@ -64,11 +53,7 @@ class WebServer < Server
   end
 
   post '/login' do
-    command = Commands::Session::Start::Command.new(login_params)
-    session_aggregate = Commands::Session::Start::CommandHandler.new(
-      command: command
-    ).handle
-
+    session_aggregate = handle_command('Session', 'Start', login_params)
     session[:member_id] = session_aggregate.member_id
     redirect '/contacts'
   end
@@ -78,10 +63,8 @@ class WebServer < Server
   end
 
   put '/profile' do
-    command = Commands::Profile::Update::Command.new(
-      profile_params.merge(aggregate_id: member_id)
-    )
-    Commands::Profile::Update::CommandHandler.new(command: command).handle
+    handle_command('Profile', 'Update',
+                   profile_params.merge(aggregate_id: member_id))
     redirect '/profile'
   end
 
