@@ -44,7 +44,7 @@ class WebServer < Server
   get('/register/success') { erb :register_success, layout: :layout_anonymous }
 
   post '/register' do
-    handle_command('Registration', 'NewRegistration', registration_params)
+    Commands.handle('Registration', 'NewRegistration', registration_params)
     redirect '/register/success'
   rescue Aggregates::Registration::EmailAlreadySentError
     render_error(
@@ -53,8 +53,8 @@ class WebServer < Server
   end
 
   get '/confirmation/:aggregate_id' do
-    handle_command('Registration', 'Confirm',
-                   aggregate_id: params[:aggregate_id])
+    Commands.handle('Registration', 'Confirm',
+                    aggregate_id: params[:aggregate_id])
     erb :confirmation_success
   rescue Aggregates::Registration::AlreadyConfirmedError
     render_error(
@@ -64,7 +64,7 @@ class WebServer < Server
   end
 
   post '/login' do
-    session_aggregate = handle_command('Session', 'Start', login_params)
+    session_aggregate = Commands.handle('Session', 'Start', login_params)
     session[:member_id] = session_aggregate.member_id
     redirect '/contacts'
   end
@@ -76,8 +76,8 @@ class WebServer < Server
 
   put '/profile' do
     requires_authorization
-    handle_command('Profile', 'Update',
-                   profile_params.merge(aggregate_id: member_id))
+    Commands.handle('Profile', 'Update',
+                    profile_params.merge(aggregate_id: member_id))
     redirect '/profile'
   end
 

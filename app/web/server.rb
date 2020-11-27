@@ -24,16 +24,4 @@ class Server < Sinatra::Base
   def aggregate_id
     @aggregate_id ||= SecureRandom.uuid
   end
-
-  protected
-
-  ##
-  # Helper to run the common pattern of one handler per command, in the
-  # same namespace.
-  def handle_command(root, name, params)
-    command = Object.const_get("Commands::#{root}::#{name}::Command")
-                    .new(params)
-    Object.const_get("Commands::#{root}::#{name}::CommandHandler")
-          .new(command: command).handle
-  end
 end
