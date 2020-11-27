@@ -4,13 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Flockingbird - <%= yield_content :title %></title>
-    <link rel="stylesheet" href="/css/bulma.min.css">
-    <style type="text/css" media="all">
-      .is-vertical-center {
-        display: flex;
-        align-items: center;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/vendor/bulma.min.css">
+    <link rel="stylesheet" href="/css/vendor/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/css/application.css">
     <script charset="utf-8">
       document.addEventListener('DOMContentLoaded', () => {
         (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
