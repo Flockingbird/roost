@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../members/query'
+
 module Projections
   module Updates
     ##
