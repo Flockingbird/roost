@@ -1,5 +1,11 @@
 <%- content_for(:title, "My profile") %>
+<div class="masthead"></div>
 <div class="profile-card">
+  <div class="is-horizontal-center is-flex">
+    <figure class="avatar image is-inline-block is-96x96">
+      <img class="is-rounded" src="https://placekitten.com/96/96">
+    </figure>
+  </div>
   <div class="level is-mobile">
     <div class="level-left">
       <h1 class="title is-5"><%= profile.name %></h1>
@@ -18,6 +24,5 @@
     </p>
 
   </div>
-  <p class="bio"><%= profile.bio %>
-  </p>
+  <p class="bio"><%= profile.bio %></p>
 </div>

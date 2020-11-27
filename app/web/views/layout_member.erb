@@ -6,22 +6,7 @@
     <title>Flockingbird - <%= yield_content :title %></title>
     <link rel="stylesheet" href="/css/vendor/bulma.min.css">
     <link rel="stylesheet" href="/css/vendor/materialdesignicons.min.css">
-    <style type="text/css" media="all">
-      .is-vertical-center {
-        display: flex;
-        align-items: center;
-      }
-      .navbar,
-      .navbar-start {
-        display: flex;
-      }
-      .navbar .navbar-item {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/application.css">
     <script charset="utf-8">
       document.addEventListener('DOMContentLoaded', () => {
         (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
