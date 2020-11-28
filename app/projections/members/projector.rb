@@ -32,6 +32,11 @@ module Projections
         table.where(member_id: event.aggregate_id)
              .update(bio: event.body['bio'])
       end
+
+      project MemberNameUpdated do |event|
+        table.where(member_id: event.aggregate_id)
+             .update(name: event.body['name'])
+      end
     end
   end
 end

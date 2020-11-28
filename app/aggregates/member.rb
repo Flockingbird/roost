@@ -21,6 +21,10 @@ module Aggregates
       write_attributes(event.body.slice('bio'))
     end
 
+    apply MemberNameUpdated do |event|
+      write_attributes(event.body.slice('name'))
+    end
+
     def add_member(payload)
       apply_event(MemberAdded, aggregate_id: id, body: payload)
       self
@@ -39,8 +43,20 @@ module Aggregates
       self
     end
 
+    def update_name(payload)
+      new_name = payload.slice('name')
+      return self if name == new_name['name'].to_s
+
+      apply_event(MemberNameUpdated, aggregate_id: id, body: new_name)
+      self
+    end
+
     def bio
       attributes[:bio]
+    end
+
+    def name
+      attributes[:name]
     end
   end
 end

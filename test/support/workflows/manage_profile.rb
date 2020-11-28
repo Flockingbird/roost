@@ -11,10 +11,11 @@ module Workflows
 
     def bio_updated
       click_icon('pencil')
-      fill_in('bio', with: form_attributes[:bio])
+      fill_in('name', with: form_attributes[:name]) if form_attributes[:name]
+      fill_in('bio', with: form_attributes[:bio]) if form_attributes[:bio]
       click_button('Update')
 
-      process_events(%w[member_bio_updated])
+      process_events(%w[member_bio_updated member_name_updated])
       page
     end
 

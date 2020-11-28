@@ -12,12 +12,22 @@ module Commands
 
       # Handler for Confirm::Command
       class CommandHandler < ApplicationCommandHandler
-        def aggregate_class
-          Aggregates::Member
+        ##
+        # Overridden from ApplicationCommandHandler because we want
+        # to call multiple methods on the aggregate root, based
+        # on conditions
+        def handle
+          command.validate
+
+          applied_aggregate = aggregate.update_bio(command.payload)
+                                       .update_name(command.payload)
+
+          repository.save(applied_aggregate)
+          applied_aggregate
         end
 
-        def aggregate_method
-          :update_bio
+        def aggregate_class
+          Aggregates::Member
         end
       end
     end
