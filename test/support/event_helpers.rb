@@ -3,6 +3,14 @@
 ##
 # Helpers for testing events.
 module EventHelpers
+  def assert_aggregate_has_event(klass)
+    assert_includes(subject.changes.map(&:class), klass)
+  end
+
+  def refute_aggregate_has_event(klass)
+    refute_includes(subject.changes.map(&:class), klass)
+  end
+
   def last_event(aggregate_id = nil)
     unless aggregate_id
       event_id = event_store.latest_event_id

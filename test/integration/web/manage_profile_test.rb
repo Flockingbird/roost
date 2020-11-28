@@ -53,7 +53,7 @@ class MemberManagesProfileTest < Minitest::WebSpec
     # to the form making the PUT without being logged in.
   end
 
-  it 'notifies you and all other members on the instance' do
+  it 'notifies you and all other members on the instance of bio update' do
     as(harry)
     manage_profile(bio: bio).upto(:bio_updated)
     main_menu('Updates').click
