@@ -1,5 +1,19 @@
 <%- updates.each do |update| %>
-  <h2><%= update.author %></h2>
-  <span title="<%= update.posted_at %>"><%= update.posted_on %></span>
-  <p><%= update.text %></p>
+  <article class="media">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <img class="is-rounded" src="https://placekitten.com/96/96">
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <p>
+        <strong><%= update.author %></strong>
+        <small title="<%= update.posted_at %>"><%= update.posted_on %></small>
+        <br />
+        <%= update.text %>
+        </p>
+      </div>
+    </div>
+  </article>
 <% end %>
