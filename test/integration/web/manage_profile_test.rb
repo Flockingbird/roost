@@ -64,8 +64,7 @@ class MemberManagesProfileTest < Minitest::WebSpec
 
     as(ron)
     main_menu('Updates').click
-    assert_content 'hpotter@example.com'
-    assert_content Date.today
+    assert_content "hpotter@example.com #{Date.today}"
     # Until harry has changed their name, we render their handle
     assert_content "hpotter@example.com updated their bio to #{bio}"
   end

@@ -62,15 +62,15 @@ module Aggregates
     end
 
     def email
-      @attributes[:email]
+      attributes[:email]
     end
 
     def password
-      @attributes[:password]
+      attributes[:password]
     end
 
     def username
-      @attributes[:username]
+      attributes[:username]
     end
   end
 end

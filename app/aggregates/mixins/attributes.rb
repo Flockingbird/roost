@@ -4,15 +4,12 @@ module Aggregates
   ##
   # Generic aggregate behaviour
   module Attributes
-    attr_reader :attributes
-
-    def initialize(*arguments)
-      @attributes = Hash.new('')
-      super(*arguments)
+    def write_attributes(new_attributes)
+      attributes.merge!(new_attributes.transform_keys(&:to_sym))
     end
 
-    def write_attributes(attributes)
-      @attributes.merge!(attributes.transform_keys(&:to_sym))
+    def attributes
+      @attributes ||= Hash.new('')
     end
   end
 end

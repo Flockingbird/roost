@@ -9,10 +9,14 @@ module Workflows
       page
     end
 
-    def bio_updated
+    def profile_edit_visited
       click_icon('pencil')
-      fill_in('name', with: form_attributes[:name]) if form_attributes[:name]
-      fill_in('bio', with: form_attributes[:bio]) if form_attributes[:bio]
+      page
+    end
+
+    def bio_updated
+      fill_in('name', with: name)
+      fill_in('bio', with: bio)
       click_button('Update')
 
       process_events(%w[member_bio_updated member_name_updated])
@@ -21,8 +25,16 @@ module Workflows
 
     private
 
+    def name
+      form_attributes[:name]
+    end
+
+    def bio
+      form_attributes[:bio]
+    end
+
     def steps
-      %i[profile_visited bio_updated].freeze
+      %i[profile_visited profile_edit_visited bio_updated].freeze
     end
   end
 end

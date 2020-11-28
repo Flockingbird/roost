@@ -19,8 +19,7 @@ module Commands
         def handle
           command.validate
 
-          applied_aggregate = aggregate.update_bio(command.payload)
-                                       .update_name(command.payload)
+          applied_aggregate = aggregate.update_bio(payload).update_name(payload)
 
           repository.save(applied_aggregate)
           applied_aggregate
@@ -28,6 +27,10 @@ module Commands
 
         def aggregate_class
           Aggregates::Member
+        end
+
+        def payload
+          command.payload
         end
       end
     end
