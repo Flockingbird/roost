@@ -12,7 +12,8 @@ module DataHelpers
   def fake_uuid(klass, sequence)
     klass_n = {
       Aggregates::Member => 1,
-      Aggregates::Registration => 2
+      Aggregates::Registration => 2,
+      Aggregates::Session => 3
     }.fetch(klass, 0)
 
     format(

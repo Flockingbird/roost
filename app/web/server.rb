@@ -18,9 +18,7 @@ class Server < Sinatra::Base
   end
 
   def current_member
-    @current_member ||= Projections::Members::Query.find(
-      request.env['jwt.payload']['sub']
-    )
+    @current_member ||= Projections::Members::Query.find(member_id)
   end
 
   def aggregate_id

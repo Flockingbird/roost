@@ -13,7 +13,8 @@ require_relative 'support/file_helpers'
 require_relative 'support/mail_helpers'
 require_relative 'support/request_helpers'
 require_relative 'support/time_helpers'
-require_relative 'support/workflows/base'
+require_relative 'support/web_test_helpers'
+require_relative 'support/workflows'
 
 require 'simplecov'
 SimpleCov.start
@@ -38,6 +39,7 @@ module Minitest
     include MailHelpers
     include RequestHelpers
     include TimeHelpers
+    include Workflows
 
     EventSourcery.configure do |config|
       config.logger = Logger.new(nil)
@@ -61,6 +63,7 @@ module Minitest
   class WebSpec < Spec
     include Capybara::DSL
     include Capybara::Minitest::Assertions
+    include WebTestHelpers
 
     def app
       WebServer.new
@@ -69,6 +72,7 @@ module Minitest
     def setup
       Capybara.app = app
       Capybara.default_driver = :rack_test
+      Capybara.save_path = Roost.root.join('tmp')
       super
     end
 

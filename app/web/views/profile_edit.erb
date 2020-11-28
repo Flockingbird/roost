@@ -1,0 +1,20 @@
+<form action="/profile" method="post">
+<input type="hidden" name="_method" value="put" />
+
+  <div class="field">
+    <label class="label" for="name">Name</label>
+    <div class="control">
+      <input name="name" value="<%= profile.name %>" id="name" class="input" type="text">
+    </div>
+  </div>
+  <div class="field">
+    <label class="label" for="bio">Bio</label>
+    <div class="control">
+      <textarea class="textarea" rows="3" name="bio" id="bio"><%= profile.bio %></textarea>
+    </div>
+  </div>
+  <p class="help mb-3">Your name and bio are always public, anyone can see it.</p>
+  <div class="control ">
+    <button class="button is-primary">Update</button>
+  </div>
+</form>

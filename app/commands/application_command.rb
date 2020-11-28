@@ -12,9 +12,7 @@ module Commands
     end
 
     def validate
-      unless @aggregate_id
-        raise ArgumentError, 'expected aggregate_id to be set'
-      end
+      raise ArgumentError, 'expected aggregate_id to be set' unless aggregate_id
 
       true
     end

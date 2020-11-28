@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require_relative '../support/workflows/member_registers'
 
+##
+# As a member of flockingbird
+# When my session was ended
+# Then I want to log in with my credentials
+# So that I can use the app as a member
 class MemberLogsInTest < Minitest::WebSpec
   describe 'registered user' do
     before do
-      @workflow = Workflows::MemberRegisters.new(self)
+      @workflow = member_registers
       @workflow.upto(:confirmed)
       # TODO: once confirmed, aren't we logged in already?
 

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Workflows
+  ##
+  # Worflow to add a member through the database/events
   class AddMember < Base
     include EventHelpers
 

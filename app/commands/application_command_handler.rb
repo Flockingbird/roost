@@ -23,6 +23,7 @@ module Commands
       )
 
       repository.save(applied_aggregate)
+      applied_aggregate
     end
 
     protected

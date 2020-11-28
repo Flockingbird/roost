@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../aggregates/registration.rb'
-
 module Projections
   module Members
     ##
@@ -16,29 +14,28 @@ module Projections
         column :username, :text
         column :password, :text
         column :name, :text
+        column :bio, :text
         column :email, :text
       end
 
       project MemberAdded do |event|
         table.insert(
           member_id: event.aggregate_id,
+          username: event.body['username'],
+          password: event.body['password'],
           name: event.body['name'],
           email: event.body['email']
         )
       end
 
-      project RegistrationConfirmed do |event|
-        registration = Roost.repository.load(
-          Aggregates::Registration,
-          event.aggregate_id
-        )
-        table.insert(
-          member_id: event.aggregate_id,
-          username: registration.username,
-          password: registration.password,
-          email: registration.email,
-          name: nil
-        )
+      project MemberBioUpdated do |event|
+        table.where(member_id: event.aggregate_id)
+             .update(bio: event.body['bio'])
+      end
+
+      project MemberNameUpdated do |event|
+        table.where(member_id: event.aggregate_id)
+             .update(name: event.body['name'])
       end
     end
   end

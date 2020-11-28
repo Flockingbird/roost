@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require_relative '../support/workflows/member_registers'
 
+##
+# As a visitor
+# When I decide to join the community
+# Then I need to register and confirm my emailaddress
+# So that I have login credentials
+# And so that no-one can use my email as if they are me.
 class VisitorRegistersTest < Minitest::WebSpec
   describe 'with open registrations' do
     it 'sends an email' do
-      Workflows::MemberRegisters.new(self).upto(:registered)
+      member_registers.upto(:registered)
 
       assert_content(
         find('.notification'),
@@ -23,7 +28,7 @@ class VisitorRegistersTest < Minitest::WebSpec
     end
 
     it 'confirms the email by clicking the link in the email' do
-      Workflows::MemberRegisters.new(self).upto(:confirmed)
+      member_registers.upto(:confirmed)
 
       assert_content(
         find('.notification'),
@@ -32,7 +37,7 @@ class VisitorRegistersTest < Minitest::WebSpec
     end
 
     it 'can register only once per email address' do
-      workflow = Workflows::MemberRegisters.new(self)
+      workflow = member_registers
       workflow.upto(:registered)
       assert_mail_deliveries(1)
 
@@ -46,7 +51,7 @@ class VisitorRegistersTest < Minitest::WebSpec
     end
 
     it 'can confirm only once' do
-      workflow = Workflows::MemberRegisters.new(self)
+      workflow = member_registers
       workflow.upto(:confirmed)
 
       # Confirm again
@@ -61,7 +66,7 @@ class VisitorRegistersTest < Minitest::WebSpec
 
     it 'must provide all attributes' do
       # We only test with a missing username
-      Workflows::MemberRegisters.new(self, { username: '' }).upto(:registered)
+      member_registers({ username: '' }).upto(:registered)
 
       assert_content(
         find('.notification.is-error'),

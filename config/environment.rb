@@ -72,10 +72,12 @@ class Roost
 
   def self.all_processors
     [
-      Projections::Members::Projector,
       Reactors::InvitationMailer,
       Reactors::ConfirmationMailer,
-      Projections::Invitations::Projector
+      Reactors::MemberGenerator,
+      Projections::Invitations::Projector,
+      Projections::Members::Projector,
+      Projections::Updates::Projector
     ]
   end
 
@@ -98,7 +100,7 @@ unless Roost.production?
 end
 
 Roost.configure do |config|
-  config.web_url = 'https://www.example.com'
+  config.web_url = 'https://example.com'
   config.secret_base = ENV['SECRET_BASE']
   config.database_url = ENV['DATABASE_URL']
 

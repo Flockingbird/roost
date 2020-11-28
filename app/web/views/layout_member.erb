@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flockingbird - <%= yield_content :title %></title>
+    <link rel="stylesheet" href="/css/vendor/bulma.min.css">
+    <link rel="stylesheet" href="/css/vendor/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/css/application.css">
+    <script charset="utf-8">
+      document.addEventListener('DOMContentLoaded', () => {
+        (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+          var $notification = $delete.parentNode;
+
+          $delete.addEventListener('click', () => {
+            $notification.parentNode.removeChild($notification);
+          });
+        });
+      });
+    </script>
+  </head>
+  <body class="has-navbar-fixed-bottom">
+  <section class="section">
+    <div class="container">
+      <%= yield %>
+    </div>
+    <nav class="navbar is-mobile-navbar is-white is-fixed-bottom" role="navigation" aria-label="main navigation">
+      <div class="navbar-menu is-active">
+        <div class="navbar-start">
+          <a class="navbar-item is-tab is-active" href="/profile">
+            <span class="icon is-large"><i class="mdi mdi-48px mdi-account-circle"></i></span>
+            <span class="is-hidden">My profile</span>
+          </a>
+          <a class="navbar-item" href="/contacts">
+            <span class="icon is-large"><i class="mdi mdi-48px mdi-account-multiple-outline"></i></span>
+            <span class="is-hidden">People</span>
+          </a>
+          <a class="navbar-item" href="/add">
+            <span class="icon is-large"><i class="mdi mdi-48px mdi-plus"></i></span>
+            <span class="is-hidden">Add</span>
+          </a>
+          <a class="navbar-item" href="/updates">
+            <span class="icon is-large"><i class="mdi mdi-48px mdi-bell"></i></span>
+            <span class="is-hidden">Updates</span>
+          </a>
+          <a class="navbar-item" href="/search">
+            <span class="icon is-large"><i class="mdi mdi-48px mdi-magnify"></i></span>
+            <span class="is-hidden">Search</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>

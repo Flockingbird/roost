@@ -62,4 +62,8 @@ class ApiServer < Server
   def invitation_url(id)
     URI.join(request.base_url, "/invitations/#{id}").to_s
   end
+
+  def member_id
+    request.env['jwt.payload']['sub']
+  end
 end

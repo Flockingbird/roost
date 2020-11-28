@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'mixins/attributes'
+
 module Aggregates
   ##
   # A +Registration+ represents a person who has registered but is not a
@@ -7,16 +9,14 @@ module Aggregates
   # It will become a +Member+ on finishing the registration.
   class Registration
     include EventSourcery::AggregateRoot
+    include Attributes
 
     # A Registration can only be confirmed once.
     AlreadyConfirmedError = Class.new(StandardError)
     # Only one email is allowed to be sent per Registration Aggregate
     EmailAlreadySentError = Class.new(StandardError)
 
-    attr_reader :attributes
-
     def initialize(*arguments)
-      @attributes = Hash.new('')
       @confirmation_email_sent = false
       @confirmed = false
 
@@ -56,27 +56,21 @@ module Aggregates
       apply_event(
         RegistrationConfirmed,
         aggregate_id: id,
-        body: payload
+        body: payload.merge(attributes)
       )
       self
     end
 
     def email
-      @attributes[:email]
+      attributes[:email]
     end
 
     def password
-      @attributes[:password]
+      attributes[:password]
     end
 
     def username
-      @attributes[:username]
-    end
-
-    private
-
-    def write_attributes(attributes)
-      @attributes.merge!(attributes.transform_keys(&:to_sym))
+      attributes[:username]
     end
   end
 end

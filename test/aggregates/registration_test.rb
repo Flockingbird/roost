@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 module Aggregates
+  ##
+  # Unit test for the more complex logic in Registration Aggregate
   class RegistrationTest < Minitest::Spec
+    subject do
+      Aggregates::Registration.new(fake_uuid(Aggregates::Registration, 1), [])
+    end
+
     let(:payload) do
       {
         username: 'hpotter',
@@ -14,7 +20,7 @@ module Aggregates
       before { subject.request(payload) }
 
       it 'emits RegistrationRequested event' do
-        assert_includes(subject.changes.map(&:class), RegistrationRequested)
+        assert_aggregate_has_event(RegistrationRequested)
       end
 
       it 'sets username' do
@@ -31,18 +37,18 @@ module Aggregates
     end
 
     describe 'confirm' do
-      it 'emits RegistrationConfirmed event' do
-        subject.confirm(payload)
-        assert_includes(subject.changes.map(&:class), RegistrationConfirmed)
+      before do
+        subject.request(payload)
+        subject.confirm({})
       end
-    end
 
-    private
+      it 'emits RegistrationConfirmed event' do
+        assert_aggregate_has_event(RegistrationConfirmed)
+      end
 
-    def subject
-      @subject ||= Aggregates::Registration.new(
-        fake_uuid(Aggregates::Registration, 1), []
-      )
+      it 'adds username email and password to event' do
+        assert_equal(subject.changes.last.body, payload.transform_keys(&:to_s))
+      end
     end
   end
 end

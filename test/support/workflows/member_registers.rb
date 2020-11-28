@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Workflows
+  ##
+  # Workflow to register as a new member
   class MemberRegisters < Base
     def registered
       visit '/'
@@ -10,13 +12,14 @@ module Workflows
       fill_in('Password', with: form_attributes[:password])
       fill_in('Email', with: form_attributes[:email])
       click_button('Register')
+
       process_events(%w[registration_requested])
       page
     end
 
     def confirmed
       visit confirmation_path_from_mail
-      process_events(%w[registration_confirmed])
+      process_events(%w[registration_confirmed member_added])
       page
     end
 
@@ -31,12 +34,11 @@ module Workflows
     private
 
     def confirmation_path_from_mail
-      mail = Mail::TestMailer.deliveries.find do |email|
+      mail = Mail::TestMailer.deliveries.reverse.find do |email|
         email.subject.match?(/Please confirm your email address/)
       end
 
       refute_nil(mail)
-
       base_url = Roost.config.web_url
       path = mail.body.match(%r{#{base_url}(/confirmation/.*)})
       path[1]
