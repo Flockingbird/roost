@@ -12,6 +12,7 @@ gem 'rack-jwt', git: 'https://github.com/uplisting/rack-jwt.git',
 gem 'rake'
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'sinatra-flash'
 # NOTE: pg is an implicit dependency of event_sourcery-postgres but we need to
 # lock to an older version for deprecation warnings.
 gem 'pg', '0.20.0'

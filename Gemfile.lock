@@ -142,6 +142,8 @@ GEM
       rack-protection (= 2.1.0)
       sinatra (= 2.1.0)
       tilt (~> 2.0)
+    sinatra-flash (0.3.0)
+      sinatra (>= 1.0.0)
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -182,6 +184,7 @@ DEPENDENCIES
   simplecov (~> 0.17.0)
   sinatra
   sinatra-contrib
+  sinatra-flash
   uuidtools
 
 BUNDLED WITH

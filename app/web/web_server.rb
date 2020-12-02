@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'sinatra/contrib'
+require 'sinatra/flash'
 require_relative 'server'
 
 Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
@@ -11,6 +12,7 @@ Dir.glob("#{__dir__}/view_models/*.rb").sort.each { |f| require f }
 # requests
 class WebServer < Server
   use Rack::MethodOverride
+  register Sinatra::Flash
   helpers Sinatra::ContentFor
 
   enable :sessions
@@ -41,11 +43,12 @@ class WebServer < Server
   get('/login') { erb :login, layout: :layout_anonymous }
   get('/register') { erb :register, layout: :layout_anonymous }
   get('/contacts') { erb :contacts, layout: :layout_member }
-  get('/register/success') { erb :register_success, layout: :layout_anonymous }
 
   post '/register' do
     Commands.handle('Registration', 'NewRegistration', registration_params)
-    redirect '/register/success'
+    flash[:success] = 'Registration email sent. <small>Please check your spam
+    folder too.</small>'
+    redirect '/'
   rescue Aggregates::Registration::EmailAlreadySentError
     render_error(
       'Emailaddress is already registered. Do you want to login instead?'
@@ -66,6 +69,7 @@ class WebServer < Server
   post '/login' do
     session_aggregate = Commands.handle('Session', 'Start', login_params)
     session[:member_id] = session_aggregate.member_id
+    flash[:success] = 'Login Successful'
     redirect '/contacts'
   end
 
@@ -99,6 +103,15 @@ class WebServer < Server
   end
 
   private
+
+  def notifications
+    flash(:flash).collect do |message|
+      %(<div class="notification is-#{message[0]}">
+        <button class="delete"></button>
+        #{message[1]}
+      </div>)
+    end.join
+  end
 
   def requires_authorization
     raise Unauthorized unless current_member[:member_id]
