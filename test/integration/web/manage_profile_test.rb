@@ -10,23 +10,8 @@ require 'test_helper'
 class MemberManagesProfileTest < Minitest::WebSpec
   let(:bio) { 'Fought a snakey guy, now proud father and civil servant' }
   let(:public_name) { 'Harry James Potter' }
-  let(:harry) do
-    registers = member_registers
-    registers.upto(:confirmed)
 
-    member_registers.form_attributes
-  end
-  let(:ron) do
-    ron = { username: 'ron', email: 'ron@example.org', password: 'secret' }
-    member_registers(ron).upto(:confirmed).html
-
-    ron
-  end
-
-  before do
-    harry
-    ron
-  end
+  before { harry && ron }
 
   it 'changes the public biography and name' do
     as(harry) do

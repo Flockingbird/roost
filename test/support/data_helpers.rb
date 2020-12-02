@@ -30,4 +30,18 @@ module DataHelpers
   def json_fixtures(file)
     JSON.parse(File.read(fixtures(file)), symbolize_names: true)
   end
+
+  def harry
+    registers = member_registers
+    registers.upto(:confirmed)
+
+    member_registers.form_attributes
+  end
+
+  def ron
+    ron = { username: 'ron', email: 'ron@example.org', password: 'secret' }
+    member_registers(ron).upto(:confirmed).html
+
+    ron
+  end
 end
