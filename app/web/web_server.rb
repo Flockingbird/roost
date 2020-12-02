@@ -75,7 +75,8 @@ class WebServer < Server
 
   get '/profile' do
     requires_authorization
-    erb :profile, layout: :layout_member, locals: { profile: current_member }
+    profile = ViewModels::Profile.new(current_member)
+    erb :profile, layout: :layout_member, locals: { profile: profile }
   end
 
   put '/profile' do
@@ -87,11 +88,8 @@ class WebServer < Server
 
   get '/profile/edit' do
     requires_authorization
-    erb(
-      :profile_edit,
-      layout: :layout_member,
-      locals: { profile: current_member }
-    )
+    profile = ViewModels::Profile.new(current_member)
+    erb(:profile_edit, layout: :layout_member, locals: { profile: profile })
   end
 
   get '/updates' do
@@ -113,10 +111,6 @@ class WebServer < Server
     end.join
   end
 
-  def requires_authorization
-    raise Unauthorized unless current_member[:member_id]
-  end
-
   def registration_params
     params.slice('username', 'password', 'email')
   end
@@ -132,10 +126,6 @@ class WebServer < Server
   def render_error(message)
     content_for(:title, 'Error')
     erb(:error, locals: { message: message }, layout: :layout_anonymous)
-  end
-
-  def current_member
-    OpenStruct.new(super)
   end
 
   def member_id

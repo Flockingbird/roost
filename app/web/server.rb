@@ -17,6 +17,12 @@ class Server < Sinatra::Base
     # :nocov:
   end
 
+  protected
+
+  def requires_authorization
+    raise Unauthorized unless current_member
+  end
+
   def current_member
     @current_member ||= Projections::Members::Query.find(member_id)
   end
