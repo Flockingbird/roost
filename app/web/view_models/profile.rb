@@ -9,7 +9,7 @@ module ViewModels
     end
 
     def handle
-      "@#{username}@#{Roost.config.web_url}"
+      Handle.new(username)
     end
 
     def updated_on

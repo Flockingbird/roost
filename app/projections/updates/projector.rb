@@ -80,8 +80,7 @@ module Projections
       end
 
       def handle
-        domain = URI.parse(Roost.config.web_url).host
-        "#{username}@#{domain}"
+        Handle.new(username).to_s
       end
     end
   end

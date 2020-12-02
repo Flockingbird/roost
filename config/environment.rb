@@ -116,3 +116,5 @@ Roost.configure do |config|
     )
   end
 end
+
+require Roost.root.join('lib/handle')
