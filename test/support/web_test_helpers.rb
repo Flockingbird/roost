@@ -14,4 +14,10 @@ module WebTestHelpers
   def main_menu(identifier)
     find('nav.navbar a', text: identifier)
   end
+
+  ##
+  # Find a status message
+  def flash(type)
+    find(".notification.is-#{type}")
+  end
 end
