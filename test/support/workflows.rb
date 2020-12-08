@@ -7,6 +7,10 @@ Dir["#{__dir__}/workflows/*.rb"].sort.each { |file| require file }
 ##
 # Workflows are classes that walk us through steps using the official interface.
 module Workflows
+  def adds_contact(form_attributes = {})
+    factory(AddsContact, form_attributes)
+  end
+
   def manage_profile(form_attributes = {})
     factory(ManageProfile, form_attributes)
   end
@@ -17,6 +21,10 @@ module Workflows
 
   def member_registers(form_attributes = {})
     factory(MemberRegisters, form_attributes)
+  end
+
+  def discover_member(form_attributes = {})
+    factory(DiscoversMember, form_attributes)
   end
 
   # login helper

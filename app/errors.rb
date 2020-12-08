@@ -4,6 +4,9 @@
 # HTTP 400 bad Request
 BadRequest = Class.new(StandardError)
 ##
+# HTTP 404 not found
+NotFound = Class.new(StandardError)
+##
 # HTTP 401 Unauthorized
 Unauthorized = Class.new(StandardError)
 ##

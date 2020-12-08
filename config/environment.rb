@@ -75,6 +75,7 @@ class Roost
       Reactors::InvitationMailer,
       Reactors::ConfirmationMailer,
       Reactors::MemberGenerator,
+      Projections::Contacts::Projector,
       Projections::Invitations::Projector,
       Projections::Members::Projector,
       Projections::Updates::Projector

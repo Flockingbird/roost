@@ -28,6 +28,11 @@ class WebServer < Server
     status 400
   end
 
+  error NotFound do |error|
+    body render_error(error.message)
+    status 404
+  end
+
   error Unauthorized do |_error|
     # TODO: render the login form below
     body render_error(
@@ -42,7 +47,6 @@ class WebServer < Server
   get('/') { erb :home }
   get('/login') { erb :login, layout: :layout_anonymous }
   get('/register') { erb :register, layout: :layout_anonymous }
-  get('/contacts') { erb :contacts, layout: :layout_member }
 
   post '/register' do
     Commands.handle('Registration', 'NewRegistration', registration_params)
@@ -64,6 +68,18 @@ class WebServer < Server
       'Could not confirm. Maybe the link in the email expired, or was'\
       ' already used?'
     )
+  end
+
+  # TODO: /@handle should redirect to /@handle@example.org when we are
+  # on example.org
+  get '/@:handle' do
+    member = Projections::Members::Query.find_by(
+      username: Handle.parse(params[:handle]).username
+    )
+    raise NotFound, 'Member with that handle not found' unless member
+
+    profile = ViewModels::Profile.new(member)
+    erb(:profile, layout: :layout_member, locals: { profile: profile })
   end
 
   post '/login' do
@@ -90,6 +106,23 @@ class WebServer < Server
     requires_authorization
     profile = ViewModels::Profile.new(current_member)
     erb(:profile_edit, layout: :layout_member, locals: { profile: profile })
+  end
+
+  get '/contacts' do
+    contacts = ViewModels::Profile.from_collection(
+      Projections::Contacts::Query.for_member(member_id)
+    )
+    erb :contacts, layout: :layout_member, locals: { contacts: contacts }
+  end
+
+  post '/contacts' do
+    requires_authorization
+    handle = params['handle']
+    Commands.handle('Contact', 'Add',
+                    { 'handle' => handle, 'owner_id' => member_id })
+
+    flash[:success] = "#{handle} was added to your contacts"
+    redirect "/#{handle}"
   end
 
   get '/updates' do

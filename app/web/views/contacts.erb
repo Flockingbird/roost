@@ -1,2 +1,22 @@
 <%- content_for(:title, "Your contacts") %>
 <h2 class="title">Your contacts</h2>
+<%- contacts.each do |contact| %>
+  <article class="media">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <img class="is-rounded" src="https://placekitten.com/96/96">
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <p>
+        <strong><%= contact.name %></strong>
+        <small><%= contact.handle %></strong>
+        <small title="<%= contact.updated_at %>"><%= contact.updated_on %></small>
+        <br />
+        <%= contact.bio %>
+        </p>
+      </div>
+    </div>
+  </article>
+<% end %>

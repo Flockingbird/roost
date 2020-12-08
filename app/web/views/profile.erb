@@ -12,18 +12,20 @@
       <%= profile.handle %>
     </div>
     <p class="buttons level-right">
-    <a class="button">
-      <span class="icon is-small">
-        <i class="mdi mdi-account-plus"></i>
-      </span>
-    </a>
+    <form method="post" action="/contacts">
+    <input type="hidden" name="handle" value="<%= profile.handle %>"/>
+      <button>
+        <span class="icon is-small">
+          <i class="mdi mdi-account-plus"></i>
+        </span>
+      </button>
+    </form>
     <a class="button" href="/profile/edit">
       <span class="icon is-small">
         <i class="mdi mdi-pencil"></i>
       </span>
     </a>
     </p>
-
   </div>
   <p class="bio"><%= profile.bio %></p>
 </div>
