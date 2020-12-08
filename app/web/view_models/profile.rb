@@ -13,7 +13,7 @@ module ViewModels
     end
 
     def updated_on
-      updated_on.to_date
+      updated_at&.to_date
     end
   end
 end
