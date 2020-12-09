@@ -28,6 +28,20 @@ class MemberAddsToContactsTest < Minitest::WebSpec
     end
   end
 
+  it 'gets a notification when someone added me as a contact' do
+    as(harry) do
+      discover_member(username: ron[:username]).upto(:profile_visited)
+      adds_contact.upto(:contact_added)
+    end
+
+    as(ron) do
+      main_menu('Updates').click
+      assert_content "hpotter@example.com #{Date.today}"
+      # Until harry has changed their name, we render their handle
+      assert_content 'hpotter@example.com added you to their contacts'
+    end
+  end
+
   it 'cannot add itself to contacts'
   it 'can add a contact only once'
   it 'can only add a contact when logged in'

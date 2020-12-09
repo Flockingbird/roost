@@ -51,7 +51,7 @@ module Projections
 
       project MemberBioUpdated do |event|
         author = AuthorRecord.new(Members::Query.find(event.aggregate_id))
-        update = UpdateRecord.new(event.body.merge(author: author))
+        update = BioUpdateRecord.new(event.body.merge(author: author))
 
         # Insert a record for each local member.
         Members::Query.collection.select(:member_id).each do |attrs|
@@ -63,17 +63,49 @@ module Projections
           )
         end
       end
+
+      project ContactAdded do |event|
+        author = AuthorRecord.new(Members::Query.find(event.body['owner_id']))
+        update = AddedContact.new(event.body.merge(author: author))
+
+        handle = Handle.parse(event.body['handle'])
+        recepient = Members::Query.find_by(username: handle.username)
+
+        table.insert(
+          for: recepient[:member_id],
+          author: author.handle,
+          posted_at: DateTime.now,
+          text: update.text
+        )
+      end
     end
 
     ##
-    # Projection helper to prepare attributes of Update for projection
+    # Represents a generic Update that can projected
     class UpdateRecord < OpenStruct
+      def text
+        ''
+      end
+    end
+
+    ##
+    # Represents an update to someones profile bio that can be projected
+    class BioUpdateRecord < UpdateRecord
       def text
         "#{author.name} updated their bio to #{bio}"
       end
     end
 
-    # Projection helper to prepare attributes of Update Author for projection
+    ##
+    # Represents an update to someones profile bio that can be projected
+    class AddedContact < UpdateRecord
+      def text
+        "#{author.name} added you to their contacts"
+      end
+    end
+
+    ##
+    # Represents the author of an update
     class AuthorRecord < OpenStruct
       def name
         super || handle
