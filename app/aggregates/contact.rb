@@ -7,6 +7,12 @@ module Aggregates
   class Contact
     include EventSourcery::AggregateRoot
 
+    def initialize(*arguments)
+      super(*arguments)
+
+      @added = false
+    end
+
     apply ContactAdded do
       @added = true
     end
