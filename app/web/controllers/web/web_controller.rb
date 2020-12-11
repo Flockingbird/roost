@@ -45,10 +45,7 @@ module Web
 
     def notifications
       flash(:flash).collect do |message|
-        %(<div class="notification is-#{message[0]}">
-        <button class="delete"></button>
-        #{message[1]}
-      </div>)
+        erb(:notification, locals: { message: message })
       end.join
     end
 
