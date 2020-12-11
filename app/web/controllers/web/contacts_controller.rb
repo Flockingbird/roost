@@ -20,7 +20,7 @@ module Web
                       { 'handle' => handle.to_s, 'owner_id' => member_id })
 
       flash[:success] = "#{handle} was added to your contacts"
-      redirect "/m/@#{handle.username}"
+      redirect "/m/#{handle}"
     end
   end
 end

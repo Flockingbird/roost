@@ -8,9 +8,8 @@ module Aggregates
     include EventSourcery::AggregateRoot
 
     def initialize(*arguments)
-      super(*arguments)
-
       @added = false
+      super(*arguments)
     end
 
     apply ContactAdded do

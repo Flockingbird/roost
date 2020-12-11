@@ -37,7 +37,17 @@ class MemberAddsToContactsTest < Minitest::WebSpec
     end
   end
 
+  it 'can add a contact only once' do
+    # Ran in before, run again.
+    discover_member(username: ron[:username]).upto(:profile_visited)
+    adds_contact.upto(:contact_added)
+
+    assert_content(
+      flash(:error),
+      'Contact is already added'
+    )
+  end
+
   it 'cannot add itself to contacts'
-  it 'can add a contact only once'
   it 'can only add a contact when logged in'
 end

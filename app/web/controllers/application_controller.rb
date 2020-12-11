@@ -28,8 +28,4 @@ class ApplicationController < Sinatra::Base
   def current_member
     @current_member ||= Projections::Members::Query.find(member_id)
   end
-
-  def aggregate_id
-    @aggregate_id ||= SecureRandom.uuid
-  end
 end

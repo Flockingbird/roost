@@ -27,7 +27,7 @@ clean:
 	docker rm $(CONTAINER_NAME)
 
 run:
-	parallel --line-buffer ::: "$(CMD_PREFIX) rackup --port=9292 web.ru" "$(CMD_PREFIX) rackup shotgun --port=9393 api.ru" "$(CMD_PREFIX) rake run_processors"
+	parallel --line-buffer ::: "$(CMD_PREFIX) rackup --port=9292 config.ru" "$(CMD_PREFIX) rake run_processors"
 
 deploy:
 	$(CMD_PREFIX) cap production deploy
