@@ -33,16 +33,6 @@ module Api
       use Rack::JWT::Auth, jwt_args
     end
 
-    error UnprocessableEntity do |error|
-      body "Unprocessable Entity: #{error.message}"
-      status 422
-    end
-
-    error BadRequest do |error|
-      body "Bad Request: #{error.message}"
-      status 400
-    end
-
     before do
       content_type :json
     end
