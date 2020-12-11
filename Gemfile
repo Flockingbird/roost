@@ -6,6 +6,7 @@ gem 'event_sourcery', git: 'https://github.com/envato/event_sourcery.git'
 gem 'event_sourcery-postgres', git: 'https://github.com/envato/event_sourcery-postgres.git'
 
 gem 'bcrypt'
+gem 'dotenv', '~> 2.7'
 gem 'mail'
 gem 'rack-jwt', git: 'https://github.com/uplisting/rack-jwt.git',
                 branch: 'allow-excluding-root-path'
@@ -24,7 +25,6 @@ group :development, :test do
   gem 'byebug'
   gem 'capybara'
   gem 'database_cleaner-sequel'
-  gem 'dotenv', '~> 2.7'
   gem 'event_sourcery_generators', git: 'https://github.com/envato/event_sourcery_generators.git'
   gem 'launchy'
   gem 'minitest'
