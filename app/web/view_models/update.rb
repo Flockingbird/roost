@@ -11,5 +11,9 @@ module ViewModels
     def posted_on
       posted_at.to_date
     end
+
+    def posted_at
+      super || NullDateTime.new('never')
+    end
   end
 end

@@ -13,7 +13,11 @@ module ViewModels
     end
 
     def updated_on
-      updated_at&.to_date
+      updated_at.to_date
+    end
+
+    def updated_at
+      super || NullDateTime.new('never')
     end
   end
 end
