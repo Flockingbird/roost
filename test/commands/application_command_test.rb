@@ -2,6 +2,8 @@
 
 require 'test_helper'
 
+##
+# Test the top level command
 class ApplicationCommandTest < Minitest::Spec
   describe 'with aggregate_id' do
     let(:params) { { aggregate_id: SecureRandom.uuid } }

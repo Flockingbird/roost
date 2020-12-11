@@ -3,6 +3,8 @@
 require 'test_helper'
 require 'bcrypt'
 
+##
+# Test the Commands::Contact::Add::Command
 class ContactAddCommandTest < Minitest::Spec
   let(:subject_class) { Commands::Contact::Add::Command }
   subject { subject_class.new(params) }

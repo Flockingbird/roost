@@ -2,6 +2,8 @@
 
 require 'test_helper'
 
+##
+# Test the Handle library
 class HandleTest < Minitest::Spec
   it 'parses @ron@example.org handles and strips the @' do
     assert_equal(Handle.parse('@ron@example.org').username, 'ron')
