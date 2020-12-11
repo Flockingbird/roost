@@ -8,10 +8,8 @@ require 'test_helper'
 # And I visit that profile
 # Then I see the public information by that other member
 class ViewsProfileTest < Minitest::WebSpec
-  before { harry && ron }
-
   it 'cannot view nonexisting members' do
-    visit '/@doesnotexist@example.com'
+    visit '/m/@doesnotexist@example.com'
     assert_equal(page.status_code, 404)
     assert_content(page, 'not found')
   end

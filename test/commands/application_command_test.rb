@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class ApplicatCommandTest < Minitest::Spec
+class ApplicationCommandTest < Minitest::Spec
   describe 'with aggregate_id' do
     let(:params) { { aggregate_id: SecureRandom.uuid } }
 

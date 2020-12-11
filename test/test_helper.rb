@@ -24,10 +24,18 @@ require 'minitest/autorun'
 ENV['APP_ENV'] = ENV['RACK_ENV'] = 'test'
 $LOAD_PATH << '.'
 
+require 'rack/server'
 require 'config/environment'
 require 'config/database'
-require 'app/web/api_server'
-require 'app/web/web_server'
+
+Dir.glob("#{__dir__}/../app/aggregates/*.rb").sort.each { |f| require f }
+Dir.glob("#{__dir__}/../app/projections/**/query.rb")
+   .sort
+   .each { |f| require f }
+
+require_relative '../app/commands/application_command'
+require_relative '../app/commands/application_command_handler'
+Dir.glob("#{__dir__}/../app/commands/**/*.rb").sort.each { |f| require f }
 
 Minitest::Test.make_my_diffs_pretty!
 
@@ -58,16 +66,17 @@ module Minitest
     after :each do
       DatabaseCleaner[:sequel].clean
     end
+
+    def app
+      # Simulate a rackup using the config and routing in config.ru
+      Rack::Server.new(config: Roost.root.join('config.ru').to_s).app
+    end
   end
 
   class WebSpec < Spec
     include Capybara::DSL
     include Capybara::Minitest::Assertions
     include WebTestHelpers
-
-    def app
-      WebServer.new
-    end
 
     def setup
       Capybara.app = app
@@ -84,8 +93,5 @@ module Minitest
   end
 
   class ApiSpec < Spec
-    def app
-      ApiServer.new
-    end
   end
 end

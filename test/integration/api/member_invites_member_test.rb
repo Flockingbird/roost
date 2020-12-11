@@ -26,7 +26,7 @@ class MemberInvitesMemberTest < Minitest::ApiSpec
 
     it 'sends an invitation email' do
       post_json(
-        "/invitations/#{fake_uuid(Aggregates::Member, 1)}",
+        "/api/invitations/#{fake_uuid(Aggregates::Member, 1)}",
         {
           data: {
             type: 'invitation',

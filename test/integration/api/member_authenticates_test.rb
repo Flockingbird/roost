@@ -26,7 +26,7 @@ class MemberAuthenticatesTest < Minitest::ApiSpec
       it 'shows my current session details' do
         token = jwt.encode(authentication_payload, secret, 'HS256')
         header 'Authorization', "Bearer #{token}"
-        get '/session'
+        get '/api/session'
         assert_status(200)
         assert_equal(
           parsed_response,
@@ -45,7 +45,7 @@ class MemberAuthenticatesTest < Minitest::ApiSpec
         authentication_payload[:sub] = SecureRandom.uuid
         token = jwt.encode(authentication_payload, secret, 'HS256')
         header 'Authorization', "Bearer #{token}"
-        get '/session'
+        get '/api/session'
         assert_status(200)
         assert_equal(parsed_response, {})
       end
@@ -55,7 +55,7 @@ class MemberAuthenticatesTest < Minitest::ApiSpec
       it 'gives access denied' do
         token = jwt.encode(authentication_payload, 'WRONG', 'HS256')
         header 'Authorization', "Bearer #{token}"
-        get '/session'
+        get '/api/session'
         assert_status(401)
       end
     end
@@ -63,7 +63,7 @@ class MemberAuthenticatesTest < Minitest::ApiSpec
     describe 'without token' do
       it 'gives access denied' do
         header 'Authorization', nil
-        get '/session'
+        get '/api/session'
         assert_status(401)
       end
     end

@@ -1,33 +1,13 @@
 # frozen_string_literal: true
 
-require 'sinatra'
 require 'sinatra/reloader' if Roost.development?
+
 Dir.glob("#{__dir__}/../projections/**/query.rb").sort.each { |f| require f }
+Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
+Dir.glob("#{__dir__}/view_models/*.rb").sort.each { |f| require f }
 
-##
-# The Common Server. Shared configuration and setup between API, Web etc.
-class Server < Sinatra::Base
-  # Ensure our error handlers are triggered in development
-  set :show_exceptions, :after_handler if Roost.development?
+require_relative 'controllers/application_controller'
+require_relative 'controllers/web/web_controller'
+require_relative 'controllers/api/api_controller'
 
-  configure :development do
-    # :nocov:
-    # This is only enabled in development env, and not test.
-    register Sinatra::Reloader
-    # :nocov:
-  end
-
-  protected
-
-  def requires_authorization
-    raise Unauthorized unless current_member
-  end
-
-  def current_member
-    @current_member ||= Projections::Members::Query.find(member_id)
-  end
-
-  def aggregate_id
-    @aggregate_id ||= SecureRandom.uuid
-  end
-end
+Dir.glob("#{__dir__}/controllers/**/*controller.rb").sort.each { |f| require f }

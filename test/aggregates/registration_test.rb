@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'test_helper'
+
 module Aggregates
   ##
   # Unit test for the more complex logic in Registration Aggregate

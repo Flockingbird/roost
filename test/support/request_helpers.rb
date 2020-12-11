@@ -2,7 +2,7 @@
 
 require 'ostruct'
 require 'json'
-require 'rack/test'
+require 'rack/jwt'
 
 module RequestHelpers
   include Rack::Test::Methods

@@ -58,5 +58,9 @@ module Aggregates
     def name
       attributes[:name]
     end
+
+    def invitation_token
+      id
+    end
   end
 end
