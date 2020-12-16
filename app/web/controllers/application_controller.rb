@@ -22,10 +22,12 @@ class ApplicationController < Sinatra::Base
   protected
 
   def requires_authorization
-    raise Unauthorized unless current_member
+    raise Unauthorized if current_member.null?
   end
 
   def current_member
-    @current_member ||= Projections::Members::Query.find(member_id)
+    @current_member ||= ViewModels::Profile.new(
+      Projections::Members::Query.find(member_id)
+    )
   end
 end

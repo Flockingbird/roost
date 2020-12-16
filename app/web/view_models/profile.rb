@@ -19,5 +19,9 @@ module ViewModels
     def updated_at
       super || NullDateTime.new('never')
     end
+
+    def null?
+      member_id.nil?
+    end
   end
 end
