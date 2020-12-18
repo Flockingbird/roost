@@ -4,6 +4,8 @@ module Web
   ##
   # Handles contacts index and addition
   class ContactsController < WebController
+    include PolicyHelpers
+
     # Index
     get '/' do
       contacts = ViewModels::Profile.from_collection(
@@ -15,12 +17,25 @@ module Web
     # Add
     post '/' do
       requires_authorization
-      handle = Handle.parse(params['handle'])
-      Commands.handle('Contact', 'Add',
-                      { 'handle' => handle.to_s, 'owner_id' => member_id })
+      authorize { may_add_contact? }
 
-      flash[:success] = "#{handle} was added to your contacts"
-      redirect "/m/#{handle}"
+      Commands.handle(
+        'Contact', 'Add',
+        { 'handle' => contact.handle, 'owner_id' => current_member.member_id }
+      )
+
+      flash[:success] = "#{contact.handle} was added to your contacts"
+      redirect "/m/#{contact.handle}"
+    end
+
+    private
+
+    def contact
+      OpenStruct.new(handle: handle.to_s)
+    end
+
+    def handle
+      Handle.parse(params['handle'])
     end
   end
 end

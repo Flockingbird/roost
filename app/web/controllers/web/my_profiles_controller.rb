@@ -28,5 +28,9 @@ module Web
     def put_params
       params.slice('bio', 'name')
     end
+
+    def may_add_contact?
+      false # We may never add ourselves.
+    end
   end
 end

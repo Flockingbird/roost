@@ -6,6 +6,11 @@ Dir.glob("#{__dir__}/../projections/**/query.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../commands/**/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/view_models/*.rb").sort.each { |f| require f }
 
+require_relative 'policies/application_policy'
+Dir.glob("#{__dir__}/../web/policies/*.rb").sort.each { |f| require f }
+
+Dir.glob("#{__dir__}/helpers/*.rb").sort.each { |f| require f }
+
 require_relative 'controllers/application_controller'
 require_relative 'controllers/web/web_controller'
 require_relative 'controllers/api/api_controller'

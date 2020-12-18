@@ -48,6 +48,15 @@ class MemberAddsToContactsTest < Minitest::WebSpec
     )
   end
 
-  it 'cannot add itself to contacts'
+  it 'cannot add itself to contacts' do
+    discover_member(username: harry[:username]).upto(:profile_visited)
+    refute_selector(icon_selector('account-plus'))
+
+    carry_cookie_from_cap
+    # send the request manually. 1337h4xOr skills.
+    post '/contacts', { handle: "@#{harry[:username]}@example.com" }
+    assert_equal(403, last_response.status)
+  end
+
   it 'can only add a contact when logged in'
 end

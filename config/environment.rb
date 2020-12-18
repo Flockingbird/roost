@@ -6,6 +6,7 @@ require 'event_sourcery'
 require 'event_sourcery/postgres'
 
 require "#{__dir__}/../app/errors"
+
 Dir.glob("#{__dir__}/../lib/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/events/*.rb").sort.each { |f| require f }
 Dir.glob("#{__dir__}/../app/reactors/*.rb").sort.each { |f| require f }

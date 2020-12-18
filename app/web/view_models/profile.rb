@@ -19,5 +19,15 @@ module ViewModels
     def updated_at
       super || NullDateTime.new('never')
     end
+
+    def null?
+      member_id.nil?
+    end
+
+    def ==(other)
+      return false if null?
+
+      handle.to_s == other.handle.to_s
+    end
   end
 end

@@ -22,10 +22,16 @@ class ApplicationController < Sinatra::Base
   protected
 
   def requires_authorization
-    raise Unauthorized unless current_member
+    authorize { !current_member.null? }
+  end
+
+  def authorize(&block)
+    raise Unauthorized unless block.call
   end
 
   def current_member
-    @current_member ||= Projections::Members::Query.find(member_id)
+    @current_member ||= ViewModels::Profile.new(
+      Projections::Members::Query.find(member_id)
+    )
   end
 end

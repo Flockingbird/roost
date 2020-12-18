@@ -16,7 +16,7 @@ module Api
 
     # Create a new invitation
     post '/invitations/:aggregate_id' do
-      invitation_params = json_params.merge(inviter: current_member)
+      invitation_params = json_params.merge(inviter: current_member.to_h)
       member = Commands.handle('Member', 'InviteMember', invitation_params)
       status(201)
       headers('Location' => invitation_url(member.invitation_token))
