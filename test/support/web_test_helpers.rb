@@ -6,7 +6,11 @@ module WebTestHelpers
   ##
   # Click on an icon by its description
   def click_icon(descriptor)
-    find("span.icon i.mdi-#{descriptor}").find(:xpath, '../..').click
+    find(icon_selector(descriptor)).find(:xpath, '../..').click
+  end
+
+  def icon_selector(descriptor)
+    "span.icon i.mdi-#{descriptor}"
   end
 
   ##

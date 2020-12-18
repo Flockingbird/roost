@@ -22,7 +22,11 @@ class ApplicationController < Sinatra::Base
   protected
 
   def requires_authorization
-    raise Unauthorized if current_member.null?
+    authorize { !current_member.null? }
+  end
+
+  def authorize(&block)
+    raise Unauthorized unless block.call
   end
 
   def current_member

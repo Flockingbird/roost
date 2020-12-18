@@ -12,14 +12,16 @@
       <%= profile.handle %>
     </div>
     <p class="buttons level-right">
-    <form method="post" action="/contacts">
-    <input type="hidden" name="handle" value="<%= profile.handle %>"/>
-      <button>
-        <span class="icon is-small">
-          <i class="mdi mdi-account-plus"></i>
-        </span>
-      </button>
-    </form>
+    <%- if may_add_contact? %>
+      <form method="post" action="/contacts">
+      <input type="hidden" name="handle" value="<%= profile.handle %>"/>
+        <button>
+          <span class="icon is-small">
+            <i class="mdi mdi-account-plus"></i>
+          </span>
+        </button>
+      </form>
+    <%- end %>
     <a class="button" href="/profile/edit">
       <span class="icon is-small">
         <i class="mdi mdi-pencil"></i>

@@ -59,6 +59,11 @@ module RequestHelpers
     ENV['JWT_SECRET']
   end
 
+  def carry_cookie_from_cap
+    cookie = page.driver.request.cookies['rack.session']
+    set_cookie("rack.session=#{cookie}")
+  end
+
   private
 
   def jti_digest

@@ -23,5 +23,11 @@ module ViewModels
     def null?
       member_id.nil?
     end
+
+    def ==(other)
+      return false if null?
+
+      handle.to_s == other.handle.to_s
+    end
   end
 end
