@@ -18,6 +18,7 @@ gem 'sinatra-flash'
 # lock to an older version for deprecation warnings.
 gem 'pg', '0.20.0'
 gem 'uuidtools'
+gem 'yajl-ruby'
 
 group :development, :test do
   gem 'awesome_print'

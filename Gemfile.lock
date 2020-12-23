@@ -156,6 +156,7 @@ GEM
       i18n
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yajl-ruby (1.4.1)
 
 PLATFORMS
   ruby
@@ -186,6 +187,7 @@ DEPENDENCIES
   sinatra-contrib
   sinatra-flash
   uuidtools
+  yajl-ruby
 
 BUNDLED WITH
    2.1.4
