@@ -15,6 +15,9 @@ db:
 	make _wait
 	make _db-setup
 
+seed:
+	cat test/fixtures/input/basic_users.jsonl | ./bin/sink
+
 # CUSTOM BUILD RULES
 test: export APP_ENV=test
 test:
