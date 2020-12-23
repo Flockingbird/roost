@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+
+require 'bcrypt'
 require 'open3'
 
 ##
@@ -16,6 +18,11 @@ class SinkTest < Minitest::Spec
     assert_kind_of(MemberAdded, last_event)
     refute_nil(last_event.aggregate_id)
     assert_equal(last_event.body['name'], 'Harry Potter')
+  end
+
+  it 'hashes password' do
+    run_sink_pipe
+    assert(BCrypt::Password.new(last_event.body['password']), 'caput draconis')
   end
 
   it 'updates duplicates and continues' do

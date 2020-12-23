@@ -4,6 +4,7 @@
 $LOAD_PATH << '.'
 
 require 'bundler/setup'
+require 'bcrypt'
 require 'logger'
 require 'securerandom'
 require 'yajl'
@@ -21,6 +22,8 @@ LOG_LEVEL = ENV['LOG_LEVEL'].to_i || Logger::DEBUG
 # Handles a stream of nodes in STDIN emits them as events through the
 # AddMemberCommand.
 class EventSink
+  include BCrypt
+
   def initialize
     @parser = Yajl::Parser.new(symbolize_keys: true)
     @parser.on_parse_complete = method(:object_parsed)
@@ -31,7 +34,11 @@ class EventSink
 
   def object_parsed(obj)
     log(Logger::DEBUG, '-- parsed object')
+
     obj[:aggregate_id] ||= SecureRandom.uuid
+
+    obj[:password] = Password.create(obj[:password]) if obj.key?(:password)
+
     command = Commands::Member::AddMember::Command.new(obj)
     Commands::Member::AddMember::CommandHandler.new(command: command).handle
   rescue BadRequest => e
