@@ -25,7 +25,7 @@ module DataHelpers
   end
 
   def fixtures(file)
-    Hours.base_path.join('test', 'fixtures', file).to_s
+    Roost.root.join('test', 'fixtures', file).to_s
   end
 
   def json_fixtures(file)
