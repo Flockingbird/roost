@@ -9,7 +9,7 @@ module Web
     # TODO: /@handle should redirect to /@handle@example.org when we are
     # on example.org
     # TODO: /handle should redirect to /@handle@example.org as well
-    get '/@:handle' do
+    get '/m/@:handle' do
       raise NotFound, 'Member with that handle not found' if profile.null?
 
       erb(:profile, layout: :layout_member, locals: { profile: profile })

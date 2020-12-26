@@ -4,9 +4,9 @@ module Web
   ##
   # Handles login
   class LoginController < WebController
-    get('/') { erb :login, layout: :layout_anonymous }
+    get('/login') { erb :login, layout: :layout_anonymous }
 
-    post '/' do
+    post '/login' do
       session_aggregate = Commands.handle('Session', 'Start', post_params)
       session[:member_id] = session_aggregate.member_id
       flash[:success] = 'Login Successful'

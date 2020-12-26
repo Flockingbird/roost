@@ -7,7 +7,7 @@ module Web
     include PolicyHelpers
 
     # Index
-    get '/' do
+    get '/contacts' do
       contacts = ViewModels::Profile.from_collection(
         Projections::Contacts::Query.for_member(member_id)
       )
@@ -15,7 +15,7 @@ module Web
     end
 
     # Add
-    post '/' do
+    post '/contacts' do
       requires_authorization
       authorize { may_add_contact? }
 
