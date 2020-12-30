@@ -10,7 +10,7 @@ module Workflows
       # TODO: replace by actual searching, or clicking through existing contacts
       # or some other simple way that a user might realisticly discover members
       visit "/m/@#{form_attributes[:username]}@example.com"
-      assert_equal(page.status_code, 200)
+      assert_equal(200, page.status_code)
     end
 
     private
