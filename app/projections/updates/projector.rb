@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../members/query'
+require 'app/aggregates/member'
 
 module Projections
   module Updates
@@ -50,14 +51,14 @@ module Projections
       end
 
       project MemberBioUpdated do |event|
-        author = AuthorRecord.new(Members::Query.find(event.aggregate_id))
+        author = Roost.repository.load(Aggregates::Member, event.aggregate_id)
         update = BioUpdateRecord.new(event.body.merge(author: author))
 
         # Insert a record for each local member.
         Members::Query.collection.select(:member_id).each do |attrs|
           table.insert(
             for: attrs[:member_id],
-            author: author.handle,
+            author: author.handle.to_s,
             posted_at: DateTime.now,
             text: update.text
           )
@@ -65,15 +66,15 @@ module Projections
       end
 
       project ContactAdded do |event|
-        author = AuthorRecord.new(Members::Query.find(event.body['owner_id']))
+        author = Roost.repository.load(
+          Aggregates::Member, event.body['owner_id']
+        )
         update = AddedContact.new(event.body.merge(author: author))
-
-        handle = Handle.parse(event.body['handle'])
-        recepient = Members::Query.find_by(username: handle.username)
+        recipient_id = Members::Query.aggregate_id_for(event.body['handle'])
 
         table.insert(
-          for: recepient[:member_id],
-          author: author.handle,
+          for: recipient_id,
+          author: author.handle.to_s,
           posted_at: DateTime.now,
           text: update.text
         )
@@ -86,13 +87,20 @@ module Projections
       def text
         ''
       end
+
+      def author_name
+        return '' unless author
+
+        name = author.name.to_s
+        name.empty? ? author.handle : name
+      end
     end
 
     ##
     # Represents an update to someones profile bio that can be projected
     class BioUpdateRecord < UpdateRecord
       def text
-        "#{author.name} updated their bio to #{bio}"
+        "#{author_name} updated their bio to #{bio}"
       end
     end
 
@@ -100,19 +108,7 @@ module Projections
     # Represents an update to someones profile bio that can be projected
     class AddedContact < UpdateRecord
       def text
-        "#{author.name} added you to their contacts"
-      end
-    end
-
-    ##
-    # Represents the author of an update
-    class AuthorRecord < OpenStruct
-      def name
-        super || handle
-      end
-
-      def handle
-        Handle.new(username).to_s
+        "#{author_name} added you to their contacts"
       end
     end
   end

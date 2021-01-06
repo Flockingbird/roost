@@ -9,7 +9,7 @@ module Api
   class ApiController < ::ApplicationController
     # Find authentication details
     get '/api/session' do
-      body current_member.to_h.slice(:member_id, :username, :name, :email)
+      body current_member.to_h.slice(:aggregate_id, :handle, :name, :email)
                          .to_json
       status(200)
     end

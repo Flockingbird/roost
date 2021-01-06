@@ -25,7 +25,7 @@ module Commands
 
         def validate
           REQUIRED_PARAMS.each do |param|
-            if (payload[param] || '').empty?
+            if (payload[param] || '').to_s.empty?
               raise BadRequest, "#{param} is blank"
             end
           end
@@ -34,7 +34,7 @@ module Commands
         private
 
         def aggregate_id_name
-          payload.fetch('handle', '') + payload.fetch('owner_id', '')
+          "#{payload['handle']}#{payload['owner_id']}"
         end
 
         def aggregate_id_namespace

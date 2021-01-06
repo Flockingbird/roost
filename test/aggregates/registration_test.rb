@@ -6,8 +6,10 @@ module Aggregates
   ##
   # Unit test for the more complex logic in Registration Aggregate
   class RegistrationTest < Minitest::Spec
+    let(:id) { fake_uuid(Aggregates::Registration, 1) }
+
     subject do
-      Aggregates::Registration.new(fake_uuid(Aggregates::Registration, 1), [])
+      Aggregates::Registration.new(id, [])
     end
 
     let(:payload) do
@@ -49,7 +51,10 @@ module Aggregates
       end
 
       it 'adds username email and password to event' do
-        assert_equal(subject.changes.last.body, payload.transform_keys(&:to_s))
+        assert_equal(
+          payload.transform_keys(&:to_s).merge('aggregate_id' => id),
+          subject.changes.last.body
+        )
       end
     end
   end

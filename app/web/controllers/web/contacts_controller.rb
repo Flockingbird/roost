@@ -31,7 +31,8 @@ module Web
     private
 
     def contact
-      OpenStruct.new(handle: handle.to_s)
+      aggregate_id = Projections::Members::Query.aggregate_id_for(handle)
+      Roost.repository.load(Aggregates::Member, aggregate_id)
     end
 
     def handle

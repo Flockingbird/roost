@@ -22,7 +22,7 @@ class ApplicationController < Sinatra::Base
   protected
 
   def requires_authorization
-    authorize { !current_member.null? }
+    authorize { current_member.active? }
   end
 
   def authorize(&block)
@@ -30,8 +30,8 @@ class ApplicationController < Sinatra::Base
   end
 
   def current_member
-    @current_member ||= ViewModels::Profile.new(
-      Projections::Members::Query.find(member_id)
-    )
+    return OpenStruct.new(active?: false) unless member_id
+
+    @current_member ||= Roost.repository.load(Aggregates::Member, member_id)
   end
 end

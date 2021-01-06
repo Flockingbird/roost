@@ -5,11 +5,12 @@ module Web
   # Handles profile views
   class ProfilesController < WebController
     include PolicyHelpers
+    include LoadHelpers
 
     # TODO: /@handle should redirect to /@handle@example.org when we are
     # on example.org
     # TODO: /handle should redirect to /@handle@example.org as well
-    get '/m/@:handle' do
+    get '/m/:handle' do
       raise NotFound, 'Member with that handle not found' if profile.null?
 
       erb(:profile, layout: :layout_member, locals: { profile: profile })
@@ -18,12 +19,14 @@ module Web
     private
 
     def profile
-      return @profile if @profile
-
-      member = Projections::Members::Query.find_by(
-        username: Handle.parse(params[:handle]).username
+      @profile ||= decorate(
+        load(
+          Aggregates::Member,
+          Projections::Members::Query.aggregate_id_for(params[:handle])
+        ),
+        ViewModels::Profile,
+        ViewModels::Profile::NullProfile
       )
-      @profile = ViewModels::Profile.new(member)
     end
     alias contact profile
   end

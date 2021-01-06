@@ -4,12 +4,16 @@
 # Generic Null object
 class NullObject
   attr_reader :placeholder
-  def initialize(placeholder)
+  def initialize(placeholder = '')
     @placeholder = placeholder
   end
 
   def to_s
     placeholder
+  end
+
+  def null?
+    true
   end
 end
 

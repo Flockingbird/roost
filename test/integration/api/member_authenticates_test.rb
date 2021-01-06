@@ -29,25 +29,28 @@ class MemberAuthenticatesTest < Minitest::ApiSpec
         get '/api/session'
         assert_status(200)
         assert_equal(
-          parsed_response,
           {
-            member_id: workflow.aggregate_id,
+            aggregate_id: workflow.aggregate_id,
             name: workflow.member_name,
             email: workflow.member_email,
-            username: nil
-          }
+            handle: '@@example.com'
+          },
+          parsed_response
         )
       end
     end
 
     describe 'with invalid aggregate_id in token' do
       it 'returns an empty member body' do
-        authentication_payload[:sub] = SecureRandom.uuid
+        authentication_payload[:sub] = fake_uuid(Aggregates::Member, 1)
         token = jwt.encode(authentication_payload, secret, 'HS256')
         header 'Authorization', "Bearer #{token}"
         get '/api/session'
         assert_status(200)
-        assert_equal(parsed_response, {})
+        assert_equal(
+          parsed_response,
+          { aggregate_id: fake_uuid(Aggregates::Member, 1) }
+        )
       end
     end
 
