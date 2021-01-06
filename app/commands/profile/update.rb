@@ -10,7 +10,7 @@ module Commands
       class Command < ApplicationCommand
       end
 
-      # Handler for Confirm::Command
+      # Handler for Profile::Update::Command
       class CommandHandler < ApplicationCommandHandler
         ##
         # Overridden from ApplicationCommandHandler because we want

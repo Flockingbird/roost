@@ -10,11 +10,13 @@ require 'app/web/server'
 
 use Web::HomeController
 use Web::ProfilesController
+use Web::TagsController
 
 use Web::LoginController
 # TODO: change from RPC alike "register" to "registration"
 use Web::RegistrationsController
 use Web::ConfirmationsController
+
 use Web::MyProfilesController
 use Web::ContactsController
 use Web::UpdatesController
