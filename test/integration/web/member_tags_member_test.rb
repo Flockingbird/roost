@@ -26,4 +26,20 @@ class MemberTagsMemberTest < Minitest::WebSpec
 
     assert_selector('.tag.mine', text: 'friend')
   end
+
+  it 'can only add a tag once per tagging member'
+  it 'can add a tag multiple times on one profile'
+
+  it 'follows the tagged member' do
+    # Determine that harry follows ron by checking the notification sent to
+    # ron. TODO: Change to check with my followings once we have that overview
+    as(ron)
+
+    # @INK: implementing a follow feature. Which:
+    # * sends a notification
+    # * introduces a Followers list.
+    # * adds me as follower.
+    main_menu('Updates').click
+    assert_content '@hpotter@example.com started following you'
+  end
 end

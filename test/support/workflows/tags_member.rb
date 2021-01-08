@@ -14,7 +14,7 @@ module Workflows
         click_icon('plus')
       end
 
-      process_events(%w[tag_added])
+      process_events(%w[member_tag_added follower_added])
     end
 
     def form_attributes

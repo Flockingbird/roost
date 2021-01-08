@@ -79,6 +79,21 @@ module Projections
           text: update.text
         )
       end
+
+      project FollowerAdded do |event|
+        author = Roost.repository.load(
+          Aggregates::Member, event.body['follower_id']
+        )
+        update = FollowsUpdate.new(event.body.merge(author: author))
+        recipient_id = event.aggregate_id
+
+        table.insert(
+          for: recipient_id,
+          author: author.handle.to_s,
+          posted_at: DateTime.now,
+          text: update.text
+        )
+      end
     end
 
     ##
@@ -109,6 +124,14 @@ module Projections
     class AddedContact < UpdateRecord
       def text
         "#{author_name} added you to their contacts"
+      end
+    end
+
+    ##
+    # Respresents an update that X is now following you
+    class FollowsUpdate < UpdateRecord
+      def text
+        "#{author_name} started following you"
       end
     end
   end

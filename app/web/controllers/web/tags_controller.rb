@@ -26,8 +26,8 @@ module Web
       )
 
       # TODO: raise if no profile handle given
-      # TODO: remove the hardcoded tag.
-      flash[:success] = "#{profile.handle} was tagged as \"#{post_params['tag']}\""
+      flash[:success] = "#{profile.handle} was tagged as "\
+                        "\"#{post_params['tag']}\""
       redirect "/m/#{profile.handle}"
     end
 

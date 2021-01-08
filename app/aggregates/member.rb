@@ -32,6 +32,8 @@ module Aggregates
 
     apply MemberInvited do |event|
     end
+    apply FollowerAdded do |event|
+    end
 
     apply MemberBioUpdated do |event|
       write_attributes(event.body.slice('bio'))
