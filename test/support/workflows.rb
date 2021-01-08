@@ -23,6 +23,10 @@ module Workflows
     factory(MemberRegisters, form_attributes)
   end
 
+  def tags_member(form_attributes = {})
+    factory(TagsMember, form_attributes)
+  end
+
   def discover_member(form_attributes = {})
     factory(DiscoversMember, form_attributes)
   end

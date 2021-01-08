@@ -7,7 +7,7 @@ module Web
     include PolicyHelpers
 
     # Index
-    get '/' do
+    get '/contacts' do
       contacts = ViewModels::Profile.from_collection(
         Projections::Contacts::Query.for_member(member_id)
       )
@@ -15,7 +15,7 @@ module Web
     end
 
     # Add
-    post '/' do
+    post '/contacts' do
       requires_authorization
       authorize { may_add_contact? }
 
@@ -31,7 +31,8 @@ module Web
     private
 
     def contact
-      OpenStruct.new(handle: handle.to_s)
+      aggregate_id = Projections::Members::Query.aggregate_id_for(handle)
+      Roost.repository.load(Aggregates::Member, aggregate_id)
     end
 
     def handle

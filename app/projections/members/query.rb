@@ -13,6 +13,10 @@ module Projections
         collection[member_id: id]
       end
 
+      def self.aggregate_id_for(handle)
+        (collection.first(handle: handle.to_s) || {}).fetch(:member_id, nil)
+      end
+
       def self.collection
         @collection ||= Roost.projections_database[:members]
       end

@@ -4,9 +4,9 @@ module Web
   ##
   # Handles Registrations
   class RegistrationsController < WebController
-    get('/') { erb :register, layout: :layout_anonymous }
+    get('/register') { erb :register, layout: :layout_anonymous }
 
-    post '/' do
+    post '/register' do
       Commands.handle('Registration', 'NewRegistration', post_params)
       flash[:success] = 'Registration email sent. <small>Please check your spam
       folder too.</small>'

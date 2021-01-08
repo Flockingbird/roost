@@ -8,17 +8,17 @@ require 'config/environment'
 require 'config/database'
 require 'app/web/server'
 
-map('/') { run Web::HomeController }
-map('/m') { run Web::ProfilesController }
+use Web::HomeController
+use Web::ProfilesController
 
-map('/login') { run Web::LoginController }
+use Web::LoginController
 # TODO: change from RPC alike "register" to "registration"
-map('/register') { run Web::RegistrationsController }
-map('/confirmation') { run Web::ConfirmationsController }
-map('/profile') { run Web::MyProfilesController }
-map('/contacts') { run Web::ContactsController }
-map('/updates') { run Web::UpdatesController }
+use Web::RegistrationsController
+use Web::ConfirmationsController
+use Web::MyProfilesController
+use Web::ContactsController
+use Web::UpdatesController
 
-# API endpoints for now all live in one controller
-# TODO: split out by features
-map('/api') { run Api::ApiController }
+use Api::ApiController
+
+run ApplicationController

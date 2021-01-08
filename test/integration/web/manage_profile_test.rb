@@ -51,7 +51,7 @@ class MemberManagesProfileTest < Minitest::WebSpec
     main_menu('Updates').click
     assert_content "hpotter@example.com #{Date.today}"
     # Until harry has changed their name, we render their handle
-    assert_content "hpotter@example.com updated their bio to #{bio}"
+    assert_content "@hpotter@example.com updated their bio to #{bio}"
   end
 
   it 'does not notify other members on the instance of name update' do
@@ -62,7 +62,4 @@ class MemberManagesProfileTest < Minitest::WebSpec
     main_menu('Updates').click
     refute_selector('.update')
   end
-
-  ## TODO implement followers first
-  # it 'notifies all remote contacts'
 end

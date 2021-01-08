@@ -8,14 +8,14 @@ module Api
   # and entrypoint for reading data.
   class ApiController < ::ApplicationController
     # Find authentication details
-    get '/session' do
-      body current_member.to_h.slice(:member_id, :username, :name, :email)
+    get '/api/session' do
+      body current_member.to_h.slice(:aggregate_id, :handle, :name, :email)
                          .to_json
       status(200)
     end
 
     # Create a new invitation
-    post '/invitations/:aggregate_id' do
+    post '/api/invitations/:aggregate_id' do
       invitation_params = json_params.merge(inviter: current_member.to_h)
       member = Commands.handle('Member', 'InviteMember', invitation_params)
       status(201)

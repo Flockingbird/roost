@@ -20,4 +20,18 @@ class HandleTest < Minitest::Spec
   it 'builds a handle as string from a username using local web_url' do
     assert_equal(Handle.new('harry').to_s, '@harry@example.com')
   end
+
+  it 'is equal when both url and username are equal' do
+    assert_equal(Handle.new('harry'), Handle.new('harry'))
+    assert_equal(
+      Handle.new('harry', 'example.com'),
+      Handle.new('harry', 'example.com')
+    )
+
+    refute_equal(Handle.new('harry'), Handle.new('ron'))
+    refute_equal(
+      Handle.new('harry', 'example.org'),
+      Handle.new('harry', 'example.com')
+    )
+  end
 end

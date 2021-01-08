@@ -4,7 +4,7 @@ module Web
   ##
   # Handles the registration confirmation links
   class ConfirmationsController < WebController
-    get '/:aggregate_id' do
+    get '/confirmation/:aggregate_id' do
       Commands.handle('Registration', 'Confirm',
                       aggregate_id: params[:aggregate_id])
       erb :confirmation_success

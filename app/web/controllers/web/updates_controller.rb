@@ -4,7 +4,7 @@ module Web
   ##
   # Handles my my updates view, notifications
   class UpdatesController < WebController
-    get '/' do
+    get '/updates' do
       requires_authorization
       updates = ViewModels::Update.from_collection(
         Projections::Updates::Query.for_member(member_id)

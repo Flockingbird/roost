@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'mixins/attributes'
+require 'lib/aggregate_equality'
 
 module Aggregates
   ##
@@ -9,9 +10,17 @@ module Aggregates
   # and can interact with other members on this and other +Instances+
   class Member
     include EventSourcery::AggregateRoot
+    include AggregateEquality
     include Attributes
 
     apply MemberAdded do |event|
+      username = event.body['username']
+      write_attributes(
+        added: true,
+        handle: Handle.new(username),
+        email: event.body['email'],
+        name: event.body['name']
+      )
     end
 
     apply MemberInvited do |event|
@@ -51,6 +60,12 @@ module Aggregates
       self
     end
 
+    attr_reader :id
+
+    def member_id
+      id
+    end
+
     def bio
       attributes[:bio]
     end
@@ -59,8 +74,24 @@ module Aggregates
       attributes[:name]
     end
 
+    def active?
+      attributes.fetch(:added, false)
+    end
+
+    def handle
+      attributes[:handle]
+    end
+
+    def email
+      attributes[:email]
+    end
+
     def invitation_token
       id
+    end
+
+    def null?
+      false
     end
   end
 end

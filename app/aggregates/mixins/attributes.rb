@@ -9,7 +9,11 @@ module Aggregates
     end
 
     def attributes
-      @attributes ||= Hash.new('')
+      @attributes ||= Hash.new('').merge(aggregate_id: id)
+    end
+
+    def to_h
+      attributes
     end
   end
 end

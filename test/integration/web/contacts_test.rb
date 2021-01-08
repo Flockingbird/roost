@@ -57,6 +57,4 @@ class MemberAddsToContactsTest < Minitest::WebSpec
     post '/contacts', { handle: "@#{harry[:username]}@example.com" }
     assert_equal(403, last_response.status)
   end
-
-  it 'can only add a contact when logged in'
 end

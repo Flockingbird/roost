@@ -5,7 +5,7 @@
 # Parses and formats consistently @harry@example.org alike handles over domains
 # and into usenames and domains
 class Handle
-  attr_reader :username
+  attr_reader :username, :uri
 
   def initialize(username, uri = Roost.config.web_url)
     @uri = uri
@@ -18,10 +18,14 @@ class Handle
   end
 
   def domain
-    URI.parse(@uri).host
+    URI.parse(uri).host
   end
 
   def to_s
     "@#{username}@#{domain}"
+  end
+
+  def ==(other)
+    username == other.username && uri == other.uri
   end
 end
