@@ -1,6 +1,6 @@
 ---
 name: RFC
-about: Proposals, ideas and concepts are discussed by starting a new RFC
+about: Feature Requests, Proposals, ideas and concepts are discussed by starting a new RFC
 title: 'RFC [description]'
 labels: 'rfc'
 assignees: ''
