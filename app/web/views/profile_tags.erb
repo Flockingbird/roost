@@ -1,0 +1,17 @@
+<form action="/tags" method="post">
+<label class="label" for="tag">Add your own</label>
+<div class="field has-addons">
+  <div class="control">
+    <input type="hidden" name="handle" value="<%= profile.handle %>"/>
+    <input class="input" type="text" name="tag" id="tag"/>
+  </div>
+
+  <div class="control">
+    <button type="submit" class="button is-primary">
+      <span class="icon is-small">
+        <i class="mdi mdi-plus"></i>
+      </span>
+    </button>
+  </div>
+</div>
+</form>

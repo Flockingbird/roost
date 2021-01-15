@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require_relative 'mixins/attributes'
+require_relative 'member/tag'
+require_relative 'member/tag_list'
+
 require 'lib/aggregate_equality'
 
 module Aggregates
@@ -12,6 +15,11 @@ module Aggregates
     include EventSourcery::AggregateRoot
     include AggregateEquality
     include Attributes
+
+    def initialize(id, events)
+      @tags = TagList.new
+      super(id, events)
+    end
 
     apply MemberAdded do |event|
       username = event.body['username']
@@ -25,6 +33,8 @@ module Aggregates
 
     apply MemberInvited do |event|
     end
+    apply FollowerAdded do |event|
+    end
 
     apply MemberBioUpdated do |event|
       write_attributes(event.body.slice('bio'))
@@ -32,6 +42,10 @@ module Aggregates
 
     apply MemberNameUpdated do |event|
       write_attributes(event.body.slice('name'))
+    end
+
+    apply MemberTagAdded do |event|
+      @tags << Tag.new(event.body['tag'], event.body['author_id'])
     end
 
     def add_member(payload)
@@ -60,7 +74,21 @@ module Aggregates
       self
     end
 
+    def add_tag(payload)
+      body = payload.slice('author_id', 'tag')
+      apply_event(MemberTagAdded, aggregate_id: id, body: body)
+      self
+    end
+
     attr_reader :id
+
+    def active?
+      attributes.fetch(:added, false)
+    end
+
+    def null?
+      false
+    end
 
     def member_id
       id
@@ -72,10 +100,6 @@ module Aggregates
 
     def name
       attributes[:name]
-    end
-
-    def active?
-      attributes.fetch(:added, false)
     end
 
     def handle
@@ -90,8 +114,13 @@ module Aggregates
       id
     end
 
-    def null?
-      false
+    # TODO: implement per-author tags
+    def tags_for(_member)
+      tags
     end
+
+    private
+
+    attr_reader :tags
   end
 end

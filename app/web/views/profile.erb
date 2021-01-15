@@ -8,7 +8,7 @@
   </div>
   <div class="level is-mobile">
     <div class="level-left">
-      <h1 class="title is-5"><%= profile.name %></h1>
+      <h1 class="title is-5"><%= profile.name %></h1><br />
       <%= profile.handle %>
     </div>
     <p class="buttons level-right">
@@ -32,10 +32,17 @@
   <p class="bio"><%= profile.bio %></p>
 
   <section class="tags">
-    <a class="button" href="/m/<%= profile.handle %>/tags">
+    <a class="button tag is-primary is-medium" href="/m/<%= profile.handle %>/tags">
       <span class="icon is-small">
         <i class="mdi mdi-plus"></i>
       </span>
     </a>
+
+    <%- profile.tags_for(current_member).each do |tag| %>
+      <a class="tag is-primary is-medium<%= tag.by?(current_member.id) ? ' mine' : '' %>"
+         href="/tags/<%= tag.slug %>/">
+         <%= tag.name %>
+      </a>
+    <%- end %>
   </section>
 </div>
