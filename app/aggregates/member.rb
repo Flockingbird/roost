@@ -2,6 +2,7 @@
 
 require_relative 'mixins/attributes'
 require_relative 'member/tag'
+require_relative 'member/tag_list'
 
 require 'lib/aggregate_equality'
 
@@ -16,7 +17,7 @@ module Aggregates
     include Attributes
 
     def initialize(id, events)
-      @tags = []
+      @tags = TagList.new
       super(id, events)
     end
 
@@ -44,7 +45,7 @@ module Aggregates
     end
 
     apply MemberTagAdded do |event|
-      @tags << Tag.new(event.body['tag'])
+      @tags << Tag.new(event.body['tag'], event.body['author_id'])
     end
 
     def add_member(payload)

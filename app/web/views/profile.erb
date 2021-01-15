@@ -39,7 +39,10 @@
     </a>
 
     <%- profile.tags_for(current_member).each do |tag| %>
-      <a class="tag is-primary is-medium<%= tag.by?(current_member) ? ' mine' : '' %>" href="/tags/<%= tag.slug %>/"><%= tag.name %></a>
+      <a class="tag is-primary is-medium<%= tag.by?(current_member.id) ? ' mine' : '' %>"
+         href="/tags/<%= tag.slug %>/">
+         <%= tag.name %>
+      </a>
     <%- end %>
   </section>
 </div>

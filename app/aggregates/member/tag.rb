@@ -8,16 +8,32 @@ module Aggregates
     class Tag
       attr_reader :name
 
-      def initialize(name)
+      def initialize(name, author)
         @name = name
+        @authors = Set[author]
       end
 
       def slug
         name.downcase
       end
 
-      def by?(_expected_author)
-        true
+      def authors
+        @authors.to_a
+      end
+
+      def by?(expected_author)
+        @authors.include?(expected_author)
+      end
+
+      def ==(other)
+        return if other.nil?
+
+        name == other.name
+      end
+
+      def merge(other)
+        @authors += other.authors
+        self
       end
     end
   end

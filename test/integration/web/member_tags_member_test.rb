@@ -27,18 +27,35 @@ class MemberTagsMemberTest < Minitest::WebSpec
     assert_selector('.tag.mine', text: 'friend')
   end
 
-  it 'can only add a tag once per tagging member'
-  it 'can add a tag multiple times on one profile'
+  it 'shows tags from other members styled different' do
+    as(hermoine)
+    discover_member(username: ron[:username]).upto(:profile_visited)
+
+    assert_selector('.tag', text: 'friend')
+    refute_selector('.tag.mine')
+  end
+
+  # TODO: for accountability, we need to show the tag.authors in a neat
+  # and friendly hover dialog.
+  # Then we can test that a member who tags multiple times, only appears once
+  # in the authors. One tag "friend" per author, so to say.
+
+  it 'profile can be tagged multiple times with one tag' do
+    as(hermoine)
+    discover_member(username: ron[:username]).upto(:profile_visited)
+    tags_member.upto(:tag_added)
+
+    # Tags shows up as "mine" but it still appears only once: hpotter and mine
+    # are merged. One .tag is used for the "add" button, making total 2.
+    assert_selector('.tag.mine', text: 'friend')
+    assert_equal(find_all('.tag').length, 2)
+  end
 
   it 'follows the tagged member' do
     # Determine that harry follows ron by checking the notification sent to
     # ron. TODO: Change to check with my followings once we have that overview
     as(ron)
 
-    # @INK: implementing a follow feature. Which:
-    # * sends a notification
-    # * introduces a Followers list.
-    # * adds me as follower.
     main_menu('Updates').click
     assert_content '@hpotter@example.com started following you'
   end

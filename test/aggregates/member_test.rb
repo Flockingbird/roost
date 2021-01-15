@@ -26,6 +26,30 @@ module Aggregates
       assert_equal(subject.handle, Handle.new('harry'))
     end
 
+    it '#add_tag adds a tag' do
+      author_id = fake_uuid(Aggregates::Member, 2)
+      subject.add_tag('author_id' => author_id, 'tag' => 'friend')
+
+      assert_includes(
+        subject.tags_for(author_id),
+        Aggregates::Member::Tag.new('friend', fake_uuid(Aggregates::Member, 2))
+      )
+    end
+
+    it '#add_tag merges with tags with same names' do
+      author_id = fake_uuid(Aggregates::Member, 2)
+      subject.add_tag('author_id' => author_id, 'tag' => 'friend')
+
+      other_author_id = fake_uuid(Aggregates::Member, 3)
+      subject.add_tag('author_id' => other_author_id, 'tag' => 'friend')
+
+      assert_equal(subject.tags_for(author_id).length, 1)
+      assert_includes(
+        subject.tags_for(author_id).first.authors,
+        other_author_id
+      )
+    end
+
     it 'MemberAdded sets added attribute to true' do
       assert(Aggregates::Member.new(id, [MemberAdded.new]).attributes[:added])
     end

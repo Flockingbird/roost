@@ -45,4 +45,15 @@ module DataHelpers
 
     ron
   end
+
+  def hermoine
+    hermoine = {
+      username: 'hermoine',
+      email: 'hermoine@example.org',
+      password: 'secret'
+    }
+    member_registers(hermoine).upto(:confirmed).html
+
+    hermoine
+  end
 end

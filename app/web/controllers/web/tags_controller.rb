@@ -37,7 +37,7 @@ module Web
       @profile ||= decorate(
         load(
           Aggregates::Member,
-          Projections::Members::Query.aggregate_id_for(params[:handle]),
+          Projections::Members::Query.aggregate_id_for(params[:handle])
         ),
         ViewModels::Profile,
         ViewModels::Profile::NullProfile
