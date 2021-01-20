@@ -19,6 +19,12 @@ class ApplicationController < Sinatra::Base
     # :nocov:
   end
 
+  helpers do
+    def domain
+      Roost.config.domain
+    end
+  end
+
   protected
 
   def requires_authorization

@@ -19,7 +19,7 @@ class MemberLogsInTest < Minitest::WebSpec
     end
 
     it 'logs in using credentials set at test' do
-      fill_in('Username', with: @workflow.form_attributes[:username])
+      fill_in('Handle', with: @workflow.form_attributes[:username])
       fill_in('Password', with: @workflow.form_attributes[:password])
       click_button('Login')
 
@@ -30,7 +30,7 @@ class MemberLogsInTest < Minitest::WebSpec
     end
 
     it 'attempts to login using wrong password' do
-      fill_in('Username', with: @workflow.form_attributes[:username])
+      fill_in('Handle', with: @workflow.form_attributes[:username])
       fill_in('Password', with: 'pure-blood')
       click_button('Login')
 

@@ -8,7 +8,7 @@ module Workflows
       visit '/'
       click_link 'Register'
 
-      fill_in('Username', with: form_attributes[:username])
+      fill_in('Handle', with: form_attributes[:username])
       fill_in('Password', with: form_attributes[:password])
       fill_in('Email', with: form_attributes[:email])
       click_button('Register')
