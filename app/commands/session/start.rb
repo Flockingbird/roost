@@ -16,7 +16,7 @@ module Commands
         UUID_USERNAME_NAMESPACE = UUIDTools::UUID.parse(
           'fb0f6f73-a16d-4032-b508-16519fb4a73a'
         )
-        DEFAULT_PARAMS = { 'username' => '', 'password' => '' }.freeze
+        DEFAULT_PARAMS = { 'handle' => '', 'password' => '' }.freeze
 
         def initialize(params, projection: Projections::Members::Query)
           @payload = DEFAULT_PARAMS.merge(params).slice(*DEFAULT_PARAMS.keys)
@@ -47,7 +47,7 @@ module Commands
         attr_reader :projection
 
         def aggregate_id_name
-          @payload['username']
+          @payload['handle']
         end
 
         def aggregate_id_namespace
@@ -55,7 +55,7 @@ module Commands
         end
 
         def member
-          @member ||= projection.find_by(username: @payload['username']) || {}
+          @member ||= projection.find_by(handle: @payload['handle']) || {}
         end
       end
 
