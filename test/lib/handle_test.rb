@@ -5,16 +5,26 @@ require 'test_helper'
 ##
 # Test the Handle library
 class HandleTest < Minitest::Spec
+  describe '#local?' do
+    it 'is false when the domain is not our domain' do
+      refute Handle.new('ron', 'example.org', 'example.com').local?
+    end
+
+    it 'is true when the domain is our domain' do
+      assert Handle.new('ron', 'example.org', 'example.org').local?
+    end
+  end
+
   it 'parses @ron@example.org handles and strips the @' do
     assert_equal(Handle.parse('@ron@example.org').username, 'ron')
   end
 
   it 'parses ron@example.org handles' do
-    assert_equal(Handle.parse('@ron@example.org').username, 'ron')
+    assert_equal(Handle.parse('ron@example.org').username, 'ron')
   end
 
   it 'parses ron@any.example.org handles' do
-    assert_equal(Handle.parse('@ron@any.example.org').domain, 'any.example.org')
+    assert_equal(Handle.parse('ron@any.example.org').domain, 'any.example.org')
   end
 
   it 'builds a handle as string from a username using local web_url' do

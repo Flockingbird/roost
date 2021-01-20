@@ -20,7 +20,7 @@ class Roost
   ##
   # Holds the configuration for Roost. Mainly event-sourcery config.
   class Config
-    attr_accessor :database_url, :secret_base, :web_url
+    attr_accessor :database_url, :secret_base, :web_url, :domain
   end
 
   def self.config
@@ -104,6 +104,7 @@ end
 
 Roost.configure do |config|
   config.web_url = 'https://example.com'
+  config.domain = 'example.com'
   config.secret_base = ENV['SECRET_BASE']
   config.database_url = ENV['DATABASE_URL']
 

@@ -5,27 +5,30 @@
 # Parses and formats consistently @harry@example.org alike handles over domains
 # and into usenames and domains
 class Handle
-  attr_reader :username, :uri
+  attr_reader :username, :domain
 
-  def initialize(username, uri = Roost.config.web_url)
-    @uri = uri
+  def initialize(username,
+                 handle_domain = Roost.config.domain,
+                 local_domain = Roost.config.domain)
+    @domain = handle_domain
+    @local_domain = local_domain
     @username = username
   end
 
   def self.parse(handle)
     uri = URI.parse("http://#{handle.gsub(/^@/, '')}")
-    new(uri.user, URI::HTTP.build(host: uri.host).to_s)
-  end
-
-  def domain
-    URI.parse(uri).host
+    new(uri.user, uri.host)
   end
 
   def to_s
     "@#{username}@#{domain}"
   end
 
+  def local?
+    domain == @local_domain
+  end
+
   def ==(other)
-    username == other.username && uri == other.uri
+    username == other.username && domain == other.domain
   end
 end
