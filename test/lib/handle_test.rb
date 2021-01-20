@@ -31,6 +31,11 @@ class HandleTest < Minitest::Spec
     assert_equal(Handle.new('harry').to_s, '@harry@example.com')
   end
 
+  it 'returns empty string when username is empty' do
+    assert_empty(Handle.new(nil).to_s)
+    assert_empty(Handle.new('').to_s)
+  end
+
   it 'is equal when both url and username are equal' do
     assert_equal(Handle.new('harry'), Handle.new('harry'))
     assert_equal(

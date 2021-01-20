@@ -21,6 +21,8 @@ class Handle
   end
 
   def to_s
+    return '' if username.to_s.empty?
+
     "@#{username}@#{domain}"
   end
 
