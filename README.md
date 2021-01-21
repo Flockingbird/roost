@@ -4,12 +4,17 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/d27492e9817263c1e9b3/maintainability)](https://codeclimate.com/github/Flockingbird/roost/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d27492e9817263c1e9b3/test_coverage)](https://codeclimate.com/github/Flockingbird/roost/test_coverage)
 
-Roost is the Proof of Concept server and webapp for Flockingbird.
 
 [Flockingbird](https://flockingbird.social) is a professional social network,
 where you manage your business network. Decentralised, and privacy friendly.
 
-[Flockingbird](https://flockingbird.social)
+*Roost* is the Proof of Concept server and webapp for Flockingbird.
+
+More information:
+
+* [Landing page](https://flockingbird.social) to be expanded homepage
+* [Blog](https://fediverse.blog/~/Flockingbird/) with with progress, concepts and explanationswith
+* [Mastodon](https://fosstodon.org/@flockingbird) with pdates, newsflashes and feedback
 
 ## Get started
 
