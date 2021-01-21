@@ -2,19 +2,23 @@
   display: flex;
   align-items: center;
 }
+
 .is-horizontal-center {
   justify-content: center;
 }
+
 .navbar,
 .navbar-start {
   display: flex;
 }
+
 .navbar .navbar-item {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .masthead {
   background-image: url('https://placekitten.com/400/300');
   background-repeat: no-repeat;
@@ -24,15 +28,18 @@
   height: 200px;
   margin: -48px -24px -24px -24px;
 }
+
 .profile-card {
   background: white;
   padding: 24px;
   margin: 0 -24px 0 -24px;
   border-radius: 24px 24px 0 0;
 }
+
 .profile-card .avatar {
   margin-top: -72px; /* 24+(96÷2) */
 }
+
 .profile-card .avatar img {
   border: 2px solid white;
 }
