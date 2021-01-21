@@ -6,11 +6,11 @@ labels: 'rfc'
 assignees: ''
 
 ---
-# Summary
+## Summary
 
 Brief explanation of the feature.
 
-# Basic example
+## Basic example
 
 Preferably in the form of a story with a stakeholder (fictional person)
 
@@ -20,7 +20,7 @@ And I ...
 Then I ...
 So that I ...
 
-# Motivation
+## Motivation
 
 Why are we doing this? What use cases does it support? What is the expected
 outcome?
@@ -30,7 +30,7 @@ the motivation could be used to develop alternative solutions. In other words,
 enumerate the constraints you are trying to solve without coupling them too
 closely to the solution you have in mind.
 
-# Detailed design
+## Detailed design
 
 This is the bulk of the RFC. Explain the design in enough detail for
 somebody familiar with the Fediverse and Flockingbird to understand, and
@@ -42,7 +42,7 @@ Please reference [Domain
 Model (TODO write)](https://github.com/Flockingbird/roost/wiki/DomainModel)
 terminology for existing terms and usage.
 
-# Drawbacks
+## Drawbacks
 
 Why should we *not* do this? Please consider:
 
@@ -54,22 +54,21 @@ Why should we *not* do this? Please consider:
 
 There are trade-offs to choosing any path. Attempt to identify them here.
 
-# Alternatives
+## Alternatives
 
 What other designs have been considered? What is the impact of not doing this?
 
-# Adoption strategy
+## Adoption strategy
 
 If we implement this proposal, how will server admins adopt it? Is
 this a breaking change? Does it require coordination with third party
 clients? Does it require coordination with other Fediverse projects?
 
-# How we teach this
+## How we teach this
 
 What names and terminology work best for these concepts and why?
 
-
-# Unresolved questions
+## Unresolved questions
 
 Optional, but suggested for first drafts. What parts of the design are still
 TBD?
