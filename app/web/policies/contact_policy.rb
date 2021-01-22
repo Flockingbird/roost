@@ -10,7 +10,7 @@ class ContactPolicy < ApplicationPolicy
   private
 
   def anon?
-    actor.null?
+    actor.null? || aggregate.nil? || aggregate.null?
   end
 
   def self?

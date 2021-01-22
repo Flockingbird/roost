@@ -33,7 +33,7 @@ class MemberAuthenticatesTest < Minitest::ApiSpec
             aggregate_id: workflow.aggregate_id,
             name: workflow.member_name,
             email: workflow.member_email,
-            handle: ''
+            handle: workflow.member_handle
           },
           parsed_response
         )

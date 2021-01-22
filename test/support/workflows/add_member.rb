@@ -21,7 +21,11 @@ module Workflows
     end
 
     def member_email
-      'harry@example.com'
+      'harry@example.email'
+    end
+
+    def member_handle
+      '@harry@example.com'
     end
 
     def aggregate_id
@@ -34,6 +38,7 @@ module Workflows
       {
         aggregate_id: aggregate_id,
         name: member_name,
+        handle: member_handle,
         email: member_email
       }
     end

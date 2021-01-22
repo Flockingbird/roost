@@ -12,17 +12,13 @@ module Projections
       table :members do
         column :member_id, 'UUID NOT NULL'
         column :handle, :text, null: false
-        column :username, :text
         column :password, :text
       end
 
       project MemberAdded do |event|
-        username = event.body['username']
-
         table.insert(
           member_id: event.aggregate_id,
-          handle: Handle.new(username).to_s,
-          username: username,
+          handle: event.body['handle'],
           password: event.body['password']
         )
       end

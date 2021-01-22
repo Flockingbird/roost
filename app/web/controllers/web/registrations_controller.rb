@@ -20,7 +20,9 @@ module Web
     private
 
     def post_params
-      params.slice('username', 'password', 'email')
+      post_params = params.slice(:password, :email)
+      post_params[:handle] = Handle.new(params[:username]).to_s
+      post_params
     end
   end
 end

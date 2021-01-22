@@ -14,7 +14,7 @@ module Aggregates
 
     let(:payload) do
       {
-        username: 'hpotter',
+        handle: '@hpotter@example.com',
         password: 'caput draconis',
         email: 'hpotter@hogwards.edu.wiz'
       }
@@ -28,7 +28,7 @@ module Aggregates
       end
 
       it 'sets username' do
-        assert_equal(subject.username, 'hpotter')
+        assert_equal(subject.handle, '@hpotter@example.com')
       end
 
       it 'sets email' do
