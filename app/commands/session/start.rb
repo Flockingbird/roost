@@ -13,9 +13,6 @@ module Commands
       # with e.g. a rate limiter, or notification mail or so.
       class Command < ApplicationCommand
         include BCrypt
-        UUID_USERNAME_NAMESPACE = UUIDTools::UUID.parse(
-          'fb0f6f73-a16d-4032-b508-16519fb4a73a'
-        )
         DEFAULT_PARAMS = { 'handle' => '', 'password' => '' }.freeze
 
         def initialize(params, projection: Projections::Members::Query)
@@ -51,7 +48,7 @@ module Commands
         end
 
         def aggregate_id_namespace
-          UUID_USERNAME_NAMESPACE
+          UUIDGen::NS_USERNAME
         end
 
         def member

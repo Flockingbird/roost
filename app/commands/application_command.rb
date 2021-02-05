@@ -23,10 +23,7 @@ module Commands
       if aggregate_id_name.empty?
         ''
       else
-        UUIDTools::UUID.sha1_create(
-          aggregate_id_namespace,
-          aggregate_id_name
-        ).to_s
+        UUIDGen.uuid(aggregate_id_namespace, aggregate_id_name).to_s
       end
     end
 
