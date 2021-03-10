@@ -11,12 +11,13 @@ on:
   push:
     branches: [ main, develop ]
   pull_request_target:
-    branches: [ main, develop ]
+    types: [labeled]
 
 jobs:
   test:
 
     runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'safe to test')
 
     ## We don't need encrypted secrets yet for booting a temp database container.
     env:
