@@ -47,6 +47,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      # Please refer to https://securitylab.github.com/research/github-actions-preventing-pwn-requests
+      # for issues this can cause. We mitigate it with requiring a tag to be set. Which only maintainers can add.
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
