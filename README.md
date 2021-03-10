@@ -13,8 +13,8 @@ where you manage your business network. Decentralised, and privacy friendly.
 More information:
 
 * [Landing page](https://flockingbird.social) to be expanded homepage
-* [Blog](https://fediverse.blog/~/Flockingbird/) with with progress, concepts and explanationswith
-* [Mastodon](https://fosstodon.org/@flockingbird) with pdates, newsflashes and feedback
+* [Blog](https://fediverse.blog/~/Flockingbird/) updates with progress, concepts and explanations
+* [Mastodon](https://fosstodon.org/@flockingbird) updates with newsflashes and feedback
 
 ## Get started
 
