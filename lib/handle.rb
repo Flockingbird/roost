@@ -9,7 +9,7 @@ class Handle
 
   def initialize(username,
                  handle_domain = Roost.config.domain,
-                 local_domain = Roost.config.domain)
+                 local_domain = handle_domain)
     @domain = handle_domain
     @local_domain = local_domain
     @username = username

@@ -35,6 +35,10 @@ class ApplicationController < Sinatra::Base
     raise Unauthorized unless block.call
   end
 
+  def authorized?
+    current_member.active?
+  end
+
   def current_member
     return OpenStruct.new(active?: false) unless member_id
 

@@ -12,6 +12,9 @@ use Web::HomeController
 use Web::ProfilesController
 use Web::TagsController
 
+use Web::RemoteController
+use Web::RemoteConfirmationsController
+
 use Web::LoginController
 # TODO: change from RPC alike "register" to "registration"
 use Web::RegistrationsController

@@ -12,6 +12,7 @@ require_relative 'support/event_helpers'
 require_relative 'support/file_helpers'
 require_relative 'support/mail_helpers'
 require_relative 'support/request_helpers'
+require_relative 'support/remote_helpers'
 require_relative 'support/time_helpers'
 require_relative 'support/web_test_helpers'
 require_relative 'support/workflows'
@@ -76,6 +77,7 @@ module Minitest
   class WebSpec < Spec
     include Capybara::DSL
     include Capybara::Minitest::Assertions
+    include RemoteHelpers
     include WebTestHelpers
 
     def setup

@@ -17,7 +17,8 @@ module Web
 
     # Add
     post '/contacts' do
-      requires_authorization
+      redirect '/remote' unless authorized?
+
       authorize { may_add_contact? }
 
       Commands.handle(

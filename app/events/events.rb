@@ -37,6 +37,14 @@ MemberNameUpdated = Class.new(EventSourcery::Event)
 MemberTagAdded = Class.new(EventSourcery::Event)
 
 ##
+# Fetching of Details for peer from remote server requested.
+PeerFetchRequested = Class.new(EventSourcery::Event)
+
+##
+# Fetching of Details for peer finished
+PeerSynched = Class.new(EventSourcery::Event)
+
+##
 # A Registration is confirmed
 RegistrationConfirmed = Class.new(EventSourcery::Event)
 

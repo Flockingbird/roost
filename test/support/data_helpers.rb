@@ -10,6 +10,20 @@ module DataHelpers
     'Aggregates::Contact' => 4
   }.freeze
 
+  def luna
+    return @_luna if @_luna
+
+    @_luna = {
+      handle: '@luna@ravenclaw.example.org',
+      username: 'luna',
+      email: 'luna@ravenclaw.example.org',
+      password: 'secret'
+    }
+    member_registers(@_luna).upto(:confirmed).html
+
+    @_luna
+  end
+
   protected
 
   ##

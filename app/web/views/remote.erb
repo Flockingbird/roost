@@ -1,0 +1,20 @@
+<form action="/remote" method="post">
+  <input name="action" type="hidden" value="<%= action %>">
+
+  <input name="target" type="hidden" value="<%= target %>">
+  <input name="target_type" type="hidden" value="<%= target_type %>">
+
+  <div class="field">
+    <label class="label" for="handle"><%= message %></label>
+    <div class="control">
+      <input name="handle"
+             id="handle"
+             class="input"
+             type="text"
+             placeholder="@username@example.com">
+    </div>
+  </div>
+  <div class="control">
+    <button class="button is-primary"><%= action.capitalize %></button>
+  </div>
+</form>
