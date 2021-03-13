@@ -28,7 +28,7 @@ via designing mockups, via improving this README, to writing code.
 ### Designs and Mockups
 
 We are moving the designs from [our Figma](https://www.figma.com/file/CgDIaLgjwVLPzw1ggmrZzy/Flockingbird) to
-the Open Source alternative [Penpot](penpot.app/). Please drop us an
+the Open Source alternative [Penpot](https://penpot.app/). Please drop us an
 email at hi@flockingbird.social if you want to be added as team member
 on the Flockingbird team in penpot.
 
