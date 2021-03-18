@@ -32,7 +32,7 @@ the Open Source alternative [Penpot](https://penpot.app/). Please drop us an
 email at hi@flockingbird.social if you want to be added as team member
 on the Flockingbird team in penpot.
 
-Anyone can [view the designs (WIP) on penpot](https://design.penpot.app/#/view/9fab0d70-81a0-11eb-8f95-3363e266841f/9fab0d71-81a0-11eb-8f95-3363e266841f?token=AWxAepQkPqT3aGGiAmOLqw)
+Anyone can [view the designs (WIP) on penpot](https://design.penpot.app/#/view/f0afd050-8431-11eb-9126-57893f4da933/f0aff760-8431-11eb-9126-57893f4da933?token=TJpT2QZ1wODw6KLDzLLUKw&index=0)
 
 ### Ideas
 
