@@ -10,6 +10,10 @@ module Web
     # TODO: /@handle should redirect to /@handle@example.org when we are
     # on example.org
     # TODO: /handle should redirect to /@handle@example.org as well
+    # TODO: redirect to remote host if handle is note remote. E.g.
+    # if we are on example.com and get a @handle@example.org we should redirect
+    # to example.org/m/handle@example.org. But for that we need remote
+    # canonical location determination (e.g. webfinger) first.
     get '/m/:handle' do
       raise NotFound, 'Member with that handle not found' if profile.null?
 

@@ -28,7 +28,7 @@ module Aggregates
     end
 
     apply RegistrationRequested do |event|
-      write_attributes(event.body.slice('username', 'password', 'email'))
+      write_attributes(event.body.slice('handle', 'password', 'email'))
     end
 
     apply RegistrationConfirmed do
@@ -69,8 +69,8 @@ module Aggregates
       attributes[:password]
     end
 
-    def username
-      attributes[:username]
+    def handle
+      attributes[:handle]
     end
   end
 end

@@ -21,10 +21,7 @@ module Aggregates
 
     it_sets_attribute(:add_member, 'email')
     it_sets_attribute(:add_member, 'name')
-    it 'add_member sets handle from username' do
-      subject.add_member('username' => 'harry')
-      assert_equal(subject.handle, Handle.new('harry'))
-    end
+    it_sets_attribute(:add_member, 'handle')
 
     it '#add_tag adds a tag' do
       author_id = fake_uuid(Aggregates::Member, 2)
@@ -50,6 +47,7 @@ module Aggregates
       )
     end
 
+    # TODO: still needed?
     it 'MemberAdded sets added attribute to true' do
       assert(Aggregates::Member.new(id, [MemberAdded.new]).attributes[:added])
     end

@@ -1,20 +1,27 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'sinatra'
 
 class SessionStartCommandTest < Minitest::Spec
   let(:projection) { Minitest::Mock.new }
-  let(:params) { { 'username' => 'hpotter', 'password' => 'caput draconis' } }
+  let(:params) do
+    Sinatra::IndifferentHash.new.merge(
+      { handle: Handle.new('hpotter').to_s, password: 'caput draconis' }
+    )
+  end
   let(:member) { nil }
 
   subject do
     Commands::Session::Start::Command.new(params, projection: projection)
   end
 
-  before { projection.expect(:find_by, member, [{ username: 'hpotter' }]) }
+  before do
+    projection.expect(:find_by, member, [{ handle: '@hpotter@example.com' }])
+  end
 
   describe 'with username' do
-    let(:uuid_v5_for_username) { '404fd9f9-c5fc-5b21-b2a9-9ad650520aff' }
+    let(:uuid_v5_for_username) { 'f0f63857-aa2b-5260-ab3d-886116f0f369' }
 
     it 'generates a UUIDv5 for this username' do
       assert_equal(uuid_v5_for_username, subject.aggregate_id)
@@ -22,7 +29,7 @@ class SessionStartCommandTest < Minitest::Spec
   end
 
   describe 'without username' do
-    before { params['username'] = '' }
+    before { params[:handle] = '' }
 
     it 'handles empty username' do
       assert_equal(subject.aggregate_id, '')
@@ -44,7 +51,7 @@ class SessionStartCommandTest < Minitest::Spec
       end
 
       it "fails if passwords don't match" do
-        params['password'] = 'pure-blood'
+        params[:password] = 'pure-blood'
         subject = Commands::Session::Start::Command.new(
           params,
           projection: projection

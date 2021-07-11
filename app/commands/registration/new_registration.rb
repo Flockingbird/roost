@@ -11,11 +11,7 @@ module Commands
       class Command < ApplicationCommand
         include BCrypt
 
-        UUID_EMAIL_NAMESPACE = UUIDTools::UUID.parse(
-          '2282b78c-85d6-419f-b240-0263d67ee6e6'
-        )
-
-        REQUIRED_PARAMS = %w[email username password].freeze
+        REQUIRED_PARAMS = %w[email handle password].freeze
         ALLOWED_PARAMS = REQUIRED_PARAMS
 
         # NewRegistration builds a UUIDv5 based on the mailaddress.
@@ -23,7 +19,9 @@ module Commands
           @payload = params.slice(*ALLOWED_PARAMS)
 
           # overwrite the password
-          @payload['password'] = Password.create(@payload.delete('password'))
+          unless (@payload['password'] || '').empty?
+            @payload['password'] = Password.create(@payload.delete('password'))
+          end
 
           @aggregate_id = aggregate_id
         end
@@ -47,7 +45,7 @@ module Commands
         end
 
         def aggregate_id_namespace
-          UUID_EMAIL_NAMESPACE
+          UUIDGen::NS_EMAIL
         end
       end
 

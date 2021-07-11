@@ -7,7 +7,7 @@ module Workflows
     def logged_in
       visit_login
 
-      fill_in('Username', with: form_attributes[:username])
+      fill_in('Handle', with: form_attributes[:username])
       fill_in('Password', with: form_attributes[:password])
       click_button('Login')
 

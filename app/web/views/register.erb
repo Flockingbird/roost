@@ -1,10 +1,5 @@
 <form action="/register" method="post">
-  <div class="field">
-    <label class="label" for="username">Username</label>
-    <div class="control">
-      <input name="username" id="username" class="input" type="text">
-    </div>
-  </div>
+  <%= erb :_handle_field %>
   <div class="field">
     <label class="label" for="password">Password</label>
     <div class="control">

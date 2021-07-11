@@ -22,10 +22,9 @@ module Aggregates
     end
 
     apply MemberAdded do |event|
-      username = event.body['username']
       write_attributes(
         added: true,
-        handle: Handle.new(username),
+        handle: event.body['handle'],
         email: event.body['email'],
         name: event.body['name']
       )

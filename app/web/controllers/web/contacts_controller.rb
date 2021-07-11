@@ -4,6 +4,7 @@ module Web
   ##
   # Handles contacts index and addition
   class ContactsController < WebController
+    include LoadHelpers
     include PolicyHelpers
 
     # Index
@@ -16,27 +17,34 @@ module Web
 
     # Add
     post '/contacts' do
-      requires_authorization
+      redirect '/remote' unless authorized?
+
       authorize { may_add_contact? }
 
       Commands.handle(
         'Contact', 'Add',
-        { 'handle' => contact.handle, 'owner_id' => current_member.member_id }
+        { 'handle' => handle, 'owner_id' => current_member.member_id }
       )
 
-      flash[:success] = "#{contact.handle} was added to your contacts"
-      redirect "/m/#{contact.handle}"
+      flash[:success] = "#{handle} was added to your contacts"
+      redirect "/m/#{handle}"
     end
 
     private
 
     def contact
-      aggregate_id = Projections::Members::Query.aggregate_id_for(handle)
-      Roost.repository.load(Aggregates::Member, aggregate_id)
+      decorate(
+        load(
+          Aggregates::Member,
+          Projections::Members::Query.aggregate_id_for(handle.to_s)
+        ),
+        ViewModels::Profile,
+        ViewModels::Profile::NullProfile
+      )
     end
 
     def handle
-      Handle.parse(params['handle'])
+      Handle.parse(params[:handle])
     end
   end
 end

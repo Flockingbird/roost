@@ -70,7 +70,7 @@ class VisitorRegistersTest < Minitest::WebSpec
 
       assert_content(
         find('.notification.is-error'),
-        'username is blank'\
+        'handle is blank'\
       )
     end
   end

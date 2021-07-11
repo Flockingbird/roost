@@ -5,8 +5,8 @@ module Projections
     # Query the Members projection with helpers that return
     # Sequel collection objects.
     class Query
-      def self.find_by(username:)
-        collection.first(username: username)
+      def self.find_by(handle:)
+        collection.first(handle: handle)
       end
 
       def self.find(id)

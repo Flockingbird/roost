@@ -19,6 +19,12 @@ class ApplicationController < Sinatra::Base
     # :nocov:
   end
 
+  helpers do
+    def domain
+      Roost.config.domain
+    end
+  end
+
   protected
 
   def requires_authorization
@@ -27,6 +33,10 @@ class ApplicationController < Sinatra::Base
 
   def authorize(&block)
     raise Unauthorized unless block.call
+  end
+
+  def authorized?
+    current_member.active?
   end
 
   def current_member
